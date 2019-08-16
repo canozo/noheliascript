@@ -20,34 +20,36 @@ package minipascal;
 
 constchar = \'[a-z]\'
 conststr = \'[a-z]+\'
-id = [a-z]([a-z]|[0-9]|_)*
-finParrafo = \r|\n|\r\n
-espacios = (" "|\t)*
+id = [a-z][a-z0-9_]*
+endline = \r|\n|\r\n
+espacios = [ \t]+
 
 %%
 
 <YYINITIAL> {
   "{"         { yybegin(COMMENT); }
   {espacios}  {  }
+  {endline}   {  }
 
   "const"     { System.out.println("Token <const>"); }
   "integer"   { System.out.println("Token <integer>"); }
   "boolean"   { System.out.println("Token <boolean>"); }
   "char"      { System.out.println("Token <char>"); }
   "record"    { System.out.println("Token <record>"); }
-  ":="        { System.out.println("Token <asig>"); }
 
-  "if"      { System.out.println("Token <func_id, read>"); }
-  "then"      { System.out.println("Token <func_id, read>"); }
-  "else"      { System.out.println("Token <func_id, read>"); }
-  "var"      { System.out.println("Token <func_id, read>"); }
-  "begin"      { System.out.println("Token <func_id, read>"); }
-  "end"      { System.out.println("Token <func_id, read>"); }
-
+  "if"         { System.out.println("Token <if>"); }
+  "then"       { System.out.println("Token <then>"); }
+  "else"       { System.out.println("Token <else>"); }
+  "var"        { System.out.println("Token <var>"); }
+  "begin"      { System.out.println("Token <begin>"); }
+  "end"        { System.out.println("Token <end>"); }
+  "true"       { System.out.println("Token <constbool, true>"); }
+  "false"      { System.out.println("Token <constbool, false>"); }
 
   "read"      { System.out.println("Token <func_id, read>"); }
   "write"     { System.out.println("Token <func_id, write>"); }
 
+  ":="        { System.out.println("Token <asig>"); }
   "("         { System.out.println("Token <paren_izq>"); }
   ")"         { System.out.println("Token <paren_der>"); }
   ";"         { System.out.println("Token <punto_coma>"); }
@@ -70,9 +72,7 @@ espacios = (" "|\t)*
   "mod"       { System.out.println("Token <op_multi, " + yytext() + ">"); }
 
 
-
-
-
+  {id}        { System.out.println("Token <identificador, " + yytext() + ">"); }
   {constchar} { System.out.println("Token <constchar, " + yytext() + ">"); }
   {conststr}  { System.out.println("Token <conststr, " + yytext() + ">"); }
 
