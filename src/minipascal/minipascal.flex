@@ -7,20 +7,23 @@ package minipascal;
 %public
 %line
 %column
+%caseless
 %ignorecase
-%cup
 %class Lexer
 %state COMMENT
 
 %{
+  public static String archivoInput = "inputs/rel.pas";
 %}
 
 %eof{
 %eof}
 
-constchar = \'[a-z]\'
-conststr = \'[a-z]+\'
-id = [a-z][a-z0-9_]*
+constchar = \'[a-zA-Z0-9\-\+_ ]\'
+conststr = \'[a-zA-Z0-9\-\+_ ]+\'
+id = [a-zA-Z][a-zA-Z0-9_]*
+integer = [0-9]+
+float = {integer}"."{integer}
 endline = \r|\n|\r\n
 espacios = [ \t]+
 
@@ -28,8 +31,8 @@ espacios = [ \t]+
 
 <YYINITIAL> {
   "{"         { yybegin(COMMENT); }
-  {espacios}  {  }
-  {endline}   {  }
+  {espacios}  { /* skip espacios blancos y tabs */ }
+  {endline}   { /* skip saltos de linea */ }
 
   "const"     { System.out.println("Token <const>"); }
   "integer"   { System.out.println("Token <integer>"); }
@@ -52,27 +55,33 @@ espacios = [ \t]+
   ":="        { System.out.println("Token <asig>"); }
   "("         { System.out.println("Token <paren_izq>"); }
   ")"         { System.out.println("Token <paren_der>"); }
+  ","         { System.out.println("Token <coma>"); }
+  "."         { System.out.println("Token <punto>"); }
   ";"         { System.out.println("Token <punto_coma>"); }
+  ":"         { System.out.println("Token <dos_puntos>"); }
 
-  "<>"        { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  "="         { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  ">"         { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  "<"         { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  ">="        { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  "<="        { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  "and"       { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  "or"        { System.out.println("Token <op_rel, " + yytext() + ">"); }
-  "not"       { System.out.println("Token <op_rel, " + yytext() + ">"); }
+  "<>"        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "="         { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  ">"         { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "<"         { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  ">="        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "<="        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "and"       { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "or"        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "not"       { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
 
-  "+"         { System.out.println("Token <op_suma, " + yytext() + ">"); }
-  "-"         { System.out.println("Token <op_suma, " + yytext() + ">"); }
-  "*"         { System.out.println("Token <op_multi, " + yytext() + ">"); }
-  "/"         { System.out.println("Token <op_multi, " + yytext() + ">"); }
-  "div"       { System.out.println("Token <op_multi, " + yytext() + ">"); }
-  "mod"       { System.out.println("Token <op_multi, " + yytext() + ">"); }
+  "+"         { System.out.println("Token <op_suma, '" + yytext() + "'>"); }
+  "-"         { System.out.println("Token <op_suma, '" + yytext() + "'>"); }
+  "*"         { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
+  "/"         { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
+  "div"       { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
+  "mod"       { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
 
 
-  {id}        { System.out.println("Token <identificador, " + yytext() + ">"); }
+  {id}        { System.out.println("Token <identificador, '" + yytext() + "'>"); }
+  {integer}   { System.out.println("Token <integer, '" + yytext() + "'>"); }
+  {float}     { System.out.println("Token <float, '" + yytext() + "'>"); }
+
   {constchar} { System.out.println("Token <constchar, " + yytext() + ">"); }
   {conststr}  { System.out.println("Token <conststr, " + yytext() + ">"); }
 
@@ -82,6 +91,7 @@ espacios = [ \t]+
 <COMMENT> {
   "{" { throw new Error("No se permiten comentarios anidados!"); }
   "}" { yybegin(YYINITIAL); }
+   .  { /* skip comentario */ }
 }
 
 [^] {
