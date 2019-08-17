@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afef694e-7064-477a-a4bc-2c14d0349250" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inputs/rel.pas" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/rel.pas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/minipascal/minipascal.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/minipascal.flex" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -96,7 +94,7 @@
       <option name="presentableId" value="Default" />
       <updated>1566002827572</updated>
       <workItem from="1566002829133" duration="202000" />
-      <workItem from="1566014187015" duration="1998000" />
+      <workItem from="1566014187015" duration="2361000" />
     </task>
     <servers />
   </component>

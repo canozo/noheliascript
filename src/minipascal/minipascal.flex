@@ -40,14 +40,14 @@ espacios = [ \t]+
   "char"      { System.out.println("Token <char>"); }
   "record"    { System.out.println("Token <record>"); }
 
-  "if"         { System.out.println("Token <if>"); }
-  "then"       { System.out.println("Token <then>"); }
-  "else"       { System.out.println("Token <else>"); }
-  "var"        { System.out.println("Token <var>"); }
-  "begin"      { System.out.println("Token <begin>"); }
-  "end"        { System.out.println("Token <end>"); }
-  "true"       { System.out.println("Token <constbool, true>"); }
-  "false"      { System.out.println("Token <constbool, false>"); }
+  "if"        { System.out.println("Token <if>"); }
+  "then"      { System.out.println("Token <then>"); }
+  "else"      { System.out.println("Token <else>"); }
+  "var"       { System.out.println("Token <var>"); }
+  "begin"     { System.out.println("Token <begin>"); }
+  "end"       { System.out.println("Token <end>"); }
+  "true"      { System.out.println("Token <constbool, true>"); }
+  "false"     { System.out.println("Token <constbool, false>"); }
 
   "read"      { System.out.println("Token <func_id, read>"); }
   "write"     { System.out.println("Token <func_id, write>"); }
@@ -77,7 +77,6 @@ espacios = [ \t]+
   "div"       { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
   "mod"       { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
 
-
   {id}        { System.out.println("Token <identificador, '" + yytext() + "'>"); }
   {integer}   { System.out.println("Token <integer, '" + yytext() + "'>"); }
   {float}     { System.out.println("Token <float, '" + yytext() + "'>"); }
@@ -89,9 +88,10 @@ espacios = [ \t]+
 }
 
 <COMMENT> {
-  "{" { throw new Error("No se permiten comentarios anidados!"); }
-  "}" { yybegin(YYINITIAL); }
-   .  { /* skip comentario */ }
+  "{"       { throw new Error("No se permiten comentarios anidados!"); }
+  "}"       { yybegin(YYINITIAL); }
+  {endline} { /* skip saltos de linea */ }
+   .        { /* skip comentario */ }
 }
 
 [^] {

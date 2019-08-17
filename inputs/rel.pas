@@ -2,6 +2,14 @@ program showRelations;
 var
 a, b: integer;
 
+{
+Comentario multilinea
+
+Wow
+o
+w
+}
+
 begin
    a := 21;
    b := 10;
