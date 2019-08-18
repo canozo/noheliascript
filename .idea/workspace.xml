@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="afef694e-7064-477a-a4bc-2c14d0349250" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inputs/rel.pas" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/rel.pas" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/minipascal/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Lexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/minipascal/minipascal.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/minipascal.flex" afterDir="false" />
     </list>
@@ -96,7 +95,7 @@
       <updated>1566002827572</updated>
       <workItem from="1566002829133" duration="202000" />
       <workItem from="1566014187015" duration="2465000" />
-      <workItem from="1566115919796" duration="1324000" />
+      <workItem from="1566115919796" duration="1952000" />
     </task>
     <servers />
   </component>

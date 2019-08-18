@@ -68,22 +68,22 @@ espacios = [ \t]+
   ";"         { System.out.println("Token <punto_coma>"); }
   ":"         { System.out.println("Token <dos_puntos>"); }
 
-  "<>"        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  "="         { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  ">"         { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  "<"         { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  ">="        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  "<="        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  "and"       { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  "or"        { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
-  "not"       { System.out.println("Token <op_rel, '" + yytext() + "'>"); }
+  "<>"        { System.out.println("Token <op_rel_distinto>"); }
+  "="         { System.out.println("Token <op_rel_igual>"); }
+  ">"         { System.out.println("Token <op_rel_mayorq>"); }
+  "<"         { System.out.println("Token <op_rel_menorq>"); }
+  ">="        { System.out.println("Token <op_rel_mayoriq>"); }
+  "<="        { System.out.println("Token <op_rel_menoriq>"); }
+  "and"       { System.out.println("Token <op_rel_and>"); }
+  "or"        { System.out.println("Token <op_rel_or>"); }
+  "not"       { System.out.println("Token <op_rel_not>"); }
 
-  "+"         { System.out.println("Token <op_suma, '" + yytext() + "'>"); }
-  "-"         { System.out.println("Token <op_suma, '" + yytext() + "'>"); }
-  "*"         { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
-  "/"         { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
-  "div"       { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
-  "mod"       { System.out.println("Token <op_multi, '" + yytext() + "'>"); }
+  "+"         { System.out.println("Token <op_s_suma>"); }
+  "-"         { System.out.println("Token <op_s_resta>"); }
+  "*"         { System.out.println("Token <op_m_multi>"); }
+  "/"         { System.out.println("Token <op_m_pleca>"); }
+  "div"       { System.out.println("Token <op_m_div>"); }
+  "mod"       { System.out.println("Token <op_m_mod>"); }
 
   {id}        { System.out.println("Token <identificador, '" + yytext() + "'>"); }
   {integer}   { System.out.println("Token <integer, '" + yytext() + "'>"); }
