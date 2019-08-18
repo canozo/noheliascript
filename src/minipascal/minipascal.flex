@@ -19,8 +19,8 @@ package minipascal;
 %eof{
 %eof}
 
-constchar = \'[a-zA-Z0-9\-\+_ ]\'
-conststr = \'[a-zA-Z0-9\-\+_ ]+\'
+constchar = \'[\x00-\x26\x28-\x7F]\'
+conststr = \'[\x00-\x26\x28-\x7F]+\'
 id = [a-zA-Z][a-zA-Z0-9_]*
 integer = [0-9]+
 float = {integer}"."{integer}
@@ -34,18 +34,26 @@ espacios = [ \t]+
   {espacios}  { /* skip espacios blancos y tabs */ }
   {endline}   { /* skip saltos de linea */ }
 
-  "const"     { System.out.println("Token <const>"); }
-  "integer"   { System.out.println("Token <integer>"); }
-  "boolean"   { System.out.println("Token <boolean>"); }
-  "char"      { System.out.println("Token <char>"); }
-  "record"    { System.out.println("Token <record>"); }
+  "integer"   { System.out.println("Token <type, 'integer'>"); }
+  "boolean"   { System.out.println("Token <type, 'boolean'>"); }
+  "char"      { System.out.println("Token <type, 'char'>"); }
+  "record"    { System.out.println("Token <type, 'record'>"); }
 
-  "if"        { System.out.println("Token <if>"); }
-  "then"      { System.out.println("Token <then>"); }
-  "else"      { System.out.println("Token <else>"); }
-  "var"       { System.out.println("Token <var>"); }
-  "begin"     { System.out.println("Token <begin>"); }
-  "end"       { System.out.println("Token <end>"); }
+  "program"   { System.out.println("Token <keyword, 'program'>"); }
+  "if"        { System.out.println("Token <keyword, 'if'>"); }
+  "then"      { System.out.println("Token <keyword, 'then'>"); }
+  "else"      { System.out.println("Token <keyword, 'else'>"); }
+  "const"     { System.out.println("Token <keyword, 'const'>"); }
+  "var"       { System.out.println("Token <keyword, 'var'>"); }
+  "begin"     { System.out.println("Token <keyword, 'begin'>"); }
+  "end"       { System.out.println("Token <keyword, 'end'>"); }
+  "while"     { System.out.println("Token <keyword, 'while'>"); }
+  "do"        { System.out.println("Token <keyword, 'do'>"); }
+  "for"       { System.out.println("Token <keyword, 'for'>"); }
+  "to"        { System.out.println("Token <keyword, 'to'>"); }
+  "repeat"    { System.out.println("Token <keyword, 'repeat'>"); }
+  "until"     { System.out.println("Token <keyword, 'until'>"); }
+
   "true"      { System.out.println("Token <constbool, true>"); }
   "false"     { System.out.println("Token <constbool, false>"); }
 
