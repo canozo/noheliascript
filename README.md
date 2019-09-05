@@ -15,7 +15,7 @@ jflex src/minipascal/Lexer/minipascal.flex
 3. Correr el CUP
 ```
 cd src/minipascal/Parser
-java -classpath C:\CUP\java-cup-11b.jar. java_cup.Main < minipascal.cup -parser Parser
+java -classpath C:\CUP\java-cup-11b.jar. java_cup.Main < minipascal.cup
 ```
 
 4. Agregar el runtime de Java CUP a IntelliJ:

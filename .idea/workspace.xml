@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afef694e-7064-477a-a4bc-2c14d0349250" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/minipascal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/minipascal.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/Lexer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/minipascal.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Lexer/minipascal.flex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -111,7 +105,7 @@
       <workItem from="1566706859589" duration="10000" />
       <workItem from="1567656144210" duration="595000" />
       <workItem from="1567656778142" duration="464000" />
-      <workItem from="1567657267038" duration="3505000" />
+      <workItem from="1567657267038" duration="3688000" />
     </task>
     <servers />
   </component>
