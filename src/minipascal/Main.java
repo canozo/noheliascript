@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         try {
 //            parser p = new parser(new Lexer(new FileReader(Lexer.archivoInput)));
-            parser p = new parser(new Lexer(new StringReader("program showRelations;")));
+            parser p = new parser(new Lexer(new StringReader("program PruebasVars; var a, b, c: integer; c, d: real;")));
             p.parse();
         } catch (Exception e) {
             e.printStackTrace();

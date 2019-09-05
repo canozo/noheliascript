@@ -5,8 +5,10 @@ import java_cup.runtime.*;
 non terminal S;
 
 terminal INTEGER;
+terminal REAL;
 terminal BOOLEAN;
 terminal CHAR;
+terminal STRING;
 terminal RECORD;
 terminal PROGRAM;
 terminal IF;
@@ -41,19 +43,36 @@ terminal Float NUM_FLOAT;
 terminal Integer NUM_INTEGER;
 terminal Character CONSTCHAR;
 terminal String CONSTSTR;
-terminal PROGRAM;
-terminal AND;
+
 terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, FUNCTION, IN, NOT,PROCEDURE, OR, XOR, DIV, NIL, QUOTE, MOD,
- FILE, PACKED, FORWARD; 
+ FILE, PACKED, FORWARD;
+
 non terminal PROGRAM_BLOCK;
 non terminal VAR_BLOCK;
-
+non terminal VARS;
+non terminal IDS;
+non terminal TYPES;
 
 S ::= PROGRAM_BLOCK VAR_BLOCK {: System.out.println("Programa Ejecutado!"); :}
   ;
 
-PROGRAM_BLOCK ::= PROGRAM IDENTIFICADOR:name PUNTOCOMA {: System.out.println("Nombre del programa: " + name); :}
+PROGRAM_BLOCK ::= PROGRAM IDENTIFICADOR:name PUNTOCOMA
   ;
 
-VAR_BLOCK ::=
+VAR_BLOCK ::= VAR VARS
+  ;
+
+VARS ::= IDS DOSPUNTOS TYPES PUNTOCOMA VARS
+  | IDS DOSPUNTOS TYPES PUNTOCOMA
+  ;
+
+IDS ::= IDENTIFICADOR:id COMA IDS
+  | IDENTIFICADOR:id
+  ;
+
+TYPES ::= INTEGER
+  | REAL
+  | BOOLEAN
+  | CHAR
+  | STRING
   ;

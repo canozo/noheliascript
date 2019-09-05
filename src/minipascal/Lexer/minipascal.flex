@@ -18,12 +18,23 @@ import minipascal.Parser.sym;
 
 %{
   public static String archivoInput = "inputs/rel.pas";
+  private final boolean DEBUG = false;
 
   private Symbol symbol(int type) {
+    if (DEBUG) {
+      System.out.println("Token: " + yytext());
+      System.out.println("Line: " + yyline);
+      System.out.println("Col:  " + yycolumn);
+    }
     return new Symbol(type, yyline, yycolumn);
   }
 
   private Symbol symbol(int type, Object value) {
+    if (DEBUG) {
+      System.out.println("Token: " + yytext());
+      System.out.println("Line: " + yyline);
+      System.out.println("Col:  " + yycolumn);
+    }
     return new Symbol(type, yyline, yycolumn, value);
   }
 %}
@@ -47,8 +58,10 @@ espacios = [ \t]+
   {endline}   { /* skip saltos de linea */ }
 
   "integer"   { return symbol(sym.INTEGER); }
+  "real"      { return symbol(sym.REAL); }
   "boolean"   { return symbol(sym.BOOLEAN); }
   "char"      { return symbol(sym.CHAR); }
+  "string"    { return symbol(sym.STRING); }
   "record"    { return symbol(sym.RECORD); }
 
   "program"   { return symbol(sym.PROGRAM); }
