@@ -41,9 +41,13 @@ terminal Float NUM_FLOAT;
 terminal Integer NUM_INTEGER;
 terminal Character CONSTCHAR;
 terminal String CONSTSTR;
-
+terminal PROGRAM;
+terminal AND;
+terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, FUNCTION, IN, NOT,PROCEDURE, OR, XOR, DIV, NIL, QUOTE, MOD,
+ FILE, PACKED, FORWARD; 
 non terminal PROGRAM_BLOCK;
 non terminal VAR_BLOCK;
+
 
 S ::= PROGRAM_BLOCK VAR_BLOCK {: System.out.println("Programa Ejecutado!"); :}
   ;
