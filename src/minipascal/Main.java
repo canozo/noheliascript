@@ -1,15 +1,19 @@
 package minipascal;
 
+import minipascal.Lexer.Lexer;
+import minipascal.Parser.parser;
+
 import java.io.FileReader;
-import java.io.IOException;
+import java.io.StringReader;
 
 public class Main {
 
     public static void main(String[] args) {
         try {
-            Lexer lexer = new Lexer(new FileReader(Lexer.archivoInput));
-            lexer.yylex();
-        } catch (IOException e) {
+//            parser p = new parser(new Lexer(new FileReader(Lexer.archivoInput)));
+            parser p = new parser(new Lexer(new StringReader("integer 69692")));
+            p.parse();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

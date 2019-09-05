@@ -1,0 +1,46 @@
+package minipascal.Parser;
+
+import java_cup.runtime.*;
+
+non terminal S;
+
+terminal INTEGER;
+terminal BOOLEAN;
+terminal CHAR;
+terminal RECORD;
+terminal PROGRAM;
+terminal IF;
+terminal THEN;
+terminal ELSE;
+terminal CONST;
+terminal VAR;
+terminal BEGIN;
+terminal END;
+terminal WHILE;
+terminal DO;
+terminal FOR;
+terminal TO;
+terminal REPEAT;
+terminal UNTIL;
+terminal Boolean CONSTBOOL;
+terminal FUNC_READ;
+terminal FUNC_WRITE;
+terminal ASIGNACION;
+terminal PAR_IZQ;
+terminal PAR_DER;
+terminal COMA;
+terminal PUNTO;
+terminal PUNTOCOMA;
+terminal DOSPUNTOS;
+terminal String OP_RELACIONAL;
+terminal Boolean OP_BOOLEANO;
+terminal String OP_SUMA;
+terminal String OP_MULT;
+terminal String IDENTIFICADOR;
+terminal Float NUM_FLOAT;
+terminal Integer NUM_INTEGER;
+terminal Character CONSTCHAR;
+terminal String CONSTSTR;
+
+S ::= INTEGER NUM_INTEGER:num {: System.out.println(num); :}
+    ;

@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afef694e-7064-477a-a4bc-2c14d0349250" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Lexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/minipascal.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/minipascal.flex" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minipascal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/minipascal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/Lexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/minipascal.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Lexer/minipascal.flex" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,9 +37,16 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="C:/CUP/java-cup-11b-runtime.jar!/" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Other File Types" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Javier\IdeaProjects\noheliascript\src\minipascal\Lexer" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Cano\IdeaProjects\minipascal" />
       <recent name="C:\Users\Cano\IdeaProjects\minipascal\src\minipascal" />
@@ -95,7 +106,12 @@
       <updated>1566002827572</updated>
       <workItem from="1566002829133" duration="202000" />
       <workItem from="1566014187015" duration="2465000" />
-      <workItem from="1566115919796" duration="1952000" />
+      <workItem from="1566115919796" duration="2009000" />
+      <workItem from="1566700963597" duration="2374000" />
+      <workItem from="1566706859589" duration="10000" />
+      <workItem from="1567656144210" duration="595000" />
+      <workItem from="1567656778142" duration="464000" />
+      <workItem from="1567657267038" duration="3505000" />
     </task>
     <servers />
   </component>
