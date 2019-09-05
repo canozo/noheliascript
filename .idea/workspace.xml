@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afef694e-7064-477a-a4bc-2c14d0349250" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/Parser/parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Parser/parser.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,6 +31,7 @@
   </component>
   <component name="ProjectId" id="1PWvmfglHs6Eqtyr9nulkKjADvW" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -105,7 +109,7 @@
       <workItem from="1566706859589" duration="10000" />
       <workItem from="1567656144210" duration="595000" />
       <workItem from="1567656778142" duration="464000" />
-      <workItem from="1567657267038" duration="3688000" />
+      <workItem from="1567657267038" duration="5602000" />
     </task>
     <servers />
   </component>

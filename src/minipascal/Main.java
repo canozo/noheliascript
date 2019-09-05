@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         try {
 //            parser p = new parser(new Lexer(new FileReader(Lexer.archivoInput)));
-            parser p = new parser(new Lexer(new StringReader("integer 69692")));
+            parser p = new parser(new Lexer(new StringReader("program showRelations;")));
             p.parse();
         } catch (Exception e) {
             e.printStackTrace();

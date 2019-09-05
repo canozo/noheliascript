@@ -42,5 +42,14 @@ terminal Integer NUM_INTEGER;
 terminal Character CONSTCHAR;
 terminal String CONSTSTR;
 
-S ::= INTEGER NUM_INTEGER:num {: System.out.println(num); :}
-    ;
+non terminal PROGRAM_BLOCK;
+non terminal VAR_BLOCK;
+
+S ::= PROGRAM_BLOCK VAR_BLOCK {: System.out.println("Programa Ejecutado!"); :}
+  ;
+
+PROGRAM_BLOCK ::= PROGRAM IDENTIFICADOR:name PUNTOCOMA {: System.out.println("Nombre del programa: " + name); :}
+  ;
+
+VAR_BLOCK ::=
+  ;
