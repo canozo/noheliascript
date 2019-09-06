@@ -52,8 +52,9 @@ non terminal VAR_BLOCK;
 non terminal VARS;
 non terminal IDS;
 non terminal TYPES;
+non terminal MAIN_BLOCK;
 
-S ::= PROGRAM_BLOCK VAR_BLOCK {: System.out.println("Programa Ejecutado!"); :}
+S ::= PROGRAM_BLOCK VAR_BLOCK MAIN_BLOCK {: System.out.println("Programa Ejecutado!"); :}
   ;
 
 PROGRAM_BLOCK ::= PROGRAM IDENTIFICADOR:name PUNTOCOMA
@@ -75,4 +76,7 @@ TYPES ::= INTEGER
   | BOOLEAN
   | CHAR
   | STRING
+  ;
+
+MAIN_BLOCK ::= BEGIN END PUNTO {: System.out.println("Funcion del main"); :}
   ;
