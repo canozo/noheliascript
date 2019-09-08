@@ -65,6 +65,7 @@ non terminal MAIN_BLOCK;
 non terminal STMNT_FUNC;
 non terminal STMNT_LIST;
 non terminal STATEMENT;
+non terminal COMPOUND_STATEMENT;
 non terminal CONST_VAL;
 non terminal EXPR;
 non terminal SIMPLE_EXPR;
@@ -72,6 +73,10 @@ non terminal EXPR_LIST;
 non terminal TERMINO;
 non terminal FACTOR;
 non terminal BUILT_IN;
+non terminal IF_BLOCK;
+non terminal WHILE_BLOCK;
+non terminal FOR_BLOCK;
+non terminal REPEAT_BLOCK;
 
 S ::=
   PROGRAM_BLOCK
@@ -151,7 +156,32 @@ STMNT_FUNC ::=
 STATEMENT ::=
   ID ASIGNACION EXPR
   | STMNT_FUNC
-//  | COMPOSITE_STATEMENT
+  | IF_BLOCK
+  | WHILE_BLOCK
+  | FOR_BLOCK
+  | REPEAT_BLOCK
+  | COMPOUND_STATEMENT
+  ;
+
+COMPOUND_STATEMENT ::=
+  BEGIN STMNT_LIST END
+  ;
+
+IF_BLOCK ::=
+//  IF EXPR THEN STATEMENT
+  | IF EXPR THEN STATEMENT ELSE STATEMENT
+  ;
+
+WHILE_BLOCK ::=
+  WHILE EXPR DO STATEMENT
+  ;
+
+FOR_BLOCK ::=
+  FOR ID ASIGNACION EXPR TO NUM_INTEGER DO STATEMENT
+  ;
+
+REPEAT_BLOCK ::=
+  REPEAT STMNT_LIST UNTIL EXPR
   ;
 
 EXPR ::=
