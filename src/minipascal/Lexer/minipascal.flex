@@ -18,13 +18,14 @@ import minipascal.Parser.sym;
 
 %{
   public static String archivoInput = "inputs/rel.pas";
-  private final boolean DEBUG = false;
+  private final boolean DEBUG = true;
 
   private Symbol symbol(int type) {
     if (DEBUG) {
       System.out.println("Token: " + yytext());
       System.out.println("Line: " + yyline);
       System.out.println("Col:  " + yycolumn);
+      System.out.println();
     }
     return new Symbol(type, yyline, yycolumn);
   }
@@ -34,6 +35,7 @@ import minipascal.Parser.sym;
       System.out.println("Token: " + yytext());
       System.out.println("Line: " + yyline);
       System.out.println("Col:  " + yycolumn);
+      System.out.println();
     }
     return new Symbol(type, yyline, yycolumn, value);
   }
@@ -44,7 +46,7 @@ import minipascal.Parser.sym;
 
 constchar = \'[\x00-\x26\x28-\x7F]\'
 conststr = \'[\x00-\x26\x28-\x7F]+\'
-id = [a-zA-Z][a-zA-Z0-9_]*
+id = [a-zA-Z_][a-zA-Z0-9_]*
 integer = [0-9]+
 float = {integer}"."{integer}
 endline = \r|\n|\r\n
@@ -56,6 +58,8 @@ espacios = [ \t]+
   "{"         { yybegin(COMMENT); }
   {espacios}  { /* skip espacios blancos y tabs */ }
   {endline}   { /* skip saltos de linea */ }
+
+  "nil"       { return symbol(sym.NIL); }
 
   "function"  { return symbol(sym.FUNCTION); }
   "procedure" { return symbol(sym.PROCEDURE); }
@@ -103,9 +107,9 @@ espacios = [ \t]+
   ">="        { return symbol(sym.OP_RELACIONAL, yytext()); }
   "<="        { return symbol(sym.OP_RELACIONAL, yytext()); }
 
-  "and"       { return symbol(sym.OP_BOOLEANO, yytext()); }
-  "or"        { return symbol(sym.OP_BOOLEANO, yytext()); }
-  "not"       { return symbol(sym.OP_BOOLEANO, yytext()); }
+  "or"        { return symbol(sym.OR); }
+  "and"       { return symbol(sym.AND); }
+  "not"       { return symbol(sym.NOT); }
 
   "+"         { return symbol(sym.OP_SUMA, yytext()); }
   "-"         { return symbol(sym.OP_SUMA, yytext()); }
@@ -115,7 +119,7 @@ espacios = [ \t]+
   "div"       { return symbol(sym.OP_MULT, yytext()); }
   "mod"       { return symbol(sym.OP_MULT, yytext()); }
 
-  {id}        { return symbol(sym.IDENTIFICADOR, yytext()); }
+  {id}        { return symbol(sym.ID, yytext()); }
   {float}     { return symbol(sym.NUM_FLOAT, new Float(yytext())); }
   {integer}   { return symbol(sym.NUM_INTEGER, new Integer(yytext())); }
 

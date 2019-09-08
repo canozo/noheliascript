@@ -4,6 +4,7 @@ import java_cup.runtime.*;
 
 non terminal S;
 
+terminal NIL;
 terminal FUNCTION;
 terminal PROCEDURE;
 terminal INTEGER;
@@ -36,41 +37,94 @@ terminal COMA;
 terminal PUNTO;
 terminal PUNTOCOMA;
 terminal DOSPUNTOS;
+terminal OR;
+terminal AND;
+terminal NOT;
 terminal String OP_RELACIONAL;
-terminal Boolean OP_BOOLEANO;
 terminal String OP_SUMA;
 terminal String OP_MULT;
-terminal String IDENTIFICADOR;
+terminal String ID;
 terminal Float NUM_FLOAT;
 terminal Integer NUM_INTEGER;
 terminal Character CONSTCHAR;
 terminal String CONSTSTR;
 
-terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, IN, NOT, OR, XOR, DIV, NIL, QUOTE, MOD,
+terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, IN, XOR, DIV, QUOTE, MOD,
  FILE, PACKED, FORWARD;
 
 non terminal PROGRAM_BLOCK;
 non terminal VAR_BLOCK;
 non terminal VARS;
+non terminal ARGS;
 non terminal IDS;
 non terminal TYPES;
+non terminal FUNC_PROC_BLOCK;
+non terminal FUNC_DECL;
+non terminal PROC_DECL;
 non terminal MAIN_BLOCK;
+non terminal STMNT_FUNC;
+non terminal STMNT_LIST;
+non terminal STATEMENT;
+non terminal CONST_VAL;
+non terminal EXPR;
+non terminal SIMPLE_EXPR;
+non terminal EXPR_LIST;
+non terminal TERMINO;
+non terminal FACTOR;
+non terminal BUILT_IN;
 
-S ::= PROGRAM_BLOCK VAR_BLOCK MAIN_BLOCK {: System.out.println("Programa Ejecutado!"); :}
+S ::=
+  PROGRAM_BLOCK
+  VAR_BLOCK
+  FUNC_PROC_BLOCK
+  MAIN_BLOCK
   ;
 
-PROGRAM_BLOCK ::= PROGRAM IDENTIFICADOR:name PUNTOCOMA
+PROGRAM_BLOCK ::=
+  PROGRAM ID PUNTOCOMA
   ;
 
-VAR_BLOCK ::= VAR VARS
+FUNC_PROC_BLOCK ::=
+  FUNC_DECL FUNC_PROC_BLOCK
+  | PROC_DECL FUNC_PROC_BLOCK
+  |
   ;
 
-VARS ::= IDS DOSPUNTOS TYPES PUNTOCOMA VARS
+FUNC_DECL ::=
+  FUNCTION ID PAR_IZQ ARGS PAR_DER DOSPUNTOS TYPES PUNTOCOMA
+  VAR_BLOCK
+  BEGIN
+    STMNT_LIST
+  END PUNTOCOMA
+  ;
+
+PROC_DECL ::=
+  PROCEDURE ID PAR_IZQ ARGS PAR_DER PUNTOCOMA
+  VAR_BLOCK
+  BEGIN
+    STMNT_LIST
+  END PUNTOCOMA
+  ;
+
+VAR_BLOCK ::=
+  VAR VARS
+  |
+  ;
+
+VARS ::=
+  IDS DOSPUNTOS TYPES PUNTOCOMA VARS
   | IDS DOSPUNTOS TYPES PUNTOCOMA
   ;
 
-IDS ::= IDENTIFICADOR:id COMA IDS
-  | IDENTIFICADOR:id
+ARGS ::=
+  IDS DOSPUNTOS TYPES PUNTOCOMA ARGS
+  | IDS DOSPUNTOS TYPES
+  |
+  ;
+
+IDS ::=
+  ID COMA IDS
+  | ID
   ;
 
 TYPES ::= INTEGER
@@ -80,5 +134,65 @@ TYPES ::= INTEGER
   | STRING
   ;
 
-MAIN_BLOCK ::= BEGIN END PUNTO {: System.out.println("Funcion del main"); :}
+MAIN_BLOCK ::=
+  BEGIN STMNT_LIST END PUNTO
+  ;
+
+STMNT_LIST ::=
+  STATEMENT PUNTOCOMA STMNT_LIST
+  |
+  ;
+
+STMNT_FUNC ::=
+  ID PAR_IZQ EXPR_LIST PAR_DER
+  | BUILT_IN PAR_IZQ EXPR_LIST PAR_DER
+  ;
+
+STATEMENT ::=
+  ID ASIGNACION EXPR
+  | STMNT_FUNC
+//  | COMPOSITE_STATEMENT
+  ;
+
+EXPR ::=
+  SIMPLE_EXPR
+  | SIMPLE_EXPR OP_RELACIONAL SIMPLE_EXPR
+  ;
+
+EXPR_LIST ::=
+  EXPR COMA EXPR_LIST
+  | EXPR
+  ;
+
+SIMPLE_EXPR ::=
+  TERMINO
+  | OP_SUMA TERMINO
+  | SIMPLE_EXPR OP_SUMA TERMINO
+  ;
+
+TERMINO ::=
+  FACTOR
+  | TERMINO OP_MULT FACTOR
+  ;
+
+FACTOR ::=
+  ID
+  | STMNT_FUNC
+  | CONST_VAL
+  | PAR_IZQ EXPR PAR_DER
+  | NOT FACTOR
+  ;
+
+BUILT_IN ::=
+  FUNC_WRITE
+  | FUNC_READ
+  ;
+
+CONST_VAL ::=
+  NUM_INTEGER
+  | NUM_FLOAT
+  | CONSTCHAR
+  | CONSTSTR
+  | CONSTBOOL
+  | NIL
   ;

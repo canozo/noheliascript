@@ -1,4 +1,4 @@
-program showRelations;
+program rel;
 
 var
 a, b, c: integer;

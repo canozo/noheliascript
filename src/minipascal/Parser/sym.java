@@ -8,68 +8,71 @@ package minipascal.Parser;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PAR_DER = 27;
-  public static final int DOSPUNTOS = 31;
-  public static final int FUNCTION = 46;
+  public static final int PAR_DER = 30;
+  public static final int DOSPUNTOS = 34;
+  public static final int FUNCTION = 3;
   public static final int PACKED = 57;
-  public static final int CONST = 12;
-  public static final int CHAR = 5;
-  public static final int NUM_INTEGER = 38;
-  public static final int CONSTBOOL = 22;
-  public static final int XOR = 51;
-  public static final int CASE = 43;
-  public static final int INTEGER = 2;
-  public static final int CONTINUE = 44;
-  public static final int REPEAT = 20;
-  public static final int PUNTOCOMA = 30;
+  public static final int CONST = 15;
+  public static final int CHAR = 8;
+  public static final int NUM_INTEGER = 43;
+  public static final int CONSTBOOL = 25;
+  public static final int XOR = 52;
+  public static final int CASE = 48;
+  public static final int INTEGER = 5;
+  public static final int CONTINUE = 49;
+  public static final int REPEAT = 23;
+  public static final int PUNTOCOMA = 33;
   public static final int FORWARD = 58;
-  public static final int ARRAY = 41;
-  public static final int FOR = 18;
-  public static final int NOT = 48;
-  public static final int IDENTIFICADOR = 36;
-  public static final int FUNC_WRITE = 24;
-  public static final int RECORD = 7;
-  public static final int NIL = 53;
-  public static final int OR = 50;
-  public static final int IN = 47;
-  public static final int DIV = 52;
-  public static final int BEGIN = 14;
-  public static final int UNTIL = 21;
-  public static final int OP_BOOLEANO = 33;
+  public static final int ARRAY = 46;
+  public static final int FOR = 21;
+  public static final int NOT = 37;
+  public static final int AND = 36;
+  public static final int FUNC_WRITE = 27;
+  public static final int RECORD = 10;
+  public static final int NIL = 2;
+  public static final int IN = 51;
+  public static final int OR = 35;
+  public static final int DIV = 53;
+  public static final int BEGIN = 17;
+  public static final int UNTIL = 24;
   public static final int QUOTE = 54;
-  public static final int IF = 9;
-  public static final int OP_RELACIONAL = 32;
+  public static final int IF = 12;
+  public static final int ID = 41;
+  public static final int OP_RELACIONAL = 38;
   public static final int EOF = 0;
-  public static final int BOOLEAN = 4;
+  public static final int BOOLEAN = 7;
   public static final int error = 1;
-  public static final int PROGRAM = 8;
-  public static final int COMA = 28;
-  public static final int OP_MULT = 35;
+  public static final int PROGRAM = 11;
+  public static final int COMA = 31;
+  public static final int OP_MULT = 40;
   public static final int MOD = 55;
-  public static final int CONSTSTR = 40;
-  public static final int BREAK = 42;
-  public static final int PAR_IZQ = 26;
-  public static final int ASIGNACION = 25;
-  public static final int REAL = 3;
-  public static final int ELSE = 11;
-  public static final int PUNTO = 29;
+  public static final int CONSTSTR = 45;
+  public static final int BREAK = 47;
+  public static final int PAR_IZQ = 29;
+  public static final int ASIGNACION = 28;
+  public static final int REAL = 6;
+  public static final int ELSE = 14;
+  public static final int PUNTO = 32;
   public static final int FILE = 56;
-  public static final int TO = 19;
-  public static final int WHILE = 16;
-  public static final int THEN = 10;
-  public static final int END = 15;
-  public static final int STRING = 6;
-  public static final int CONSTCHAR = 39;
-  public static final int DOWNTO = 45;
-  public static final int OP_SUMA = 34;
-  public static final int NUM_FLOAT = 37;
-  public static final int PROCEDURE = 49;
-  public static final int VAR = 13;
-  public static final int DO = 17;
-  public static final int FUNC_READ = 23;
+  public static final int TO = 22;
+  public static final int WHILE = 19;
+  public static final int THEN = 13;
+  public static final int END = 18;
+  public static final int STRING = 9;
+  public static final int CONSTCHAR = 44;
+  public static final int DOWNTO = 50;
+  public static final int OP_SUMA = 39;
+  public static final int NUM_FLOAT = 42;
+  public static final int VAR = 16;
+  public static final int PROCEDURE = 4;
+  public static final int DO = 20;
+  public static final int FUNC_READ = 26;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "NIL",
+  "FUNCTION",
+  "PROCEDURE",
   "INTEGER",
   "REAL",
   "BOOLEAN",
@@ -100,11 +103,13 @@ public class sym {
   "PUNTO",
   "PUNTOCOMA",
   "DOSPUNTOS",
+  "OR",
+  "AND",
+  "NOT",
   "OP_RELACIONAL",
-  "OP_BOOLEANO",
   "OP_SUMA",
   "OP_MULT",
-  "IDENTIFICADOR",
+  "ID",
   "NUM_FLOAT",
   "NUM_INTEGER",
   "CONSTCHAR",
@@ -114,14 +119,9 @@ public class sym {
   "CASE",
   "CONTINUE",
   "DOWNTO",
-  "FUNCTION",
   "IN",
-  "NOT",
-  "PROCEDURE",
-  "OR",
   "XOR",
   "DIV",
-  "NIL",
   "QUOTE",
   "MOD",
   "FILE",
