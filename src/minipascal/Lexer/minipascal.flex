@@ -57,6 +57,9 @@ espacios = [ \t]+
   {espacios}  { /* skip espacios blancos y tabs */ }
   {endline}   { /* skip saltos de linea */ }
 
+  "function"  { return symbol(sym.FUNCTION); }
+  "procedure" { return symbol(sym.PROCEDURE); }
+
   "integer"   { return symbol(sym.INTEGER); }
   "real"      { return symbol(sym.REAL); }
   "boolean"   { return symbol(sym.BOOLEAN); }

@@ -4,6 +4,8 @@ import java_cup.runtime.*;
 
 non terminal S;
 
+terminal FUNCTION;
+terminal PROCEDURE;
 terminal INTEGER;
 terminal REAL;
 terminal BOOLEAN;
@@ -44,7 +46,7 @@ terminal Integer NUM_INTEGER;
 terminal Character CONSTCHAR;
 terminal String CONSTSTR;
 
-terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, FUNCTION, IN, NOT,PROCEDURE, OR, XOR, DIV, NIL, QUOTE, MOD,
+terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, IN, NOT, OR, XOR, DIV, NIL, QUOTE, MOD,
  FILE, PACKED, FORWARD;
 
 non terminal PROGRAM_BLOCK;
