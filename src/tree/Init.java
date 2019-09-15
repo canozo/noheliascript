@@ -9,9 +9,9 @@ public class Init {
     }
     public Init(){}
 
-    public void addChild(Object child){
+    public void addChild(node child){
         childrens.add(child);
-        System.out.println("Added succ");
+        System.out.println(child.getID());
     }
 
 }

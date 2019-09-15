@@ -11,7 +11,8 @@ public class Main {
     public static void main(String[] args) {
         try {
             parser p = new parser(new Lexer(new FileReader("inputs/rel.pas")));
-            p.parse();
+            Object result = p.parse().value;
+            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
