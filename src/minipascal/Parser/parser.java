@@ -6,6 +6,7 @@
 package minipascal.Parser;
 
 import java_cup.runtime.*;
+import tree.*;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -313,6 +314,11 @@ public class parser extends java_cup.runtime.lr_parser {
   public int error_sym() {return 1;}
 
 
+
+    Init root = null;
+
+
+
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$parser$actions {
@@ -364,7 +370,22 @@ class CUP$parser$actions {
           case 2: // PROGRAM_BLOCK ::= PROGRAM ID PUNTOCOMA 
             {
               Object RESULT =null;
+		int programleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int programright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object program = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		int puncoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int puncoright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object punco = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                    Init i = new Init((String) id, "program");
+                    parser.root = i;
+                    i.toString();
+                    RESULT = i;
 
+        
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PROGRAM_BLOCK",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

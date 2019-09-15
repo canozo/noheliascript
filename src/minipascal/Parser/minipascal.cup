@@ -1,9 +1,16 @@
 package minipascal.Parser;
 
 import java_cup.runtime.*;
+import tree.*;
+
+parser code {:
+    Init root = null;
+
+:}
+
+
 
 non terminal S;
-
 terminal NIL;
 terminal FUNCTION;
 terminal PROCEDURE;
@@ -86,7 +93,13 @@ S ::=
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM ID PUNTOCOMA
+  PROGRAM:program ID:id PUNTOCOMA:punco {:
+                    Init i = new Init((String) id, "program");
+                    parser.root = i;
+                    i.toString();
+                    RESULT = i;
+
+        :}
   ;
 
 FUNC_PROC_BLOCK ::=
