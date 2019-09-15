@@ -94,10 +94,10 @@ S ::=
 
 PROGRAM_BLOCK ::=
   PROGRAM:program ID:id PUNTOCOMA:punco {:
-                    Init i = new Init((String) id, "program");
+                    Init i = new Init( "start");
                     parser.root = i;
-                    i.toString();
-                    RESULT = i;
+                    ProgramBlock pbr = new ProgramBlock((String) id);
+                    i.addChild(pbr);
 
         :}
   ;

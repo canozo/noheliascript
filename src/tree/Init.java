@@ -2,11 +2,9 @@ package tree;
 import java.util.ArrayList;
 public class Init {
     public ArrayList<Object> childrens = new ArrayList<>();
-    public String id;
     public String program;
 
-    public Init(String id, String program){
-        this.id = id;
+    public Init(String program){
         this.program = program;
     }
     public Init(){}
@@ -16,11 +14,4 @@ public class Init {
         System.out.println("Added succ");
     }
 
-    @Override
-    public String toString() {
-        return "Init{" +
-                "id='" + id + '\'' +
-                ", program='" + program + '\'' +
-                '}';
-    }
 }

@@ -380,10 +380,10 @@ class CUP$parser$actions {
 		int puncoright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object punco = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-                    Init i = new Init((String) id, "program");
+                    Init i = new Init( "start");
                     parser.root = i;
-                    i.toString();
-                    RESULT = i;
+                    ProgramBlock pbr = new ProgramBlock((String) id);
+                    i.addChild(pbr);
 
         
               CUP$parser$result = parser.getSymbolFactory().newSymbol("PROGRAM_BLOCK",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
