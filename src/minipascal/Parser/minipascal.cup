@@ -3,9 +3,18 @@ package minipascal.Parser;
 import java_cup.runtime.*;
 import tree.*;
 
-
 parser code {:
     public Init root = null;
+
+    public void unrecovered_syntax_error(Symbol s) {
+      String msg = String.format(
+        "No se pudo recuperar del error en la linea %d, columna %d.\nNo se esperaba el token %s!",
+        s.right + 1,
+        s.left + 1,
+        sym.terminalNames[s.sym]
+      );
+      System.out.println(msg);
+    }
 
 :}
 

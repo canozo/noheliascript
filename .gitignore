@@ -1,2 +1,12 @@
+.idea/
 out/
 *~
+minipascal.iml
+
+# archivos generados por jflex y cup
+Lexer.java
+parser.java
+sym.java
+
+# AST
+AST.json
