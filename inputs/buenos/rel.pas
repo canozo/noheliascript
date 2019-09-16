@@ -13,49 +13,49 @@ begin
   b := 10;
 
   if a = b then
-    write('Line 1 - a is equal to b')
+    write('a es igual que b')
   else
-    write('Line 1 - a is not equal to b');
+    write('a es distinto que b');
 
   { otro comentario entre codigo }
   if a < b then
-    write('Line 2 - a is less than b')
+    write('a es menor que b')
   else
-    write('Line 2 - a is not less than b');
+    write('a no es menor que b');
 
   if a > b then
-    write('Line 3 - a is greater than b')
+    write('a es mayor que b')
   else
-    write('Line 3 - a is greater than b');
+    write('a no es mayor que b');
 
   { Lets change value of a and b }
   a := 5;
   b := 20;
 
   if a <= b then
-    write('Line 4 - a is either less than or equal to b');
+    write('a es menor que o igual que b');
 
   if (b >= a) then
-    write('Line 5 - b is either greater than  or equal to ');
+    write('b es mayor que o igual que a');
 
   { while loop }
   c := 10;
   while c < 20 do
   begin
-    write('[while] value of c: ', c);
+    write('[while] valor de c: ', c);
     c := c + 1;
   end;
 
   { for loop }
   for c := 10 to 20 do
   begin
-    write('(for) value of c: ', c);
+    write('(for) valor de c: ', c);
   end;
 
   { repeat until }
   c := 10;
   repeat
-    write('#repeat# value of c: ', c);
+    write('#repeat# valor de c: ', c);
     c := c + 1;
   until c = 20;
 end.

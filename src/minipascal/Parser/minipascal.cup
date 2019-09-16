@@ -9,8 +9,8 @@ parser code {:
     public void unrecovered_syntax_error(Symbol s) {
       String msg = String.format(
         "No se pudo recuperar del error en la linea %d, columna %d.\nNo se esperaba el token %s!",
-        s.right + 1,
-        s.left + 1,
+        s.left,
+        s.right,
         sym.terminalNames[s.sym]
       );
       System.out.println(msg);

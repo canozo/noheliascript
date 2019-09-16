@@ -12,10 +12,10 @@ import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java_cup.runtime.*;
-//import com.fasterxml.jackson.annotation.JsonAutoDetect;
-//import com.fasterxml.jackson.annotation.JsonInclude.Include;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.Reader;
 
 import java.io.*;
@@ -29,22 +29,23 @@ public class Main {
         try {
             Reader reader;
             try {
-                reader = new BufferedReader(new FileReader("inputs/rel.pas"));
+                reader = new BufferedReader(new FileReader("inputs/buenos/func.pas"));
+
                 Lexer lexer = new Lexer(reader);
 
-//                ObjectMapper mapper = new ObjectMapper();
-//                mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-//                mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
-//                        .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
-//                        .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-//                        .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-//                        .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
-//                mapper.setSerializationInclusion(Include.NON_NULL);
-                //mapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+                mapper.setVisibilityChecker(mapper.getSerializationConfig().getDefaultVisibilityChecker()
+                        .withFieldVisibility(JsonAutoDetect.Visibility.ANY)
+                        .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+                        .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+                        .withCreatorVisibility(JsonAutoDetect.Visibility.NONE));
+                mapper.setSerializationInclusion(Include.NON_NULL);
+                mapper.setVisibility(JsonMethod.FIELD, Visibility.ANY);
 
                 parser cupParser = new parser(lexer);
                 cupParser.parse();
-//                mapper.writeValue(new File("AST.json"), cupParser.root);
+                mapper.writeValue(new File("AST.json"), cupParser.root);
 
 
             } catch (FileNotFoundException ex) {
