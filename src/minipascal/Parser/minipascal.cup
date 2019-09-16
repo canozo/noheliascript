@@ -1,9 +1,17 @@
 package minipascal.Parser;
 
 import java_cup.runtime.*;
+import tree.*;
+
+
+parser code {:
+    public Init root = null;
+
+:}
+
+
 
 non terminal S;
-
 terminal NIL;
 terminal FUNCTION;
 terminal PROCEDURE;
@@ -79,8 +87,20 @@ non terminal SIMPLE_STATEMENT;
 non terminal WHILE_BLOCK;
 non terminal FOR_BLOCK;
 non terminal REPEAT_BLOCK;
+non terminal INICIO;
 
-S ::=
+start with S;
+
+S::= INICIO:inicio{:
+    Init i = new Init( "start");
+    parser.root = i;
+    RESULT = i;
+
+
+:}
+    ;
+
+INICIO ::=
   PROGRAM_BLOCK
   VAR_BLOCK
   FUNC_PROC_BLOCK
@@ -88,12 +108,21 @@ S ::=
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM ID PUNTOCOMA
+  PROGRAM:program ID:id PUNTOCOMA:punco {:
+        ProgramBlock pbr = new ProgramBlock((String) id);
+        RESULT = pbr;
+        :}
   ;
 
 FUNC_PROC_BLOCK ::=
-  FUNC_DECL FUNC_PROC_BLOCK
-  | PROC_DECL FUNC_PROC_BLOCK
+  FUNC_DECL:fd FUNC_PROC_BLOCK:fpb {:
+        //FunctionProcedure fp = new FunctionProcedure((FunctionDeclaration)fd, (FunctionProcedure) fpb);
+        //RESULT = fp;
+  :}
+  | PROC_DECL:pd FUNC_PROC_BLOCK:fpb{:
+        //FunctionProcedure fp = new FunctionProcedure(()pd, fpb, "");
+        //RESULT = fp;
+  :}
   |
   ;
 
@@ -218,23 +247,53 @@ TERMINO ::=
   ;
 
 FACTOR ::=
-  ID
+  ID:id{:
+        Factor fac = new Factor((String)id);
+        RESULT = fac;
+  :}
   | STMNT_FUNC
   | CONST_VAL
   | PAR_IZQ EXPR PAR_DER
-  | NOT FACTOR
+  | NOT:no FACTOR:fact{:
+        Factor fac = new Factor((String)no, (Factor)fact);
+        RESULT = fac;
+  :}
   ;
 
 BUILT_IN ::=
-  FUNC_WRITE
-  | FUNC_READ
+  FUNC_WRITE:fw{:
+        BuiltIn bi = new BuiltIn((String) fw);
+        RESULT = bi;
+  :}
+  | FUNC_READ:fr{:
+        BuiltIn bi = new BuiltIn((String)fr);
+        RESULT = bi;
+  :}
   ;
 
 CONST_VAL ::=
-  NUM_INTEGER
-  | NUM_FLOAT
-  | CONSTCHAR
-  | CONSTSTR
-  | CONSTBOOL
-  | NIL
+  NUM_INTEGER:numInt{:
+        ConstantValue cv = new ConstantValue( Integer.toString(numInt));
+        RESULT = cv;
+  :}
+  | NUM_FLOAT:numFloat{:
+         ConstantValue cv = new ConstantValue(Float.toString(numFloat) );
+         RESULT= cv;
+   :}
+  | CONSTCHAR:constChar{:
+         ConstantValue cv = new ConstantValue(Character.toString(constChar) );
+         RESULT =cv;
+   :}
+  | CONSTSTR:consStr{:
+         ConstantValue cv = new ConstantValue(consStr);
+         RESULT =cv;
+   :}
+  | CONSTBOOL:numBool{:
+          ConstantValue cv = new ConstantValue(Boolean.toString(numBool) );
+          RESULT =cv;
+    :}
+  | NIL:constNil{:
+        ConstantValue cv = new ConstantValue((String) constNil);
+        RESULT =cv;
+  :}
   ;
