@@ -33,12 +33,10 @@ begin
   b := 20;
 
   if a <= b then
-    write('Line 4 - a is either less than or equal to b')
-   else { TODO quitar 'else' obligatorio en la gramatica } ;
+    write('Line 4 - a is either less than or equal to b');
 
   if (b >= a) then
-    write('Line 5 - b is either greater than  or equal to ')
-   else { TODO quitar 'else' obligatorio en la gramatica } ;
+    write('Line 5 - b is either greater than  or equal to ');
 
   { while loop }
   c := 10;
