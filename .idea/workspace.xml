@@ -5,10 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/minipascal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/Parser/parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Parser/parser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tree/Init.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tree/Init.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tree/ProgramBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tree/ProgramBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tree/node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tree/node.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

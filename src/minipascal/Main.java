@@ -6,13 +6,24 @@ import minipascal.Parser.parser;
 import java.io.FileReader;
 import java.io.StringReader;
 
+import java_cup.runtime.ComplexSymbolFactory;
+import java_cup.runtime.ScannerBuffer;
+import java_cup.runtime.XMLElement;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
+import java.io.*;
+
+import javax.xml.transform.*;
+import javax.xml.transform.stream.*;
+
 public class Main {
 
     public static void main(String[] args) {
         try {
-            parser p = new parser(new Lexer(new FileReader("inputs/rel.pas")));
-            Object result = p.parse().value;
-            System.out.println(result);
+            ScannerBuffer lexer = new ScannerBuffer(new Lexer((new FileReader("inputs/rel.pas"))));
+            parser p = new parser(lexer);
+            //XMLElement e = (XMLElement)p.parse().value;
+
         } catch (Exception e) {
             e.printStackTrace();
         }

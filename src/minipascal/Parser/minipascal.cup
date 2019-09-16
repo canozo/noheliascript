@@ -3,6 +3,7 @@ package minipascal.Parser;
 import java_cup.runtime.*;
 import tree.*;
 
+
 parser code {:
     public Init root = null;
 

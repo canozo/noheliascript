@@ -1,7 +1,6 @@
 package tree;
 import java.util.ArrayList;
 public class Init {
-    public ArrayList<Object> childrens = new ArrayList<>();
     public String program;
 
     public Init(String program){
@@ -9,9 +8,5 @@ public class Init {
     }
     public Init(){}
 
-    public void addChild(node child){
-        childrens.add(child);
-        System.out.println(child.getID());
-    }
 
 }
