@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="afef694e-7064-477a-a4bc-2c14d0349250" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/minipascal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/minipascal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/minipascal/Lexer/minipascal.flex" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Lexer/minipascal.flex" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/minipascal/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" beforeDir="false" afterPath="$PROJECT_DIR$/src/minipascal/Parser/minipascal.cup" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tree/Init.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tree/Init.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +36,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
