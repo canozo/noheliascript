@@ -4,8 +4,6 @@ import java_cup.runtime.*;
 import tree.*;
 
 parser code {:
-    public Init root = null;
-
     public void unrecovered_syntax_error(Symbol s) {
       String msg = String.format(
         "No se pudo recuperar del error en la linea %d, columna %d.\nNo se esperaba el token %s!",
@@ -15,12 +13,8 @@ parser code {:
       );
       System.out.println(msg);
     }
-
 :}
 
-
-
-non terminal S;
 terminal NIL;
 terminal FUNCTION;
 terminal PROCEDURE;
@@ -69,6 +63,7 @@ terminal String CONSTSTR;
 terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, IN, XOR, DIV, QUOTE, MOD,
  FILE, PACKED, FORWARD;
 
+non terminal S;
 non terminal PROGRAM_BLOCK;
 non terminal VAR_BLOCK;
 non terminal VARS;
@@ -89,7 +84,6 @@ non terminal SIMPLE_EXPR;
 non terminal EXPR_LIST;
 non terminal TERMINO;
 non terminal FACTOR;
-non terminal BUILT_IN;
 non terminal OPEN_STATEMENT;
 non terminal CLOSED_STATEMENT;
 non terminal SIMPLE_STATEMENT;
@@ -100,14 +94,8 @@ non terminal INICIO;
 
 start with S;
 
-S::= INICIO:inicio{:
-    Init i = new Init( "start");
-    parser.root = i;
-    RESULT = i;
-
-
-:}
-    ;
+S ::= INICIO  {: System.out.println(raiz); :}
+  ;
 
 INICIO ::=
   PROGRAM_BLOCK
@@ -117,21 +105,12 @@ INICIO ::=
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM:program ID:id PUNTOCOMA:punco {:
-        ProgramBlock pbr = new ProgramBlock((String) id);
-        RESULT = pbr;
-        :}
+  PROGRAM: program ID: id PUNTOCOMA
   ;
 
 FUNC_PROC_BLOCK ::=
-  FUNC_DECL:fd FUNC_PROC_BLOCK:fpb {:
-        //FunctionProcedure fp = new FunctionProcedure((FunctionDeclaration)fd, (FunctionProcedure) fpb);
-        //RESULT = fp;
-  :}
-  | PROC_DECL:pd FUNC_PROC_BLOCK:fpb{:
-        //FunctionProcedure fp = new FunctionProcedure(()pd, fpb, "");
-        //RESULT = fp;
-  :}
+  FUNC_DECL FUNC_PROC_BLOCK
+  | PROC_DECL FUNC_PROC_BLOCK
   |
   ;
 
@@ -190,7 +169,8 @@ STMNT_LIST ::=
 
 STMNT_FUNC ::=
   ID PAR_IZQ EXPR_LIST PAR_DER
-  | BUILT_IN PAR_IZQ EXPR_LIST PAR_DER
+  | FUNC_READ PAR_IZQ EXPR_LIST PAR_DER
+  | FUNC_WRITE PAR_IZQ EXPR_LIST PAR_DER
   ;
 
 STATEMENT ::=
@@ -256,53 +236,18 @@ TERMINO ::=
   ;
 
 FACTOR ::=
-  ID:id{:
-        Factor fac = new Factor((String)id);
-        RESULT = fac;
-  :}
+  ID
   | STMNT_FUNC
   | CONST_VAL
   | PAR_IZQ EXPR PAR_DER
-  | NOT:no FACTOR:fact{:
-        Factor fac = new Factor((String)no, (Factor)fact);
-        RESULT = fac;
-  :}
-  ;
-
-BUILT_IN ::=
-  FUNC_WRITE:fw{:
-        BuiltIn bi = new BuiltIn((String) fw);
-        RESULT = bi;
-  :}
-  | FUNC_READ:fr{:
-        BuiltIn bi = new BuiltIn((String)fr);
-        RESULT = bi;
-  :}
+  | NOT FACTOR
   ;
 
 CONST_VAL ::=
-  NUM_INTEGER:numInt{:
-        ConstantValue cv = new ConstantValue( Integer.toString(numInt));
-        RESULT = cv;
-  :}
-  | NUM_FLOAT:numFloat{:
-         ConstantValue cv = new ConstantValue(Float.toString(numFloat) );
-         RESULT= cv;
-   :}
-  | CONSTCHAR:constChar{:
-         ConstantValue cv = new ConstantValue(Character.toString(constChar) );
-         RESULT =cv;
-   :}
-  | CONSTSTR:consStr{:
-         ConstantValue cv = new ConstantValue(consStr);
-         RESULT =cv;
-   :}
-  | CONSTBOOL:numBool{:
-          ConstantValue cv = new ConstantValue(Boolean.toString(numBool) );
-          RESULT =cv;
-    :}
-  | NIL:constNil{:
-        ConstantValue cv = new ConstantValue((String) constNil);
-        RESULT =cv;
-  :}
+  NUM_INTEGER: num {: RESULT = num; :}
+  | NUM_FLOAT: num {: RESULT = num; :}
+  | CONSTCHAR: constchar {: RESULT = constchar; :}
+  | CONSTSTR: string {: RESULT = string; :}
+  | CONSTBOOL: bool {: RESULT = bool; :}
+  | NIL: nil {: RESULT = null; :}
   ;
