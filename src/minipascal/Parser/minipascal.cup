@@ -1,21 +1,20 @@
 package minipascal.Parser;
 
 import java_cup.runtime.*;
-import tree.*;
+import tree.Node;
 
 parser code {:
-    public void unrecovered_syntax_error(Symbol s) {
-      String msg = String.format(
-        "No se pudo recuperar del error en la linea %d, columna %d.\nNo se esperaba el token %s!",
-        s.left,
-        s.right,
-        sym.terminalNames[s.sym]
-      );
-      System.out.println(msg);
-    }
+  public void unrecovered_syntax_error(Symbol s) {
+    String msg = String.format(
+      "No se pudo recuperar del error en la linea %d, columna %d.\nNo se esperaba el token %s!",
+      s.left,
+      s.right,
+      sym.terminalNames[s.sym]
+    );
+    System.out.println(msg);
+  }
 :}
 
-terminal NIL;
 terminal FUNCTION;
 terminal PROCEDURE;
 terminal INTEGER;
@@ -38,7 +37,6 @@ terminal FOR;
 terminal TO;
 terminal REPEAT;
 terminal UNTIL;
-terminal Boolean CONSTBOOL;
 terminal FUNC_READ;
 terminal FUNC_WRITE;
 terminal ASIGNACION;
@@ -59,6 +57,8 @@ terminal Float NUM_FLOAT;
 terminal Integer NUM_INTEGER;
 terminal Character CONSTCHAR;
 terminal String CONSTSTR;
+terminal Boolean CONSTBOOL;
+terminal Object NIL;
 
 terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, IN, XOR, DIV, QUOTE, MOD,
  FILE, PACKED, FORWARD;
@@ -94,18 +94,39 @@ non terminal INICIO;
 
 start with S;
 
-S ::= INICIO  {: System.out.println(raiz); :}
+S ::= INICIO: inicio {: System.out.println(inicio); :}
   ;
 
 INICIO ::=
-  PROGRAM_BLOCK
-  VAR_BLOCK
-  FUNC_PROC_BLOCK
-  MAIN_BLOCK
+  PROGRAM_BLOCK: program
+  VAR_BLOCK: var
+  FUNC_PROC_BLOCK: functions
+  MAIN_BLOCK: main
+  {:
+    // program es obligatorio, seria la raiz
+    Node raiz = new Node<>(program);
+
+    // var es opcional
+    if (var != null) {
+      raiz.add(var);
+    }
+
+    // functions es opcional
+    if (functions != null) {
+      raiz.add(functions);
+    }
+
+    // main es opcional ("begin end.")
+    if (main != null) {
+      raiz.add(main);
+    }
+
+    RESULT = raiz;
+  :}
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM: program ID: id PUNTOCOMA
+  PROGRAM ID: id PUNTOCOMA {: RESULT = id; :}
   ;
 
 FUNC_PROC_BLOCK ::=
@@ -131,7 +152,7 @@ PROC_DECL ::=
   ;
 
 VAR_BLOCK ::=
-  VAR VARS
+  VAR VARS: vars {: Node temp = new Node<>(vars);  RESULT = temp; :}
   |
   ;
 
@@ -159,7 +180,7 @@ TYPES ::= INTEGER
   ;
 
 MAIN_BLOCK ::=
-  BEGIN STMNT_LIST END PUNTO
+  BEGIN STMNT_LIST: stmtList END PUNTO {: /* Node temp = new Node<>(stmtList); */ RESULT = stmtList; :}
   ;
 
 STMNT_LIST ::=
@@ -220,27 +241,39 @@ EXPR ::=
   ;
 
 EXPR_LIST ::=
-  EXPR COMA EXPR_LIST
-  | EXPR
+  EXPR: expr COMA EXPR_LIST: exprList
+  | EXPR: expr {: RESULT = expr; :}
   ;
 
 SIMPLE_EXPR ::=
-  TERMINO
-  | OP_SUMA TERMINO
-  | SIMPLE_EXPR OP_SUMA TERMINO
+  TERMINO: termino {: RESULT = termino; :}
+  | OP_SUMA: opSuma TERMINO: termino {: Node op = new Node<>(opSuma); op.add(termino); RESULT = op; :}
+  | SIMPLE_EXPR: simpleExpr OP_SUMA: opSuma TERMINO: termino
+  {:
+    Node op = new Node<>();
+    op.add(simpleExpr);
+    op.add(termino);
+    RESULT = op;
+  :}
   ;
 
 TERMINO ::=
-  FACTOR
-  | TERMINO OP_MULT FACTOR
+  FACTOR: factor {: RESULT = factor; :}
+  | TERMINO: termino OP_MULT: opMult FACTOR: factor
+  {:
+    Node mult = new Node<>(opMult);
+    mult.add(termino);
+    mult.add(factor);
+    RESULT = mult;
+  :}
   ;
 
 FACTOR ::=
-  ID
-  | STMNT_FUNC
-  | CONST_VAL
-  | PAR_IZQ EXPR PAR_DER
-  | NOT FACTOR
+  ID: id {: RESULT = new Node<>(id); :}
+  | STMNT_FUNC: stmntFunc {: RESULT = new Node<>(stmntFunc); :}
+  | CONST_VAL: val {: RESULT = new Node<>(val); :}
+  | PAR_IZQ EXPR: expr PAR_DER {: RESULT = new Node<>(expr); :}
+  | NOT: not FACTOR: factor {: Node not = new Node<>(not); not.add(factor); RESULT = not; :}
   ;
 
 CONST_VAL ::=
