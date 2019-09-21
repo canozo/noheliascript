@@ -181,15 +181,20 @@ ARGS ::=
   ;
 
 IDS ::=
-  ID COMA IDS
-  | ID
+  ID: id COMA IDS: ids
+  {:
+    Node nodo = new Node<>(id);
+    nodo.join((Node) ids);
+    RESULT = nodo;
+  :}
+  | ID: id {: RESULT = id; :}
   ;
 
-TYPES ::= INTEGER
-  | REAL
-  | BOOLEAN
-  | CHAR
-  | STRING
+TYPES ::= INTEGER: kwinteger {: RESULT = kwinteger; :}
+  | REAL: kwreal {: RESULT = kwreal; :}
+  | BOOLEAN: kwboolean {: RESULT = kwboolean; :}
+  | CHAR: kwchar {: RESULT = kwchar; :}
+  | STRING: kwstring {: RESULT = kwstring; :}
   ;
 
 MAIN_BLOCK ::=
@@ -197,45 +202,107 @@ MAIN_BLOCK ::=
   ;
 
 STMNT_LIST ::=
-  STATEMENT PUNTOCOMA STMNT_LIST
+  STATEMENT: stmnt PUNTOCOMA STMNT_LIST: stmntList
+  {:
+    Node nodo = (Node) stmnt;
+    nodo.join((Node) stmntList);
+    RESULT = nodo;
+  :}
   |
   ;
 
 STMNT_FUNC ::=
-  ID PAR_IZQ EXPR_LIST PAR_DER
-  | FUNC_READ PAR_IZQ EXPR_LIST PAR_DER
-  | FUNC_WRITE PAR_IZQ EXPR_LIST PAR_DER
+  ID: id PAR_IZQ EXPR_LIST: exprList PAR_DER
+  {:
+    Node res = new Node<>("func_call");
+    res.add(id);
+    res.add(exprList);
+    RESULT = res;
+  :}
+  | FUNC_READ: func PAR_IZQ EXPR_LIST: exprList PAR_DER
+  {:
+    Node res = new Node<>("func_call");
+    res.add(func);
+    res.add(exprList);
+    RESULT = res;
+  :}
+  | FUNC_WRITE: func PAR_IZQ EXPR_LIST: exprList PAR_DER
+  {:
+    Node res = new Node<>("func_call");
+    res.add(func);
+    res.add(exprList);
+    RESULT = res;
+  :}
   ;
 
+// XXX revisar esto
 STATEMENT ::=
-  | OPEN_STATEMENT
-  | IF EXPR THEN CLOSED_STATEMENT ELSE CLOSED_STATEMENT
-  | WHILE_BLOCK
-  | FOR_BLOCK
-  | REPEAT_BLOCK
-  | COMPOUND_STATEMENT
-  | SIMPLE_STATEMENT
+  | OPEN_STATEMENT: o {: RESULT = o; :}
+  | IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE CLOSED_STATEMENT: closed2
+  {:
+    // las intrucciones de then y else al final
+    Node res = new Node<>(kwif);
+    res.add(expr);
+    res.add(closed1);
+    res.add(closed2);
+    RESULT = res;
+  :}
+  | WHILE_BLOCK: w {: RESULT = w; :}
+  | FOR_BLOCK: f {: RESULT = f; :}
+  | REPEAT_BLOCK: r {: RESULT = r; :}
+  | COMPOUND_STATEMENT: c {: RESULT = c; :}
+  | SIMPLE_STATEMENT: s {: RESULT = s; :}
   ;
 
 COMPOUND_STATEMENT ::=
-  BEGIN STMNT_LIST END
+  BEGIN: begin STMNT_LIST: stmntList END: end
+  {:
+    // XXX revisar luego
+    Node res = new Node<>(begin);
+    res.add(stmntList);
+    RESULT = res;
+  :}
   ;
 
 SIMPLE_STATEMENT ::=
-  ID ASIGNACION EXPR
-  | STMNT_FUNC
+  ID: id ASIGNACION: asign EXPR: expr
+  {:
+    Node res = new Node<>(asign);
+    res.add(id);
+    res.add(expr);
+    RESULT = res;
+  :}
+  | STMNT_FUNC: stmntFunc {: RESULT = stmntFunc; :}
   ;
 
 OPEN_STATEMENT ::=
-  IF EXPR THEN STATEMENT
-  | IF EXPR THEN CLOSED_STATEMENT ELSE OPEN_STATEMENT
+  IF: kwif EXPR: expr THEN STATEMENT: stmnt
+  {:
+    // las instrucciones de then al final
+    Node res = new Node<>(kwif);
+    res.add(expr);
+    res.add(stmnt);
+    RESULT = res;
+  :}
+  | IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE OPEN_STATEMENT: closed2
+  {:
+    // las intrucciones de then y else al final
+    Node res = new Node<>(kwif);
+    res.add(expr);
+    res.add(closed1);
+    res.add(closed2);
+    RESULT = res;
+  :}
   ;
 
 CLOSED_STATEMENT ::=
   IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE: kwelse CLOSED_STATEMENT: closed2
   {:
+    // las instrucciones de then y else al final
     Node res = new Node<>(kwif);
     res.add(expr);
+    res.add(closed1);
+    res.add(closed2);
     RESULT = res;
   :}
   | SIMPLE_STATEMENT: simpleStmnt {: RESULT = simpleStmnt; :}
@@ -260,7 +327,7 @@ FOR_BLOCK ::=
     Node asig = new Node<>(asign);
     asig.add(id);
     asig.add(expr);
-    Node to = new Node<>(factor);
+    Node to = (Node) factor;
     res.add(asig);
     res.add(to);
     res.add(stmnt);
@@ -297,7 +364,7 @@ EXPR_LIST ::=
   {:
     Node nodo = (Node) expr;
     nodo.join((Node) exprList);
-    RESULT = expr;
+    RESULT = nodo;
   :}
   | EXPR: expr {: RESULT = expr; :}
   ;
