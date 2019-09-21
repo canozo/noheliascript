@@ -1,17 +1,30 @@
 package minipascal.Parser;
 
 import java_cup.runtime.*;
+import java.util.List;
 import tree.Node;
 
 parser code {:
+    public void syntax_error(Symbol s) {
+      List<Integer> expected = expected_token_ids();
+      StringBuffer expStr = new StringBuffer();
+
+      for (Integer id : expected) {
+        expStr.append(sym.terminalNames[id] + " ");
+      }
+
+      String msg = String.format(
+        "Error de sintaxis en la linea %d, columna %d.\nNo se esperaba el token %s!\nSe esperaba uno de los siguientes: %s",
+        s.left,
+        s.right,
+        sym.terminalNames[s.sym],
+        expStr
+      );
+      System.out.println(msg);
+    }
+
   public void unrecovered_syntax_error(Symbol s) {
-    String msg = String.format(
-      "No se pudo recuperar del error en la linea %d, columna %d.\nNo se esperaba el token %s!",
-      s.left,
-      s.right,
-      sym.terminalNames[s.sym]
-    );
-    System.out.println(msg);
+    System.out.println("No se puede recuperar del error!");
   }
 :}
 
@@ -180,7 +193,7 @@ TYPES ::= INTEGER
   ;
 
 MAIN_BLOCK ::=
-  BEGIN STMNT_LIST: stmtList END PUNTO {: /* Node temp = new Node<>(stmtList); */ RESULT = stmtList; :}
+  BEGIN STMNT_LIST: stmtList END PUNTO {: RESULT = stmtList; :}
   ;
 
 STMNT_LIST ::=
@@ -219,29 +232,73 @@ OPEN_STATEMENT ::=
   ;
 
 CLOSED_STATEMENT ::=
-  IF EXPR THEN CLOSED_STATEMENT ELSE CLOSED_STATEMENT
-  | SIMPLE_STATEMENT
+  IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE: kwelse CLOSED_STATEMENT: closed2
+  {:
+    Node res = new Node<>(kwif);
+    res.add(expr);
+    RESULT = res;
+  :}
+  | SIMPLE_STATEMENT: simpleStmnt {: RESULT = simpleStmnt; :}
   ;
 
 WHILE_BLOCK ::=
-  WHILE EXPR DO STATEMENT
+  WHILE: kwwhile EXPR: expr DO STATEMENT: stmnt
+  {:
+    // las instrucciones que se ejecutan van al final de children
+    Node res = new Node<>(kwwhile);
+    res.add(expr);
+    res.add(stmnt);
+    RESULT = res;
+  :}
   ;
 
 FOR_BLOCK ::=
-  FOR ID ASIGNACION EXPR TO NUM_INTEGER DO STATEMENT
+  FOR: kwfor ID: id ASIGNACION: asign EXPR: expr TO FACTOR: factor DO STATEMENT: stmnt
+  {:
+    // las instrucciones que se ejecutan van al final de children
+    Node res = new Node<>(kwfor);
+    Node asig = new Node<>(asign);
+    asig.add(id);
+    asig.add(expr);
+    Node to = new Node<>(factor);
+    res.add(asig);
+    res.add(to);
+    res.add(stmnt);
+    RESULT = res;
+  :}
   ;
 
 REPEAT_BLOCK ::=
-  REPEAT STMNT_LIST UNTIL EXPR
+  REPEAT: repeat STATEMENT: stmnt UNTIL: kwuntil EXPR: expr
+  {:
+    // las instrucciones que se ejecutan van al final de children
+    Node res = new Node<>(repeat);
+    Node until = new Node<>(kwuntil);
+    until.add(expr);
+    res.add(until);
+    res.add(stmnt);
+    RESULT = res;
+  :}
   ;
 
 EXPR ::=
-  SIMPLE_EXPR
-  | SIMPLE_EXPR OP_RELACIONAL SIMPLE_EXPR
+  SIMPLE_EXPR: simpleExpr {: RESULT = simpleExpr; :}
+  | SIMPLE_EXPR: simpleExpr1 OP_RELACIONAL: opRel SIMPLE_EXPR: simpleExpr2
+  {:
+    Node res = new Node<>(opRel);
+    res.add(simpleExpr1);
+    res.add(simpleExpr2);
+    RESULT = res;
+  :}
   ;
 
 EXPR_LIST ::=
   EXPR: expr COMA EXPR_LIST: exprList
+  {:
+    Node nodo = (Node) expr;
+    nodo.join((Node) exprList);
+    RESULT = expr;
+  :}
   | EXPR: expr {: RESULT = expr; :}
   ;
 
@@ -250,7 +307,7 @@ SIMPLE_EXPR ::=
   | OP_SUMA: opSuma TERMINO: termino {: Node op = new Node<>(opSuma); op.add(termino); RESULT = op; :}
   | SIMPLE_EXPR: simpleExpr OP_SUMA: opSuma TERMINO: termino
   {:
-    Node op = new Node<>();
+    Node op = new Node<>(opSuma);
     op.add(simpleExpr);
     op.add(termino);
     RESULT = op;
@@ -270,10 +327,10 @@ TERMINO ::=
 
 FACTOR ::=
   ID: id {: RESULT = new Node<>(id); :}
-  | STMNT_FUNC: stmntFunc {: RESULT = new Node<>(stmntFunc); :}
+  | STMNT_FUNC: stmntFunc {: RESULT = stmntFunc; :}
   | CONST_VAL: val {: RESULT = new Node<>(val); :}
-  | PAR_IZQ EXPR: expr PAR_DER {: RESULT = new Node<>(expr); :}
-  | NOT: not FACTOR: factor {: Node not = new Node<>(not); not.add(factor); RESULT = not; :}
+  | PAR_IZQ EXPR: expr PAR_DER {: RESULT = expr; :}
+  | NOT: n FACTOR: factor {: Node not = new Node<>(n); not.add(factor); RESULT = not; :}
   ;
 
 CONST_VAL ::=

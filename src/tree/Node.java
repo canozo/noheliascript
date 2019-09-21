@@ -7,9 +7,9 @@ import org.json.simple.JSONArray;
 
 public class Node<T> {
 
-    T data;
-    Node<T> parent;
-    List<Node<T>> children;
+    public T data;
+    public Node<T> parent;
+    public List<Node<T>> children;
 
     public Node(T data) {
         this.data = data;
@@ -21,6 +21,10 @@ public class Node<T> {
         childNode.parent = this;
         this.children.add(childNode);
         return childNode;
+    }
+
+    public void join(Node<T> other) {
+        this.children.addAll(other.children);
     }
 
     @Override
