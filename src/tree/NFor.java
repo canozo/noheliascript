@@ -15,6 +15,6 @@ public class NFor<T> extends Node<T> {
         children.get(1).visit();
         System.out.println("To:");
         children.get(2).visit();
-        System.out.println("End for until:");
+        System.out.println("End for.");
     }
 }
