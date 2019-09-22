@@ -1,19 +1,12 @@
 package minipascal;
 
-import tree.Node;
+import tree.*;
 
 public class Test {
 
     public static void main(String[] args) {
-        Node<Object> root = new Node<>("+");
-        root.add(2);
-
-        Node<Object> nested = new Node<>("*");
-        nested.add(5);
-        nested.add(10);
-
-        root.add(nested);
-
-        System.out.println(root.toString());
+        Node num = new NFloat(new Float(3.14));
+        Node not = new NNot(num);
+        System.out.println("Tree: " + not.toString());
     }
 }

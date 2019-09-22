@@ -5,7 +5,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
-public class Node<T> {
+public abstract class Node<T> {
 
     public T data;
     public Node<T> parent;
@@ -16,36 +16,35 @@ public class Node<T> {
         this.children = new LinkedList<>();
     }
 
-    public Node<T> add(T child) {
-        Node<T> childNode = new Node<>(child);
-        childNode.parent = this;
-        this.children.add(childNode);
-        return childNode;
-    }
-
     public void join(Node<T> other) {
         this.children.addAll(other.children);
     }
 
+    public void add(Node<T> child) {
+        child.parent = this;
+        this.children.add(child);
+    }
+
+    public abstract void visit();
+
     @Override
     public String toString() {
-        if (children.size() > 0) {
+        if (children.size() == 0) {
+            return data.toString();
+        } else if (children.size() == 1) {
+            JSONObject res = new JSONObject();
+            res.put(data.toString(), children.get(0));
+            return res.toJSONString();
+        } else {
             JSONArray arrChildren = new JSONArray();
-            for (Object child : children) {
-                arrChildren.add(child);
-            }
+            arrChildren.addAll(children);
+//            for (Object child : children) {
+//                arrChildren.add(child);
+//            }
 
             JSONObject res = new JSONObject();
-            if (data == null) {
-                res.put("null", arrChildren);
-            } else {
-                res.put(data.toString(), arrChildren);
-            }
+            res.put(data.toString(), arrChildren);
             return res.toJSONString();
-        } else if (data != null) {
-            return data.toString();
-        } else {
-            return "null";
         }
     }
 }
