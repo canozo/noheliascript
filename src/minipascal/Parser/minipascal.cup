@@ -104,7 +104,9 @@ non terminal INICIO;
 
 start with S;
 
-S ::= INICIO: inicio {: System.out.println(inicio); :}
+S ::=
+  INICIO: inicio
+  {: System.out.println(inicio); :}
   ;
 
 INICIO ::=
@@ -118,17 +120,17 @@ INICIO ::=
 
     // var es opcional
     if (maybeVar != null) {
-      raiz.add(maybeVar);
+      raiz.add((NVars) maybeVar);
     }
 
     // functions y procedures son opcionales
     if (maybeFuncs != null) {
-      raiz.add(maybeFuncs);
+      raiz.add((NFuncProcList) maybeFuncs);
     }
 
     // main es opcional ('begin end.')
     if (maybeMain != null) {
-      raiz.add(maybeMain);
+      raiz.add((NMain) maybeMain);
     }
 
     RESULT = raiz;
@@ -136,13 +138,14 @@ INICIO ::=
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM: program ID: id PUNTOCOMA {: RESULT = new NProgram<>(id); :}
+  PROGRAM: program ID: id PUNTOCOMA
+  {: RESULT = new NProgram(id); :}
   ;
 
 FUNC_PROC_BLOCK ::=
   FUNC_DECL: func FUNC_PROC_BLOCK: maybeMore
   {:
-    Node res = new NFuncProcList<>(func);
+    Node res = new NFuncProcList((Node) func);
     if (maybeMore != null) {
       res.join((NFuncProcList) maybeMore);
     }
@@ -150,7 +153,7 @@ FUNC_PROC_BLOCK ::=
   :}
   | PROC_DECL: proc FUNC_PROC_BLOCK: maybeMore
   {:
-    Node res = new NFuncProcList<>(proc);
+    Node res = new NFuncProcList((Node) proc);
     if (maybeMore != null) {
       res.join((NFuncProcList) maybeMore);
     }
@@ -165,7 +168,15 @@ FUNC_DECL ::=
   BEGIN
     STMNT_LIST: maybeStmntList
   END PUNTOCOMA
-  {: RESULT = new NFunction<>(new NID<>(id), returnType, maybeArgs, maybeVars, maybeStmntList); :}
+  {:
+    RESULT = new NFunction(
+      new NID(id),
+      (Node) returnType,
+      (Node) maybeArgs,
+      (Node) maybeVars,
+      (Node) maybeStmntList
+    );
+  :}
   ;
 
 PROC_DECL ::=
@@ -174,69 +185,87 @@ PROC_DECL ::=
   BEGIN
     STMNT_LIST: maybeStmntList
   END PUNTOCOMA
-  {: RESULT = new NProcedure<>(new NID<>(id), maybeArgs, maybeVars, maybeStmntList); :}
+  {:
+    RESULT = new NProcedure(
+      new NID(id),
+      (Node) maybeArgs,
+      (Node) maybeVars,
+      (Node) maybeStmntList
+    );
+  :}
   ;
 
 VAR_BLOCK ::=
-  VAR VARS: vars {: RESULT = vars; :}
+  VAR VARS: vars
+  {: RESULT = vars; :}
   |
   ;
 
 VARS ::=
   IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA VARS: moreVars
   {:
-    Node res = new NVars<>(type, ids);
+    Node res = new NVars((Node) type, (Node) ids);
     res.join((NVars) moreVars);
     RESULT = res;
   :}
-  | IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA {: RESULT = new NVars<>(type, ids); :}
+  | IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA
+  {: RESULT = new NVars((Node) type, (Node) ids); :}
   ;
 
 MAYBE_ARGS ::=
-  ARGS: args {: RESULT = args; :}
+  ARGS: args
+  {: RESULT = args; :}
   |
   ;
 
 ARGS ::=
   IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA ARGS: moreArgs
   {:
-    Node res = new NArgs<>(type, ids);
+    Node res = new NArgs((Node) type, (Node) ids);
     res.join((NArgs) moreArgs);
     RESULT = res;
   :}
-  | IDS: ids DOSPUNTOS TYPE: type {: RESULT = new NArgs<>(type, ids); :}
+  | IDS: ids DOSPUNTOS TYPE: type
+  {: RESULT = new NArgs((Node) type, (Node) ids); :}
   ;
 
 IDS ::=
   ID: id COMA IDS: ids
   {:
-    Node res = new NIDList<>(id);
+    Node res = new NIDList(new NID(id));
     if (ids instanceof NIDList) {
       res.join((NIDList) ids);
     } else {
-      res.add(ids);
+      res.add((Node) ids);
     }
     RESULT = res;
   :}
-  | ID: id {: RESULT = new NID<>(id); :}
+  | ID: id
+  {: RESULT = new NID(id); :}
   ;
 
 TYPE ::=
-  INTEGER {: RESULT = new NType<>("integer"); :}
-  | REAL {: RESULT = new NType<>("real"); :}
-  | BOOLEAN {: RESULT = new NType<>("boolean"); :}
-  | CHAR {: RESULT = new NType<>("char"); :}
-  | STRING {: RESULT = new NType<>("string"); :}
+  INTEGER
+  {: RESULT = new NType("integer"); :}
+  | REAL
+  {: RESULT = new NType("real"); :}
+  | BOOLEAN
+  {: RESULT = new NType("boolean"); :}
+  | CHAR
+  {: RESULT = new NType("char"); :}
+  | STRING
+  {: RESULT = new NType("string"); :}
   ;
 
 MAIN_BLOCK ::=
-  BEGIN STMNT_LIST: stmtList END PUNTO {: RESULT = new NMain<>(stmtList); :}
+  BEGIN STMNT_LIST: stmtList END PUNTO
+  {: RESULT = new NMain((Node) stmtList); :}
   ;
 
 STMNT_LIST ::=
   STATEMENT: stmnt PUNTOCOMA STMNT_LIST: stmntList
   {:
-    Node list = new NStmntList<>(stmnt);
+    Node list = new NStmntList((Node) stmnt);
     if (stmntList != null) {
       list.join((NStmntList) stmntList);
     }
@@ -246,105 +275,138 @@ STMNT_LIST ::=
   ;
 
 STMNT_FUNC ::=
-  ID: id PAR_IZQ EXPR_LIST: exprList PAR_DER {: RESULT = new NFuncCall<>(new NID<>(id), exprList); :}
-  | FUNC_READ PAR_IZQ EXPR_LIST: exprList PAR_DER {: RESULT = new NFuncRead<>(exprList); :}
-  | FUNC_WRITE PAR_IZQ EXPR_LIST: exprList PAR_DER  {: RESULT = new NFuncWrite<>(exprList); :}
+  ID: id PAR_IZQ EXPR_LIST: exprList PAR_DER
+  {: RESULT = new NFuncCall(new NID(id), (Node) exprList); :}
+  | FUNC_READ PAR_IZQ EXPR_LIST: exprList PAR_DER
+  {: RESULT = new NFuncRead((Node) exprList); :}
+  | FUNC_WRITE PAR_IZQ EXPR_LIST: exprList PAR_DER
+  {: RESULT = new NFuncWrite((Node) exprList); :}
   ;
 
 STATEMENT ::=
-  | OPEN_STATEMENT: stmnt {: RESULT = stmnt; :}
+  | OPEN_STATEMENT: stmnt
+  {: RESULT = stmnt; :}
   | IF EXPR: ifExpr THEN CLOSED_STATEMENT: thenStmnt ELSE CLOSED_STATEMENT: elseStmnt
-  {: RESULT = new NIFElse<>(ifExpr, thenStmnt, elseStmnt); :}
-  | WHILE_BLOCK: w {: RESULT = w; :}
-  | FOR_BLOCK: f {: RESULT = f; :}
-  | REPEAT_BLOCK: r {: RESULT = r; :}
-  | COMPOUND_STATEMENT: c {: RESULT = c; :}
-  | SIMPLE_STATEMENT: s {: RESULT = s; :}
+  {: RESULT = new NIfElse((Node) ifExpr, (Node) thenStmnt, (Node) elseStmnt); :}
+  | WHILE_BLOCK: w
+  {: RESULT = w; :}
+  | FOR_BLOCK: f
+  {: RESULT = f; :}
+  | REPEAT_BLOCK: r
+  {: RESULT = r; :}
+  | COMPOUND_STATEMENT: c
+  {: RESULT = c; :}
+  | SIMPLE_STATEMENT: s
+  {: RESULT = s; :}
   ;
 
 COMPOUND_STATEMENT ::=
   BEGIN STMNT_LIST: stmntList END
   {:
     if (stmntList != null) {
-      RESULT = new NBegin<>(stmntList);
+      RESULT = new NBegin((Node) stmntList);
     }
   :}
   ;
 
 SIMPLE_STATEMENT ::=
-  ID: id ASIGNACION EXPR: expr {: RESULT = new NAssign(new NID<>(id), expr); :}
-  | STMNT_FUNC: stmntFunc {: RESULT = stmntFunc; :}
+  ID: id ASIGNACION EXPR: expr
+  {: RESULT = new NAssign(new NID(id), (Node) expr); :}
+  | STMNT_FUNC: stmntFunc
+  {: RESULT = stmntFunc; :}
   ;
 
 OPEN_STATEMENT ::=
-  IF EXPR: ifExpr THEN STATEMENT: thenStmnt {: RESULT = new NIFElse<>(ifExpr, thenStmnt); :}
+  IF EXPR: ifExpr THEN STATEMENT: thenStmnt
+  {: RESULT = new NIfElse((Node) ifExpr, (Node) thenStmnt); :}
   | IF EXPR: ifExpr THEN CLOSED_STATEMENT: thenStmnt ELSE OPEN_STATEMENT: elseStmnt
-  {: RESULT = new NIFElse<>(ifExpr, thenStmnt, elseStmnt); :}
+  {: RESULT = new NIfElse((Node) ifExpr, (Node) thenStmnt, (Node) elseStmnt); :}
   ;
 
 CLOSED_STATEMENT ::=
   IF EXPR: ifExpr THEN CLOSED_STATEMENT: thenStmnt ELSE CLOSED_STATEMENT: elseStmnt
-  {: RESULT = new NIFElse<>(ifExpr, thenStmnt, elseStmnt); :}
-  | SIMPLE_STATEMENT: simpleStmnt {: RESULT = simpleStmnt; :}
+  {: RESULT = new NIfElse((Node) ifExpr, (Node) thenStmnt, (Node) elseStmnt); :}
+  | SIMPLE_STATEMENT: simpleStmnt
+  {: RESULT = simpleStmnt; :}
   ;
 
 WHILE_BLOCK ::=
-  WHILE EXPR: whileExpr DO STATEMENT: doStmnt {: RESULT = new NWhile<>(whileExpr, doStmnt); :}
+  WHILE EXPR: whileExpr DO STATEMENT: doStmnt
+  {: RESULT = new NWhile((Node) whileExpr, (Node) doStmnt); :}
   ;
 
 FOR_BLOCK ::=
   FOR ID: id ASIGNACION: asign EXPR: expr TO FACTOR: toFactor DO STATEMENT: doStmnt
-  {: RESULT = new NFor<>(new NAssign(new NID<>(id), expr), toFactor, doStmnt); :}
+  {: RESULT = new NFor(new NAssign(new NID(id), (Node) expr), (Node) toFactor, (Node) doStmnt); :}
   ;
 
 REPEAT_BLOCK ::=
-  REPEAT: repeat STATEMENT: stmnt UNTIL: kwuntil EXPR: expr {: RESULT = new NRepeat<>(stmnt, expr); :}
+  REPEAT: repeat STATEMENT: stmnt UNTIL: kwuntil EXPR: expr
+  {: RESULT = new NRepeat((Node) stmnt, (Node) expr); :}
   ;
 
 EXPR_LIST ::=
   EXPR: expr COMA EXPR_LIST: exprList
   {:
-    Node list = new NExprList<>(expr);
+    Node list = new NExprList((Node) expr);
     if (exprList instanceof NExprList) {
       list.join((NExprList) exprList);
     } else {
-      list.add(exprList);
+      list.add((Node) exprList);
     }
     RESULT = list;
   :}
-  | EXPR: expr {: RESULT = expr; :}
+  | EXPR: expr
+  {: RESULT = expr; :}
   ;
 
 EXPR ::=
-  SIMPLE_EXPR: simpleExpr {: RESULT = simpleExpr; :}
+  SIMPLE_EXPR: simpleExpr
+  {: RESULT = simpleExpr; :}
   | SIMPLE_EXPR: simpleExpr1 OP_RELACIONAL: op SIMPLE_EXPR: simpleExpr2
-  {: RESULT = new NOpRel<>(simpleExpr1, op, simpleExpr2); :}
+  {: RESULT = new NOpRel((Node) simpleExpr1, op, (Node) simpleExpr2); :}
   ;
 
 SIMPLE_EXPR ::=
-  TERMINO: termino {: RESULT = termino; :}
-  | OP_SUMA: op TERMINO: termino {: RESULT = new NSuma<>(op, termino); :}
-  | SIMPLE_EXPR: simpleExpr OP_SUMA: op TERMINO: termino {: RESULT = new NSuma<>(simpleExpr, op, termino); :}
+  TERMINO: termino
+  {: RESULT = termino; :}
+  | OP_SUMA: op TERMINO: termino
+  {: RESULT = new NSuma(op, (Node) termino); :}
+  | SIMPLE_EXPR: simpleExpr OP_SUMA: op TERMINO: termino
+  {: RESULT = new NSuma((Node) simpleExpr, op, (Node) termino); :}
   ;
 
 TERMINO ::=
-  FACTOR: factor {: RESULT = factor; :}
-  | TERMINO: termino OP_MULT: op FACTOR: factor {: RESULT = new NMult<>(termino, op, factor); :}
+  FACTOR: factor
+  {: RESULT = factor; :}
+  | TERMINO: termino OP_MULT: op FACTOR: factor
+  {: RESULT = new NMult((Node) termino, op, (Node) factor); :}
   ;
 
 FACTOR ::=
-  ID: id {: RESULT = new NID<>(id); :}
-  | STMNT_FUNC: stmntFunc {: RESULT = stmntFunc; :}
-  | CONST_VAL: val {: RESULT = val; :}
-  | PAR_IZQ EXPR: expr PAR_DER {: RESULT = expr; :}
-  | NOT: n FACTOR: factor {: RESULT = new NNot<>(factor); :}
+  ID: id
+  {: RESULT = new NID(id); :}
+  | STMNT_FUNC: stmntFunc
+  {: RESULT = stmntFunc; :}
+  | CONST_VAL: val
+  {: RESULT = val; :}
+  | PAR_IZQ EXPR: expr PAR_DER
+  {: RESULT = expr; :}
+  | NOT: n FACTOR: factor
+  {: RESULT = new NNot((Node) factor); :}
   ;
 
 CONST_VAL ::=
-  NUM_INTEGER: num {: RESULT = new NInteger(num); :}
-  | NUM_DOUBLE: num {: RESULT = new NDouble(num); :}
-  | CONSTCHAR: constchar {: RESULT = new NChar(constchar); :}
-  | CONSTSTR: string {: RESULT = new NString(string); :}
-  | CONSTBOOL: bool {: RESULT = new NBool(bool); :}
-  | NIL: nil {: RESULT = new NNil(); :}
+  NUM_INTEGER: num
+  {: RESULT = new NInteger(num); :}
+  | NUM_DOUBLE: num
+  {: RESULT = new NDouble(num); :}
+  | CONSTCHAR: constchar
+  {: RESULT = new NChar(constchar); :}
+  | CONSTSTR: string
+  {: RESULT = new NString(string); :}
+  | CONSTBOOL: bool
+  {: RESULT = new NBool(bool); :}
+  | NIL: nil
+  {: RESULT = new NNil(); :}
   ;
