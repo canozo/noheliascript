@@ -55,7 +55,8 @@ begin
   { repeat until }
   c := 10;
   repeat
+  begin
     write('#repeat# valor de c: ', c);
     c := c + 1;
-  until c = 20;
+  end until c = 20;
 end.

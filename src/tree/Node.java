@@ -36,10 +36,16 @@ public class Node<T> {
             }
 
             JSONObject res = new JSONObject();
-            res.put(data.toString(), arrChildren);
+            if (data == null) {
+                res.put("null", arrChildren);
+            } else {
+                res.put(data.toString(), arrChildren);
+            }
             return res.toJSONString();
-        } else {
+        } else if (data != null) {
             return data.toString();
+        } else {
+            return "null";
         }
     }
 }

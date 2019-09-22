@@ -4,6 +4,8 @@ import java_cup.runtime.*;
 import java.util.List;
 import tree.Node;
 
+// TODO implementar un visitor para todos los nodos
+
 parser code {:
     public void syntax_error(Symbol s) {
       List<Integer> expected = expected_token_ids();
@@ -35,12 +37,10 @@ terminal REAL;
 terminal BOOLEAN;
 terminal CHAR;
 terminal STRING;
-terminal RECORD;
 terminal PROGRAM;
 terminal IF;
 terminal THEN;
 terminal ELSE;
-terminal CONST;
 terminal VAR;
 terminal BEGIN;
 terminal END;
@@ -59,9 +59,10 @@ terminal COMA;
 terminal PUNTO;
 terminal PUNTOCOMA;
 terminal DOSPUNTOS;
+terminal NOT;
 terminal OR;
 terminal AND;
-terminal NOT;
+terminal RECORD;
 terminal String OP_RELACIONAL;
 terminal String OP_SUMA;
 terminal String OP_MULT;
@@ -73,16 +74,14 @@ terminal String CONSTSTR;
 terminal Boolean CONSTBOOL;
 terminal Object NIL;
 
-terminal ARRAY, BREAK, CASE,CONTINUE, DOWNTO, IN, XOR, DIV, QUOTE, MOD,
- FILE, PACKED, FORWARD;
-
 non terminal S;
 non terminal PROGRAM_BLOCK;
 non terminal VAR_BLOCK;
 non terminal VARS;
 non terminal ARGS;
+non terminal MAYBE_ARGS;
 non terminal IDS;
-non terminal TYPES;
+non terminal TYPE;
 non terminal FUNC_PROC_BLOCK;
 non terminal FUNC_DECL;
 non terminal PROC_DECL;
@@ -117,7 +116,7 @@ INICIO ::=
   MAIN_BLOCK: main
   {:
     // program es obligatorio, seria la raiz
-    Node raiz = new Node<>(program);
+    Node raiz = (Node) program;
 
     // var es opcional
     if (var != null) {
@@ -129,7 +128,7 @@ INICIO ::=
       raiz.add(functions);
     }
 
-    // main es opcional ("begin end.")
+    // main es opcional ('begin end.')
     if (main != null) {
       raiz.add(main);
     }
@@ -139,45 +138,114 @@ INICIO ::=
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM ID: id PUNTOCOMA {: RESULT = id; :}
+  PROGRAM: program ID: id PUNTOCOMA
+  {:
+    Node res = new Node<>(id);
+    RESULT = res;
+  :}
   ;
 
 FUNC_PROC_BLOCK ::=
-  FUNC_DECL FUNC_PROC_BLOCK
-  | PROC_DECL FUNC_PROC_BLOCK
+  FUNC_DECL: decl FUNC_PROC_BLOCK: more
+  {:
+    Node res = new Node<>("func_proc_decl");
+    if (more != null) {
+      res.join((Node) more);
+    }
+    RESULT = res;
+  :}
+  | PROC_DECL: decl FUNC_PROC_BLOCK: more
+  {:
+    Node res = new Node<>("func_proc_decl");
+    if (more != null) {
+      res.join((Node) more);
+    }
+    RESULT = res;
+  :}
   |
   ;
 
 FUNC_DECL ::=
-  FUNCTION ID PAR_IZQ ARGS PAR_DER DOSPUNTOS TYPES PUNTOCOMA
-  VAR_BLOCK
+  FUNCTION: func ID: id PAR_IZQ MAYBE_ARGS: args PAR_DER DOSPUNTOS TYPE: returnType PUNTOCOMA
+  VAR_BLOCK: vars
   BEGIN
-    STMNT_LIST
+    STMNT_LIST: stmntList
   END PUNTOCOMA
+  {:
+    Node res = new Node<>(func);
+    res.add(id);
+    res.add(returnType);
+    res.add(args);
+    res.add(vars);
+    res.add(stmntList);
+    RESULT = res;
+  :}
   ;
 
 PROC_DECL ::=
-  PROCEDURE ID PAR_IZQ ARGS PAR_DER PUNTOCOMA
-  VAR_BLOCK
+  PROCEDURE: proc ID: id PAR_IZQ MAYBE_ARGS: args PAR_DER PUNTOCOMA
+  VAR_BLOCK: vars
   BEGIN
-    STMNT_LIST
+    STMNT_LIST: stmntList
   END PUNTOCOMA
+  {:
+    Node res = new Node<>(proc);
+    res.add(id);
+    res.add(args);
+    res.add(vars);
+    res.add(stmntList);
+    RESULT = res;
+  :}
   ;
 
 VAR_BLOCK ::=
-  VAR VARS: vars {: Node temp = new Node<>(vars);  RESULT = temp; :}
+  VAR VARS: vars {: RESULT = vars; :}
   |
   ;
 
 VARS ::=
-  IDS DOSPUNTOS TYPES PUNTOCOMA VARS
-  | IDS DOSPUNTOS TYPES PUNTOCOMA
+  IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA VARS: moreVars
+  {:
+    Node vars = new Node<>("vars");
+    Node nType = new Node<>(type);
+    nType.join((Node) ids);
+    vars.add(nType);
+    vars.join((Node) moreVars);
+    RESULT = vars;
+  :}
+  | IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA
+  {:
+    Node vars = new Node<>("vars");
+    Node nType = new Node<>(type);
+    nType.join((Node) ids);
+    vars.add(nType);
+    RESULT = vars;
+  :}
+  ;
+
+MAYBE_ARGS ::=
+  ARGS: args {: RESULT = args; :}
+  |
   ;
 
 ARGS ::=
-  IDS DOSPUNTOS TYPES PUNTOCOMA ARGS
-  | IDS DOSPUNTOS TYPES
-  |
+  IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA ARGS: moreArgs
+  {:
+    Node args = new Node<>("args");
+    Node nType = new Node<>(type);
+    nType.join((Node) ids);
+    args.add(nType);
+    args.join((Node) moreArgs);
+    RESULT = args;
+  :}
+  | IDS: ids DOSPUNTOS TYPE: type
+  {:
+    Node args = new Node<>("args");
+    Node nType = new Node<>(type);
+    nType.join((Node) ids);
+    args.add(nType);
+    RESULT = args;
+  :}
   ;
 
 IDS ::=
@@ -187,10 +255,11 @@ IDS ::=
     nodo.join((Node) ids);
     RESULT = nodo;
   :}
-  | ID: id {: RESULT = id; :}
+  | ID: id {: RESULT = new Node<>(id); :}
   ;
 
-TYPES ::= INTEGER: kwinteger {: RESULT = kwinteger; :}
+TYPE ::=
+  INTEGER: kwinteger {: RESULT = kwinteger; :}
   | REAL: kwreal {: RESULT = kwreal; :}
   | BOOLEAN: kwboolean {: RESULT = kwboolean; :}
   | CHAR: kwchar {: RESULT = kwchar; :}
@@ -205,7 +274,9 @@ STMNT_LIST ::=
   STATEMENT: stmnt PUNTOCOMA STMNT_LIST: stmntList
   {:
     Node nodo = (Node) stmnt;
-    nodo.join((Node) stmntList);
+    if (stmntList != null) {
+      nodo.join((Node) stmntList);
+    }
     RESULT = nodo;
   :}
   |
@@ -235,12 +306,10 @@ STMNT_FUNC ::=
   :}
   ;
 
-// XXX revisar esto
 STATEMENT ::=
   | OPEN_STATEMENT: o {: RESULT = o; :}
   | IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE CLOSED_STATEMENT: closed2
   {:
-    // las intrucciones de then y else al final
     Node res = new Node<>(kwif);
     res.add(expr);
     res.add(closed1);
@@ -255,12 +324,9 @@ STATEMENT ::=
   ;
 
 COMPOUND_STATEMENT ::=
-  BEGIN: begin STMNT_LIST: stmntList END: end
+  BEGIN STMNT_LIST: stmntList END
   {:
-    // XXX revisar luego
-    Node res = new Node<>(begin);
-    res.add(stmntList);
-    RESULT = res;
+    RESULT = stmntList;
   :}
   ;
 
@@ -276,27 +342,28 @@ SIMPLE_STATEMENT ::=
   ;
 
 OPEN_STATEMENT ::=
-  IF: kwif EXPR: expr THEN STATEMENT: stmnt
+  IF: kwif EXPR: expr THEN: then STATEMENT: stmnt
   {:
-    // las instrucciones de then al final
     Node res = new Node<>(kwif);
     res.add(expr);
-    res.add(stmnt);
+    Node nThen = new Node<>(then);
+    nThen.add(stmnt);
+    res.add(nThen);
     RESULT = res;
   :}
-  | IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE OPEN_STATEMENT: closed2
+  | IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed ELSE OPEN_STATEMENT: open
   {:
     // las intrucciones de then y else al final
     Node res = new Node<>(kwif);
     res.add(expr);
-    res.add(closed1);
-    res.add(closed2);
+    res.add(closed);
+    res.add(open);
     RESULT = res;
   :}
   ;
 
 CLOSED_STATEMENT ::=
-  IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE: kwelse CLOSED_STATEMENT: closed2
+  IF: kwif EXPR: expr THEN CLOSED_STATEMENT: closed1 ELSE CLOSED_STATEMENT: closed2
   {:
     // las instrucciones de then y else al final
     Node res = new Node<>(kwif);
