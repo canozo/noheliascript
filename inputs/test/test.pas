@@ -1,10 +1,7 @@
 program test;
 var
-  a, b: integer;
+  a, b, c, d: integer;
 
 begin
-  a := 2;
-  b := 3;
-  if a <> b and b > 2 then
-    write('nice');
+  if a = 1 or b <> c and d > 2 then write(true);
 end.

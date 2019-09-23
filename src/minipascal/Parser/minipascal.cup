@@ -5,6 +5,7 @@ import java.util.List;
 import tree.*;
 
 parser code {:
+    private static final boolean DEBUG = false;
     public void syntax_error(Symbol s) {
       List<Integer> expected = expected_token_ids();
       StringBuffer expStr = new StringBuffer();
@@ -92,8 +93,6 @@ non terminal STATEMENT;
 non terminal COMPOUND_STATEMENT;
 non terminal CONST_VAL;
 non terminal EXPR;
-non terminal AND_EXPR;
-non terminal REL_EXPR;
 non terminal SIMPLE_EXPR;
 non terminal EXPR_LIST;
 non terminal TERMINO;
@@ -110,7 +109,7 @@ start with S;
 
 S ::=
   INICIO: inicio
-  {: System.out.println(inicio); :}
+  {: System.out.println(inicio); if (DEBUG) ((Node) inicio).visit();  :}
   ;
 
 INICIO ::=
@@ -375,21 +374,9 @@ EXPR_LIST ::=
 EXPR ::=
   SIMPLE_EXPR: simpleExpr
   {: RESULT = simpleExpr; :}
-  | EXPR: expr OR SIMPLE_EXPR: simpleExpr
-  {: RESULT = new NOr((Node) expr, (Node) simpleExpr); :}
-  | AND_EXPR: andExpr {: RESULT = andExpr; :}
+  | SIMPLE_EXPR: simpleExpr1 OR SIMPLE_EXPR: simpleExpr2
+  {: RESULT = new NOr((Node) simpleExpr1, (Node) simpleExpr2); :}
   | error
-  ;
-
-AND_EXPR ::=
-  REL_EXPR: relExpr {: RESULT = relExpr; :}
-  | EXPR: expr AND SIMPLE_EXPR: simpleExpr
-  {: RESULT = new NAnd((Node) expr, (Node) simpleExpr); :}
-  ;
-
-REL_EXPR ::=
-  EXPR: expr OP_RELACIONAL: op SIMPLE_EXPR: simpleExpr
-  {: RESULT = new NOpRel((Node) expr, op, (Node) simpleExpr); :}
   ;
 
 SIMPLE_EXPR ::=
@@ -399,6 +386,8 @@ SIMPLE_EXPR ::=
   {: RESULT = new NSuma(op, (Node) termino); :}
   | SIMPLE_EXPR: simpleExpr OP_SUMA: op TERMINO: termino
   {: RESULT = new NSuma((Node) simpleExpr, op, (Node) termino); :}
+  | TERMINO: termino1 AND TERMINO: termino2
+  {: RESULT = new NAnd((Node) termino1, (Node) termino2); :}
   ;
 
 TERMINO ::=
@@ -406,6 +395,8 @@ TERMINO ::=
   {: RESULT = factor; :}
   | TERMINO: termino OP_MULT: op FACTOR: factor
   {: RESULT = new NMult((Node) termino, op, (Node) factor); :}
+  | FACTOR: factor1 OP_RELACIONAL: op FACTOR: factor2
+  {: RESULT = new NOpRel((Node) factor1, op, (Node) factor2); :}
   ;
 
 FACTOR ::=

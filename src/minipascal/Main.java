@@ -5,6 +5,10 @@ import minipascal.Parser.parser;
 
 import java.io.*;
 
+// Paginas para ver los JSON:
+// https://jsoneditoronline.org/
+// https://vanya.jp.net/vtree/
+
 public class Main {
 
     public static void main(String[] args) {
@@ -15,7 +19,7 @@ public class Main {
                 "inputs/malos/coma.pas",
                 "inputs/malos/loop.pas",
                 "inputs/malos/funcs_procs.pas",
-                "inputs/test/test.pas",
+//                "inputs/test/test.pas",
         };
         Reader reader;
         Lexer lexer;
