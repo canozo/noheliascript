@@ -21,7 +21,9 @@ public abstract class Node<T> {
     }
 
     public void add(Node<T> child) {
-        child.parent = this;
+        if (child != null) {
+            child.parent = this;
+        }
         this.children.add(child);
     }
 
@@ -33,17 +35,13 @@ public abstract class Node<T> {
             return data.toString();
         } else if (children.size() == 1) {
             JSONObject res = new JSONObject();
-            res.put(data.toString(), children.get(0));
+            res.put(data, children.get(0));
             return res.toJSONString();
         } else {
             JSONArray arrChildren = new JSONArray();
             arrChildren.addAll(children);
-//            for (Object child : children) {
-//                arrChildren.add(child);
-//            }
-
             JSONObject res = new JSONObject();
-            res.put(data.toString(), arrChildren);
+            res.put(data, arrChildren);
             return res.toJSONString();
         }
     }

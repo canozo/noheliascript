@@ -169,9 +169,12 @@ FUNC_DECL ::=
     STMNT_LIST: maybeStmntList
   END PUNTOCOMA
   {:
+//     TODO quitar esto, solo sirve para el print del json
+    String nid = String.format("\"%s\"", (String) ((Node) returnType).data);
     RESULT = new NFunction(
       new NID(id),
-      (Node) returnType,
+//      (Node) returnType,
+      new NType(nid),
       (Node) maybeArgs,
       (Node) maybeVars,
       (Node) maybeStmntList
@@ -276,7 +279,7 @@ STMNT_LIST ::=
 
 STMNT_FUNC ::=
   ID: id PAR_IZQ EXPR_LIST: exprList PAR_DER
-  {: RESULT = new NFuncCall(new NID(id), (Node) exprList); :}
+  {: RESULT = new NFuncCall(id, (Node) exprList); :}
   | FUNC_READ PAR_IZQ EXPR_LIST: exprList PAR_DER
   {: RESULT = new NFuncRead((Node) exprList); :}
   | FUNC_WRITE PAR_IZQ EXPR_LIST: exprList PAR_DER

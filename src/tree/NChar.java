@@ -12,6 +12,6 @@ public class NChar<T> extends Node<T> {
 
     @Override
     public String toString() {
-        return String.format("'%s'", data.toString());
+        return String.format("\"%s\"", data.toString());
     }
 }

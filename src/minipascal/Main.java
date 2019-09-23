@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Reader reader = new BufferedReader(new FileReader("inputs/buenos/rel.pas"));
+            Reader reader = new BufferedReader(new FileReader("inputs/buenos/factorial.pas"));
             Lexer lexer = new Lexer(reader);
             parser cupParser = new parser(lexer);
             cupParser.parse();
