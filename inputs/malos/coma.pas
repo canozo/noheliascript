@@ -3,7 +3,7 @@ var
   nombre, apellido: string;
 
 begin
-  nombre := 'John';
+  nombre := 'John'
   apellido := 'Wick';
 
   write('Su nombre es... ', nombre apellido);

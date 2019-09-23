@@ -1,8 +1,10 @@
 program test;
 var
-  constbool: boolean;
+  a, b: integer;
 
 begin
-  constbool := true;
-  write(constbool);
+  a := 2;
+  b := 3;
+  if a <> b and b > 2 then
+    write('nice');
 end.

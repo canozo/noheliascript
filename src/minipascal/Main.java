@@ -8,15 +8,31 @@ import java.io.*;
 public class Main {
 
     public static void main(String[] args) {
-        try {
-            Reader reader = new BufferedReader(new FileReader("inputs/buenos/factorial.pas"));
-            Lexer lexer = new Lexer(reader);
-            parser cupParser = new parser(lexer);
-            cupParser.parse();
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex);
-        } catch (Exception e) {
-            e.printStackTrace();
+        String[] programas = {
+                "inputs/buenos/factorial.pas",
+                "inputs/buenos/func.pas",
+                "inputs/buenos/rel.pas",
+                "inputs/malos/coma.pas",
+                "inputs/malos/loop.pas",
+                "inputs/malos/funcs_procs.pas",
+                "inputs/test/test.pas",
+        };
+        Reader reader;
+        Lexer lexer;
+        parser cupParser;
+        for (String programa : programas) {
+            System.out.println("Corriendo programa: " + programa);
+            try {
+                reader = new BufferedReader(new FileReader(programa));
+                lexer = new Lexer(reader);
+                cupParser = new parser(lexer);
+                cupParser.parse();
+                System.out.println("-------------------------------------------------------------------");
+            } catch (FileNotFoundException ex) {
+                System.out.println(ex);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

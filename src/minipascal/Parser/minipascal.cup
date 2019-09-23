@@ -10,11 +10,13 @@ parser code {:
       StringBuffer expStr = new StringBuffer();
 
       for (Integer id : expected) {
-        expStr.append(sym.terminalNames[id] + " ");
+        if (id != 1) {
+          expStr.append(sym.terminalNames[id] + " ");
+        }
       }
 
       String msg = String.format(
-        "Error de sintaxis en la linea %d, columna %d.\nNo se esperaba el token %s!\nSe esperaba uno de los siguientes: %s",
+        "Error de sintaxis en la linea %d, columna %d.\nNo se esperaba el token %s!\nSe esperaba uno de los siguientes: %s\n",
         s.left,
         s.right,
         sym.terminalNames[s.sym],
@@ -160,6 +162,7 @@ FUNC_PROC_BLOCK ::=
     RESULT = res;
   :}
   |
+  | error FUNC_PROC_BLOCK
   ;
 
 FUNC_DECL ::=
@@ -275,6 +278,7 @@ STMNT_LIST ::=
     RESULT = list;
   :}
   |
+  | STATEMENT: stmnt error STMNT_LIST: stmntList
   ;
 
 STMNT_FUNC ::=
@@ -336,16 +340,19 @@ CLOSED_STATEMENT ::=
 WHILE_BLOCK ::=
   WHILE EXPR: whileExpr DO STATEMENT: doStmnt
   {: RESULT = new NWhile((Node) whileExpr, (Node) doStmnt); :}
+  | WHILE error STATEMENT
   ;
 
 FOR_BLOCK ::=
   FOR ID: id ASIGNACION: asign EXPR: expr TO FACTOR: toFactor DO STATEMENT: doStmnt
   {: RESULT = new NFor(new NAssign(new NID(id), (Node) expr), (Node) toFactor, (Node) doStmnt); :}
+  | FOR error STATEMENT
   ;
 
 REPEAT_BLOCK ::=
   REPEAT: repeat STATEMENT: stmnt UNTIL: kwuntil EXPR: expr
   {: RESULT = new NRepeat((Node) stmnt, (Node) expr); :}
+  | REPEAT STATEMENT error
   ;
 
 EXPR_LIST ::=
@@ -368,6 +375,7 @@ EXPR ::=
   {: RESULT = simpleExpr; :}
   | SIMPLE_EXPR: simpleExpr1 OP_RELACIONAL: op SIMPLE_EXPR: simpleExpr2
   {: RESULT = new NOpRel((Node) simpleExpr1, op, (Node) simpleExpr2); :}
+  | error
   ;
 
 SIMPLE_EXPR ::=
