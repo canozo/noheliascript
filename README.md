@@ -1,6 +1,6 @@
 # Minipascal
 
-Requisitos: JFlex, Java CUP y preferiblemente IntelliJ IDEA:
+Requisitos: JFlex, Java CUP, `json-simple-1.1.1` y preferiblemente IntelliJ IDEA:
 1. Clonar el repositorio y entrar en la carpeta
 ```
 git clone https://github.com/canozo/noheliascript.git
