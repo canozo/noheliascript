@@ -20,7 +20,7 @@ var
   resultado: integer;
 begin
   resultado := c + a * b;
-  maths := resultado
+  maths := resultado;
 end;
 
 begin

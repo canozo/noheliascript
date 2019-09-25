@@ -177,9 +177,8 @@ FUNC_PROC_BLOCK ::=
 FUNC_DECL ::=
   FUNCTION ID: id PAR_IZQ MAYBE_ARGS: maybeArgs PAR_DER DOSPUNTOS TYPE: returnType PUNTOCOMA
   VAR_BLOCK: maybeVars
-  BEGIN
-    STMNT_LIST: maybeStmntList
-  END PUNTOCOMA
+  COMPOUND_STATEMENT: maybeStmntList
+  PUNTOCOMA
   {:
 //     TODO quitar esto, solo sirve para el print del json
     String nid = String.format("\"%s\"", (String) ((Node) returnType).data);
@@ -197,9 +196,8 @@ FUNC_DECL ::=
 PROC_DECL ::=
   PROCEDURE ID: id PAR_IZQ MAYBE_ARGS: maybeArgs PAR_DER PUNTOCOMA
   VAR_BLOCK: maybeVars
-  BEGIN
-    STMNT_LIST: maybeStmntList
-  END PUNTOCOMA
+  COMPOUND_STATEMENT: maybeStmntList
+  PUNTOCOMA
   {:
     RESULT = new NProcedure(
       new NID(id),
@@ -273,8 +271,8 @@ TYPE ::=
   ;
 
 MAIN_BLOCK ::=
-  BEGIN STMNT_LIST: stmtList END PUNTO
-  {: RESULT = new NMain((Node) stmtList); :}
+  COMPOUND_STATEMENT: maybeStmntList PUNTO
+  {: RESULT = new NMain((Node) maybeStmntList); :}
   ;
 
 STMNT_LIST ::=
@@ -287,7 +285,7 @@ STMNT_LIST ::=
     RESULT = list;
   :}
   |
-  | STATEMENT: stmnt error STMNT_LIST: stmntList {: ERROR = true; :}
+//  | STATEMENT: stmnt error STMNT_LIST: stmntList {: ERROR = true; :}
   ;
 
 STMNT_FUNC ::=
@@ -321,6 +319,7 @@ COMPOUND_STATEMENT ::=
       RESULT = new NBegin((Node) stmntList);
     }
   :}
+  | BEGIN error
   ;
 
 SIMPLE_STATEMENT ::=
@@ -359,9 +358,9 @@ FOR_BLOCK ::=
   ;
 
 REPEAT_BLOCK ::=
-  REPEAT: repeat STATEMENT: stmnt UNTIL: kwuntil EXPR: expr
-  {: RESULT = new NRepeat((Node) stmnt, (Node) expr); :}
-  | REPEAT STATEMENT error {: ERROR = true; :}
+  REPEAT STMNT_LIST: stmntList UNTIL EXPR: expr
+  {: RESULT = new NRepeat((Node) stmntList, (Node) expr); :}
+  | REPEAT STMNT_LIST error {: ERROR = true; :}
   ;
 
 EXPR_LIST ::=

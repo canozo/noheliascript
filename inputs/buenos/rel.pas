@@ -48,9 +48,7 @@ begin
 
   { for loop }
   for c := 10 to 20 do
-  begin
     write('(for) valor de c: ', c);
-  end;
 
   { repeat until }
   c := 10;
@@ -58,5 +56,6 @@ begin
   begin
     write('#repeat# valor de c: ', c);
     c := c + 1;
-  end until c = 20;
+  end;
+  until c = 20;
 end.
