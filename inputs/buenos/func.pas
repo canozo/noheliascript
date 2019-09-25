@@ -8,10 +8,11 @@ var
 begin
   write('Hola ', nombre, '! Cual es tu edad? ');
   read(edad);
-  if edad < 18 then
-    write('Aun no puedes manejar, ', nombre, '!')
-  else
+  if edad < 18 and nombre <> 'JOH' then begin
+    write('Aun no puedes manejar, ', nombre, '!');
+  end else begin
     write('Ya puedes empezar a manejar, ', nombre, '!');
+  end;
 end;
 
 function maths(a, b, c: integer): integer;
@@ -19,7 +20,7 @@ var
   resultado: integer;
 begin
   resultado := c + a * b;
-  maths := resultado;
+  maths := resultado
 end;
 
 begin

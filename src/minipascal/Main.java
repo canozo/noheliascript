@@ -13,12 +13,12 @@ public class Main {
 
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
+//                "inputs/buenos/factorial.pas",
                 "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
-                "inputs/malos/coma.pas",
-                "inputs/malos/loop.pas",
-                "inputs/malos/funcs_procs.pas",
+//                "inputs/buenos/rel.pas",
+//                "inputs/malos/coma.pas",
+//                "inputs/malos/loop.pas",
+//                "inputs/malos/funcs_procs.pas",
 //                "inputs/test/test.pas",
         };
         Reader reader;

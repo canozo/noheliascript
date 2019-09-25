@@ -5,26 +5,28 @@ import java.util.List;
 import tree.*;
 
 parser code {:
-    private static final boolean DEBUG = false;
-    public void syntax_error(Symbol s) {
-      List<Integer> expected = expected_token_ids();
-      StringBuffer expStr = new StringBuffer();
+  private static final boolean DEBUG = false;
+  private boolean ERROR = false;
 
-      for (Integer id : expected) {
-        if (id != 1) {
-          expStr.append(sym.terminalNames[id] + " ");
-        }
+  public void syntax_error(Symbol s) {
+    List<Integer> expected = expected_token_ids();
+    StringBuffer expStr = new StringBuffer();
+
+    for (Integer id : expected) {
+      if (id != 1) {
+        expStr.append(sym.terminalNames[id] + " ");
       }
-
-      String msg = String.format(
-        "Error de sintaxis en la linea %d, columna %d.\nNo se esperaba el token %s!\nSe esperaba uno de los siguientes: %s\n",
-        s.left,
-        s.right,
-        sym.terminalNames[s.sym],
-        expStr
-      );
-      System.out.println(msg);
     }
+
+    String msg = String.format(
+      "Error de sintaxis en la linea %d, columna %d.\nNo se esperaba el token %s!\nSe esperaba uno de los siguientes: %s\n",
+      s.left,
+      s.right,
+      sym.terminalNames[s.sym],
+      expStr
+    );
+    System.out.println(msg);
+  }
 
   public void unrecovered_syntax_error(Symbol s) {
     System.out.println("No se puede recuperar del error!");
@@ -74,6 +76,7 @@ terminal Character CONSTCHAR;
 terminal String CONSTSTR;
 terminal Boolean CONSTBOOL;
 terminal Object NIL;
+terminal String UNKNOWN;
 
 non terminal S;
 non terminal PROGRAM_BLOCK;
@@ -109,7 +112,12 @@ start with S;
 
 S ::=
   INICIO: inicio
-  {: System.out.println(inicio); if (DEBUG) ((Node) inicio).visit();  :}
+  {:
+    System.out.println(inicio);
+    if (DEBUG) {
+      ((Node) inicio).visit();
+    }
+  :}
   ;
 
 INICIO ::=
@@ -163,7 +171,7 @@ FUNC_PROC_BLOCK ::=
     RESULT = res;
   :}
   |
-  | error FUNC_PROC_BLOCK
+  | error FUNC_PROC_BLOCK {: ERROR = true; :}
   ;
 
 FUNC_DECL ::=
@@ -279,7 +287,7 @@ STMNT_LIST ::=
     RESULT = list;
   :}
   |
-  | STATEMENT: stmnt error STMNT_LIST: stmntList
+  | STATEMENT: stmnt error STMNT_LIST: stmntList {: ERROR = true; :}
   ;
 
 STMNT_FUNC ::=
@@ -302,8 +310,6 @@ STATEMENT ::=
   {: RESULT = f; :}
   | REPEAT_BLOCK: r
   {: RESULT = r; :}
-  | COMPOUND_STATEMENT: c
-  {: RESULT = c; :}
   | SIMPLE_STATEMENT: s
   {: RESULT = s; :}
   ;
@@ -322,6 +328,8 @@ SIMPLE_STATEMENT ::=
   {: RESULT = new NAssign(new NID(id), (Node) expr); :}
   | STMNT_FUNC: stmntFunc
   {: RESULT = stmntFunc; :}
+  | COMPOUND_STATEMENT: c
+  {: RESULT = c; :}
   ;
 
 OPEN_STATEMENT ::=
@@ -341,19 +349,19 @@ CLOSED_STATEMENT ::=
 WHILE_BLOCK ::=
   WHILE EXPR: whileExpr DO STATEMENT: doStmnt
   {: RESULT = new NWhile((Node) whileExpr, (Node) doStmnt); :}
-  | WHILE error STATEMENT
+  | WHILE error STATEMENT {: ERROR = true; :}
   ;
 
 FOR_BLOCK ::=
   FOR ID: id ASIGNACION: asign EXPR: expr TO FACTOR: toFactor DO STATEMENT: doStmnt
   {: RESULT = new NFor(new NAssign(new NID(id), (Node) expr), (Node) toFactor, (Node) doStmnt); :}
-  | FOR error STATEMENT
+  | FOR error STATEMENT {: ERROR = true; :}
   ;
 
 REPEAT_BLOCK ::=
   REPEAT: repeat STATEMENT: stmnt UNTIL: kwuntil EXPR: expr
   {: RESULT = new NRepeat((Node) stmnt, (Node) expr); :}
-  | REPEAT STATEMENT error
+  | REPEAT STATEMENT error {: ERROR = true; :}
   ;
 
 EXPR_LIST ::=
@@ -376,7 +384,7 @@ EXPR ::=
   {: RESULT = simpleExpr; :}
   | SIMPLE_EXPR: simpleExpr1 OR SIMPLE_EXPR: simpleExpr2
   {: RESULT = new NOr((Node) simpleExpr1, (Node) simpleExpr2); :}
-  | error
+  | error {: ERROR = true; :}
   ;
 
 SIMPLE_EXPR ::=
