@@ -20,6 +20,7 @@ public class Main {
                 "inputs/malos/loop.pas",
                 "inputs/malos/funcs_procs.pas",
                 "inputs/test/test.pas",
+                "inputs/test/vacio.pas",
         };
         Reader reader;
         Lexer lexer;

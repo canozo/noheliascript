@@ -139,10 +139,8 @@ INICIO ::=
       raiz.add((NFuncProcList) maybeFuncs);
     }
 
-    // main es opcional ('begin end.')
-    if (maybeMain != null) {
-      raiz.add((NMain) maybeMain);
-    }
+    // main
+    raiz.add((NMain) maybeMain);
 
     RESULT = raiz;
   :}
@@ -319,7 +317,7 @@ COMPOUND_STATEMENT ::=
       RESULT = new NBegin((Node) stmntList);
     }
   :}
-  | BEGIN error
+  | BEGIN error {: ERROR = true; :}
   ;
 
 SIMPLE_STATEMENT ::=
