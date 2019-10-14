@@ -67,7 +67,7 @@ terminal DOSPUNTOS;
 terminal NOT;
 terminal OR;
 terminal AND;
-//terminal TYPE;
+terminal TYPE;
 terminal RECORD;
 terminal BREAK;
 terminal CONTINUE;
@@ -90,7 +90,7 @@ non terminal VARS;
 non terminal ARGS;
 non terminal MAYBE_ARGS;
 non terminal IDS;
-non terminal TYPE;
+non terminal VAR_TYPE;
 non terminal FUNC_PROC_BLOCK;
 non terminal FUNC_DECL;
 non terminal PROC_DECL;
@@ -180,7 +180,7 @@ FUNC_PROC_BLOCK ::=
   ;
 
 FUNC_DECL ::=
-  FUNCTION ID: id PAR_IZQ MAYBE_ARGS: maybeArgs PAR_DER DOSPUNTOS TYPE: returnType PUNTOCOMA
+  FUNCTION ID: id PAR_IZQ MAYBE_ARGS: maybeArgs PAR_DER DOSPUNTOS VAR_TYPE: returnType PUNTOCOMA
   VAR_BLOCK: maybeVars
   COMPOUND_STATEMENT: maybeStmntList
   PUNTOCOMA
@@ -220,13 +220,13 @@ VAR_BLOCK ::=
   ;
 
 VARS ::=
-  IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA VARS: moreVars
+  IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA VARS: moreVars
   {:
     Node res = new NVars((Node) type, (Node) ids);
     res.join((NVars) moreVars);
     RESULT = res;
   :}
-  | IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA
+  | IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA
   {: RESULT = new NVars((Node) type, (Node) ids); :}
   ;
 
@@ -237,13 +237,13 @@ MAYBE_ARGS ::=
   ;
 
 ARGS ::=
-  IDS: ids DOSPUNTOS TYPE: type PUNTOCOMA ARGS: moreArgs
+  IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA ARGS: moreArgs
   {:
     Node res = new NArgs((Node) type, (Node) ids);
     res.join((NArgs) moreArgs);
     RESULT = res;
   :}
-  | IDS: ids DOSPUNTOS TYPE: type
+  | IDS: ids DOSPUNTOS VAR_TYPE: type
   {: RESULT = new NArgs((Node) type, (Node) ids); :}
   ;
 
@@ -262,7 +262,7 @@ IDS ::=
   {: RESULT = new NID(id); :}
   ;
 
-TYPE ::=
+VAR_TYPE ::=
   INTEGER
   {: RESULT = new NType("integer"); :}
   | REAL
