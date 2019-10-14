@@ -119,6 +119,9 @@ espacios = [ \t]+
   "div"       { return symbol(sym.OP_MULT, yytext()); }
   "mod"       { return symbol(sym.OP_MULT, yytext()); }
 
+  "break"     { return symbol(sym.BREAK); }
+  "continue"  { return symbol(sym.CONTINUE); }
+
   {id}        { return symbol(sym.ID, yytext()); }
   {reDouble}  { return symbol(sym.NUM_DOUBLE, new Double(yytext())); }
   {integer}   { return symbol(sym.NUM_INTEGER, new Integer(yytext())); }

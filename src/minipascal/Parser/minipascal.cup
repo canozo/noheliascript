@@ -66,6 +66,8 @@ terminal NOT;
 terminal OR;
 terminal AND;
 terminal RECORD;
+terminal BREAK;
+terminal CONTINUE;
 terminal String OP_RELACIONAL;
 terminal String OP_SUMA;
 terminal String OP_MULT;
@@ -332,6 +334,10 @@ COMPOUND_STATEMENT ::=
 SIMPLE_STATEMENT ::=
   VARIABLE: var ASIGNACION EXPR: expr
   {: RESULT = new NAssign((Node) var, (Node) expr); :}
+  | BREAK
+  {: RESULT = new NBreak(); :}
+  | CONTINUE
+  {: RESULT = new NContinue(); :}
   | STMNT_FUNC: stmntFunc
   {: RESULT = stmntFunc; :}
   | COMPOUND_STATEMENT: c
