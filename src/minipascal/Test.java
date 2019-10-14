@@ -15,7 +15,7 @@ public class Test {
                 "inputs/test/test.pas",
                 "inputs/test/vacio.pas",
 //                "inputs/test/acento.pas",
-                "inputs/test/records.pas",
+//                "inputs/test/records.pas",
                 "inputs/test/jumps.pas",
                 "inputs/test/caseinsensitive.pas",
         };

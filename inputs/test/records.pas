@@ -1,5 +1,5 @@
 program records;
-{
+
 type persona = record
   nombre: string;
   edad: integer;
@@ -9,7 +9,6 @@ type carro = record
   modelo: string;
   hp: integer;
 end;
-}
 
 var
   otro: string;

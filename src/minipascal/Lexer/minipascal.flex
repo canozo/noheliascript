@@ -70,6 +70,7 @@ espacios = [ \t]+
   "boolean"   { return symbol(sym.BOOLEAN); }
   "char"      { return symbol(sym.CHAR); }
   "string"    { return symbol(sym.STRING); }
+//  "type"      { return symbol(sym.TYPE); }
   "record"    { return symbol(sym.RECORD); }
 
   "program"   { return symbol(sym.PROGRAM); }

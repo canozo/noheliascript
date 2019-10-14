@@ -9,6 +9,7 @@ parser code {:
   public boolean ERROR = false;
 
   public void syntax_error(Symbol s) {
+    ERROR = true;
     List<Integer> expected = expected_token_ids();
     StringBuffer expStr = new StringBuffer();
 
@@ -29,6 +30,7 @@ parser code {:
   }
 
   public void unrecovered_syntax_error(Symbol s) {
+    ERROR = true;
     System.out.println("No se puede recuperar del error!");
   }
 :}
@@ -65,6 +67,7 @@ terminal DOSPUNTOS;
 terminal NOT;
 terminal OR;
 terminal AND;
+//terminal TYPE;
 terminal RECORD;
 terminal BREAK;
 terminal CONTINUE;
@@ -173,7 +176,7 @@ FUNC_PROC_BLOCK ::=
     RESULT = res;
   :}
   |
-  | error FUNC_PROC_BLOCK {: ERROR = true; :}
+  | error FUNC_PROC_BLOCK
   ;
 
 FUNC_DECL ::=
@@ -294,7 +297,7 @@ STMNT_LIST ::=
     RESULT = list;
   :}
   |
-//  | STATEMENT: stmnt error STMNT_LIST: stmntList {: ERROR = true; :}
+//  | STATEMENT: stmnt error STMNT_LIST: stmntList
   ;
 
 STMNT_FUNC ::=
@@ -328,7 +331,7 @@ COMPOUND_STATEMENT ::=
       RESULT = new NBegin((Node) stmntList);
     }
   :}
-  | BEGIN error {: ERROR = true; :}
+  | BEGIN error
   ;
 
 SIMPLE_STATEMENT ::=
@@ -361,19 +364,19 @@ CLOSED_STATEMENT ::=
 WHILE_BLOCK ::=
   WHILE EXPR: whileExpr DO STATEMENT: doStmnt
   {: RESULT = new NWhile((Node) whileExpr, (Node) doStmnt); :}
-  | WHILE error STATEMENT {: ERROR = true; :}
+  | WHILE error STATEMENT
   ;
 
 FOR_BLOCK ::=
   FOR ID: id ASIGNACION: asign EXPR: expr TO FACTOR: toFactor DO STATEMENT: doStmnt
   {: RESULT = new NFor(new NAssign(new NID(id), (Node) expr), (Node) toFactor, (Node) doStmnt); :}
-  | FOR error STATEMENT {: ERROR = true; :}
+  | FOR error STATEMENT
   ;
 
 REPEAT_BLOCK ::=
   REPEAT STMNT_LIST: stmntList UNTIL EXPR: expr
   {: RESULT = new NRepeat((Node) stmntList, (Node) expr); :}
-  | REPEAT STMNT_LIST error {: ERROR = true; :}
+  | REPEAT STMNT_LIST error
   ;
 
 EXPR_LIST ::=
@@ -396,7 +399,7 @@ EXPR ::=
   {: RESULT = simpleExpr; :}
   | SIMPLE_EXPR: simpleExpr1 OR SIMPLE_EXPR: simpleExpr2
   {: RESULT = new NOr((Node) simpleExpr1, (Node) simpleExpr2); :}
-  | error {: ERROR = true; :}
+  | error
   ;
 
 SIMPLE_EXPR ::=
