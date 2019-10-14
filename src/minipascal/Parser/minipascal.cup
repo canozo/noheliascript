@@ -6,7 +6,7 @@ import tree.*;
 
 parser code {:
   private static final boolean DEBUG = false;
-  private boolean ERROR = false;
+  public boolean ERROR = false;
 
   public void syntax_error(Symbol s) {
     List<Integer> expected = expected_token_ids();
@@ -106,6 +106,7 @@ non terminal SIMPLE_STATEMENT;
 non terminal WHILE_BLOCK;
 non terminal FOR_BLOCK;
 non terminal REPEAT_BLOCK;
+non terminal VARIABLE;
 non terminal INICIO;
 
 start with S;
@@ -321,8 +322,8 @@ COMPOUND_STATEMENT ::=
   ;
 
 SIMPLE_STATEMENT ::=
-  ID: id ASIGNACION EXPR: expr
-  {: RESULT = new NAssign(new NID(id), (Node) expr); :}
+  VARIABLE: var ASIGNACION EXPR: expr
+  {: RESULT = new NAssign((Node) var, (Node) expr); :}
   | STMNT_FUNC: stmntFunc
   {: RESULT = stmntFunc; :}
   | COMPOUND_STATEMENT: c
@@ -405,8 +406,8 @@ TERMINO ::=
   ;
 
 FACTOR ::=
-  ID: id
-  {: RESULT = new NID(id); :}
+  VARIABLE: var
+  {: RESULT = var; :}
   | STMNT_FUNC: stmntFunc
   {: RESULT = stmntFunc; :}
   | CONST_VAL: val
@@ -415,6 +416,13 @@ FACTOR ::=
   {: RESULT = expr; :}
   | NOT: n FACTOR: factor
   {: RESULT = new NNot((Node) factor); :}
+  ;
+
+VARIABLE ::=
+  ID: id
+  {: RESULT = new NID(id); :}
+  | ID: var PUNTO ID: field
+  {: RESULT = new NRecordField(new NID(var), new NID(field)); :}
   ;
 
 CONST_VAL ::=

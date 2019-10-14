@@ -21,6 +21,7 @@ import minipascal.Parser.sym;
 
   private Symbol symbol(int type) {
     if (DEBUG) {
+      System.out.println("Symbol: " + sym.terminalNames[type]);
       System.out.println("Token: " + yytext());
       System.out.println("Line: " + yyline);
       System.out.println("Col:  " + yycolumn);
@@ -31,6 +32,7 @@ import minipascal.Parser.sym;
 
   private Symbol symbol(int type, Object value) {
     if (DEBUG) {
+      System.out.println("Symbol: " + sym.terminalNames[type]);
       System.out.println("Token: " + yytext());
       System.out.println("Line: " + yyline);
       System.out.println("Col:  " + yycolumn);
