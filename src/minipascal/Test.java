@@ -17,6 +17,7 @@ public class Test {
 //                "inputs/test/acento.pas",
                 "inputs/test/records.pas",
                 "inputs/test/jumps.pas",
+                "inputs/test/caseinsensitive.pas",
         };
         Reader reader;
         Lexer lexer;

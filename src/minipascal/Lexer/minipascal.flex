@@ -122,7 +122,7 @@ espacios = [ \t]+
   "break"     { return symbol(sym.BREAK); }
   "continue"  { return symbol(sym.CONTINUE); }
 
-  {id}        { return symbol(sym.ID, yytext()); }
+  {id}        { return symbol(sym.ID, yytext().toLowerCase()); }
   {reDouble}  { return symbol(sym.NUM_DOUBLE, new Double(yytext())); }
   {integer}   { return symbol(sym.NUM_INTEGER, new Integer(yytext())); }
 
