@@ -107,6 +107,7 @@ non terminal WHILE_BLOCK;
 non terminal FOR_BLOCK;
 non terminal REPEAT_BLOCK;
 non terminal VARIABLE;
+non terminal NEW_TYPE;
 non terminal INICIO;
 
 start with S;
@@ -267,6 +268,13 @@ TYPE ::=
   {: RESULT = new NType("char"); :}
   | STRING
   {: RESULT = new NType("string"); :}
+  | NEW_TYPE: newType
+  {: RESULT = newType; :}
+  ;
+
+NEW_TYPE ::=
+  ID: id
+  {: RESULT = new NNewType(id); :}
   ;
 
 MAIN_BLOCK ::=

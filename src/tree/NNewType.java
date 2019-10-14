@@ -1,13 +1,13 @@
 package tree;
 
-public class NType<T> extends Node<T> {
+public class NNewType<T> extends Node<T> {
 
-    public NType(T data) {
+    public NNewType(T data) {
         super(data);
     }
 
     public void visit() {
-        System.out.println("Builtin type: " + data.toString());
+        System.out.println("New type: " + data.toString());
         for (Node<T> child : children) {
             child.visit();
         }

@@ -12,10 +12,8 @@ end;
 }
 
 var
-{
+  otro: string;
   yo: persona;
-}
-  yo, otro: string;
 
 begin
   otro := 'Otro';
