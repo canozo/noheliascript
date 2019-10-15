@@ -1,6 +1,6 @@
 program factorial;
 var
-  prueba: integer;
+  prueba, result: integer;
 
 function fact(num: integer): integer;
 begin
@@ -13,5 +13,7 @@ end;
 begin
   write('Ingrese un numero: ');
   read(prueba);
-  write('El factorial de ', prueba, ' es ', fact(prueba));
+  result := fact(prueba);
+  write('Factorial de ', prueba);
+  write('Resultado: ', result);
 end.

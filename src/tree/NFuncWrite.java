@@ -2,17 +2,25 @@ package tree;
 
 public class NFuncWrite<T> extends Node<T> {
 
-    public NFuncWrite(Node<T> exprList) {
+    public NFuncWrite(Node<T> string) {
         super((T) "write");
-        add(exprList);
+        add(string);
+    }
+
+    public NFuncWrite(Node<T> string, Node<T> var) {
+        super((T) "write");
+        add(string);
+        add(var);
     }
 
     public void visit() {
         System.out.println("Begin Write Function:");
-        System.out.println("Expresions:");
-        for (Node<T> child : children) {
-            child.visit();
+        System.out.println("(Param 1) String:");
+        children.get(0).visit();
+        if (children.get(1) != null) {
+            System.out.println("(Param 2) Var Id:");
+            children.get(1).visit();
         }
-        System.out.println("End Function Write.");
+        System.out.println("End Write Function.");
     }
 }

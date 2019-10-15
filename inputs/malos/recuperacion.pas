@@ -1,4 +1,4 @@
-program func;
+program recuperacion;
 var
   nombre, a, b, c, res: integer;
 
@@ -13,14 +13,14 @@ begin
     write('Aun no puedes manejar, ', nombre);
   end else begin
     write('Ya puedes empezar a manejar, ', nombre);
-  end;
+  end
 end;
 
 function maths(a, b, c: integer): integer;
 var
   resultado: integer;
 begin
-  resultado := c + a * b;
+  resultado := c a * b;
   maths := resultado;
 end;
 
@@ -31,7 +31,7 @@ begin
   a := 3;
   b := 5;
   c := 10;
-  res := maths(a, b, c);
+  res := maths(a, $b, c);
 
   write('c = ', c);
   write('a = ', a);

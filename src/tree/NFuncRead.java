@@ -2,17 +2,14 @@ package tree;
 
 public class NFuncRead<T> extends Node<T> {
 
-    public NFuncRead(Node<T> exprList) {
+    public NFuncRead(Node<T> var) {
         super((T) "read");
-        add(exprList);
+        add(var);
     }
 
     public void visit() {
         System.out.println("Begin Read Function:");
-        System.out.println("Expresions:");
-        for (Node<T> child : children) {
-            child.visit();
-        }
-        System.out.println("End Function Read.");
+        children.get(0).visit();
+        System.out.println("End Read Function.");
     }
 }

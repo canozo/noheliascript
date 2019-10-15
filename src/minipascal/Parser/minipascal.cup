@@ -176,6 +176,7 @@ RECORD_BLOCK ::=
     RESULT = res;
   :}
   |
+// TODO ???
 //  | error RECORD_BLOCK
   ;
 
@@ -331,16 +332,19 @@ STMNT_LIST ::=
     RESULT = list;
   :}
   |
+// TODO ???
 //  | STATEMENT: stmnt error STMNT_LIST: stmntList
   ;
 
 STMNT_FUNC ::=
   ID: id PAR_IZQ EXPR_LIST: exprList PAR_DER
   {: RESULT = new NFuncCall(id, (Node) exprList); :}
-  | FUNC_READ PAR_IZQ EXPR_LIST: exprList PAR_DER
-  {: RESULT = new NFuncRead((Node) exprList); :}
-  | FUNC_WRITE PAR_IZQ EXPR_LIST: exprList PAR_DER
-  {: RESULT = new NFuncWrite((Node) exprList); :}
+  | FUNC_READ PAR_IZQ VARIABLE: var PAR_DER
+  {: RESULT = new NFuncRead((Node) var); :}
+  | FUNC_WRITE PAR_IZQ CONSTSTR: string PAR_DER
+  {: RESULT = new NFuncWrite(new NString(string)); :}
+  | FUNC_WRITE PAR_IZQ CONSTSTR: string COMA VARIABLE: var PAR_DER
+  {: RESULT = new NFuncWrite(new NString(string), (Node) var); :}
   ;
 
 STATEMENT ::=
