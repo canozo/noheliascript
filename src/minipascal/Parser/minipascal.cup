@@ -113,6 +113,8 @@ non terminal FOR_BLOCK;
 non terminal REPEAT_BLOCK;
 non terminal VARIABLE;
 non terminal NEW_TYPE;
+non terminal RECORD_BLOCK;
+non terminal RECORD_DECL;
 non terminal INICIO;
 
 start with S;
@@ -129,6 +131,7 @@ S ::=
 
 INICIO ::=
   PROGRAM_BLOCK: program
+  RECORD_BLOCK: maybeRecords
   VAR_BLOCK: maybeVar
   FUNC_PROC_BLOCK: maybeFuncs
   MAIN_BLOCK: maybeMain
@@ -139,6 +142,11 @@ INICIO ::=
     // var es opcional
     if (maybeVar != null) {
       raiz.add((NVars) maybeVar);
+    }
+
+    // records son opcionales
+    if (maybeRecords != null) {
+      raiz.add((NRecordList) maybeRecords);
     }
 
     // functions y procedures son opcionales
@@ -156,6 +164,32 @@ INICIO ::=
 PROGRAM_BLOCK ::=
   PROGRAM: program ID: id PUNTOCOMA
   {: RESULT = new NProgram(id); :}
+  ;
+
+RECORD_BLOCK ::=
+  RECORD_DECL: record RECORD_BLOCK: maybeMore
+  {:
+    Node res = new NRecordList((Node) record);
+    if (maybeMore != null) {
+      res.join((NRecordList) maybeMore);
+    }
+    RESULT = res;
+  :}
+  |
+//  | error RECORD_BLOCK
+  ;
+
+RECORD_DECL ::=
+  TYPE ID: id OP_RELACIONAL: maybeEq RECORD VARS: vars END PUNTOCOMA
+  {:
+    if ("=".equals(maybeEq)) {
+      RESULT = new NRecord(new NID(id), (Node) vars);
+    } else {
+      System.out.println("Error en declaracion del record!");
+      System.out.println("Se esperaba \"=\", se obtuvo \"" + maybeEq + "\".\n");
+      ERROR = true;
+    }
+  :}
   ;
 
 FUNC_PROC_BLOCK ::=

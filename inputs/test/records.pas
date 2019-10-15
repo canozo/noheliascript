@@ -13,10 +13,18 @@ end;
 var
   otro: string;
   yo: persona;
+  nave: carro;
 
 begin
   otro := 'Otro';
   yo.nombre := 'Javier';
   yo.edad := 22;
-  write('Mi nombre es ', yo.nombre, ' y tengo ', yo.edad);
+
+  read(nave.modelo);
+  read(nave.hp);
+
+  write('Mi nombre es ', yo.nombre);
+  write('Tengo ', yo.edad);
+  write('Mi carro es un ', nave.modelo);
+  write('Mi nave tiene un horse power de ', nave.hp);
 end.

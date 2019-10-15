@@ -14,10 +14,10 @@ public class Test {
                 "inputs/buenos/rel.pas",
                 "inputs/test/test.pas",
                 "inputs/test/vacio.pas",
-//                "inputs/test/acento.pas",
-//                "inputs/test/records.pas",
                 "inputs/test/jumps.pas",
                 "inputs/test/caseinsensitive.pas",
+                "inputs/test/records.pas",
+//                "inputs/test/acento.pas",
         };
         Reader reader;
         Lexer lexer;
@@ -29,7 +29,7 @@ public class Test {
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
                 cupParser.parse();
-                System.out.println("-------------------------------------------------------------------");
+                System.out.println("------------------------------------------------------------------");
                 assert !cupParser.ERROR;
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
