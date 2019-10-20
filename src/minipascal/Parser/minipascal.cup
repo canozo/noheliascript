@@ -251,7 +251,7 @@ VAR_BLOCK ::=
   VAR VARS: vars
   {: RESULT = vars; :}
   |
-// TODO agregar error aqui
+  | VAR error
   ;
 
 VARS ::=
@@ -332,8 +332,8 @@ STMNT_LIST ::=
     RESULT = list;
   :}
   |
-// TODO ???
-//  | STATEMENT: stmnt error STMNT_LIST: stmntList
+// XXX ???
+//  | STATEMENT error STMNT_LIST
   ;
 
 STMNT_FUNC ::=

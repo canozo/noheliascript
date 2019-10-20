@@ -18,6 +18,8 @@ public class TestErrores {
                 "inputs/malos/funcs_procs.pas",
                 "inputs/malos/recuperacion.pas",
                 "inputs/malos/records.pas",
+                "inputs/malos/error_var.pas",
+                "inputs/malos/bad_proc.pas",
         };
         Reader reader;
         Lexer lexer;

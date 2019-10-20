@@ -10,7 +10,9 @@ type carro record
   hp: integer;
 end;
 
-type otro = record end;
+type vacio = record end;
+
+type bueno = record id: integer; end;
 
 type puntocoma = record
   id: integer;
