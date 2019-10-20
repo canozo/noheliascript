@@ -17,7 +17,7 @@ public class NFuncWrite<T> extends Node<T> {
         System.out.println("Begin Write Function:");
         System.out.println("(Param 1) String:");
         children.get(0).visit();
-        if (children.get(1) != null) {
+        if (children.size() > 1) {
             System.out.println("(Param 2) Var Id:");
             children.get(1).visit();
         }

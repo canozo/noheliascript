@@ -5,8 +5,8 @@ import java.util.List;
 import tree.*;
 
 parser code {:
-  private static final boolean DEBUG = false;
   public boolean ERROR = false;
+  public Node root = null;
 
   public void syntax_error(Symbol s) {
     ERROR = true;
@@ -123,9 +123,7 @@ S ::=
   INICIO: inicio
   {:
     System.out.println(inicio);
-    if (DEBUG) {
-      ((Node) inicio).visit();
-    }
+    root = (Node) inicio;
   :}
   ;
 

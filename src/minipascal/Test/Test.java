@@ -1,4 +1,4 @@
-package minipascal;
+package minipascal.Test;
 
 import minipascal.Lexer.Lexer;
 import minipascal.Parser.parser;
