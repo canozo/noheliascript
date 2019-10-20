@@ -176,8 +176,6 @@ RECORD_BLOCK ::=
     RESULT = res;
   :}
   |
-// TODO ???
-//  | error RECORD_BLOCK
   ;
 
 RECORD_DECL ::=
@@ -191,6 +189,7 @@ RECORD_DECL ::=
       ERROR = true;
     }
   :}
+  | TYPE error PUNTOCOMA
   ;
 
 FUNC_PROC_BLOCK ::=
@@ -252,6 +251,7 @@ VAR_BLOCK ::=
   VAR VARS: vars
   {: RESULT = vars; :}
   |
+// TODO agregar error aqui
   ;
 
 VARS ::=
