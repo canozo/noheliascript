@@ -1,9 +1,9 @@
 PROGRAM caseinsensitive;
 
-FUNCTION PROBAR(nombre: string): boolean;
+FUNCTION PROBAR(edad: integer): boolean;
 VAR err: boolean;
 BEGIN
-  IF nombre <> NOMBRE THEN BEGIN
+  IF edad <> EDAD THEN BEGIN
     WRITE('Deberia de haber un error aqui');
     err := TRUE;
   END ELSE BEGIN
@@ -14,5 +14,5 @@ BEGIN
 END;
 
 BEGIN
-  probar('Billie');
+  probar(22);
 END.

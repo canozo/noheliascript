@@ -9,9 +9,11 @@ public class NFuncCall<T> extends Node<T> {
 
     public void visit() {
         System.out.println("Begin Function Call: " + data.toString());
-        System.out.println("Expresions:");
-        for (Node<T> child : children) {
-            child.visit();
+        if (children.get(1) != null) {
+            System.out.println("Expresions:");
+            for (Node<T> child : children) {
+                child.visit();
+            }
         }
         System.out.println("End Function Call.");
     }

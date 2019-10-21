@@ -1,5 +1,7 @@
 package minipascal.tree;
 
+// No se necesita
+
 public class NDouble<T> extends Node<T> {
 
     public NDouble(T data) {

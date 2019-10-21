@@ -2,17 +2,17 @@ program func;
 var
   nombre, a, b, c, res: integer;
 
-procedure hola(nombre: string);
+procedure hola();
 var
   edad: integer;
 begin
-  write('Hola ', nombre);
+  write('Hola!');
   write('Cual es tu edad? ');
   read(edad);
-  if edad < 18 and nombre <> 'JOH' then begin
-    write('Aun no puedes manejar, ', nombre);
+  if edad < 18 then begin
+    write('Aun no puedes manejar!');
   end else begin
-    write('Ya puedes empezar a manejar, ', nombre);
+    write('Ya puedes empezar a manejar!');
   end;
 end;
 
@@ -25,8 +25,7 @@ begin
 end;
 
 begin
-  nombre := 'Jose';
-  hola(nombre);
+  hola();
 
   a := 3;
   b := 5;

@@ -116,6 +116,8 @@ non terminal NEW_TYPE;
 non terminal RECORD_BLOCK;
 non terminal RECORD_DECL;
 non terminal FIELDS;
+non terminal PRIMITIVOS;
+non terminal MAYBE_EXPR_LIST;
 non terminal INICIO;
 
 start with S;
@@ -254,13 +256,13 @@ VAR_BLOCK ::=
   ;
 
 FIELDS ::=
-  IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA FIELDS: moreFields
+  IDS: ids DOSPUNTOS PRIMITIVOS: type PUNTOCOMA FIELDS: moreFields
   {:
     Node res = new NFields((Node) type, (Node) ids);
     res.join((NFields) moreFields);
     RESULT = res;
   :}
-  | IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA
+  | IDS: ids DOSPUNTOS PRIMITIVOS: type PUNTOCOMA
   {: RESULT = new NFields((Node) type, (Node) ids); :}
   ;
 
@@ -308,18 +310,24 @@ IDS ::=
   ;
 
 VAR_TYPE ::=
+  PRIMITIVOS: prim
+  {: RESULT = prim; :}
+  | NEW_TYPE: newType
+  {: RESULT = newType; :}
+  ;
+
+PRIMITIVOS ::=
   INTEGER
   {: RESULT = new NType("integer"); :}
-  | REAL
-  {: RESULT = new NType("real"); :}
   | BOOLEAN
   {: RESULT = new NType("boolean"); :}
   | CHAR
   {: RESULT = new NType("char"); :}
-  | STRING
-  {: RESULT = new NType("string"); :}
-  | NEW_TYPE: newType
-  {: RESULT = newType; :}
+//  XXX no se piden en el proyecto
+//  | REAL
+//  {: RESULT = new NType("real"); :}
+//  | STRING
+//  {: RESULT = new NType("string"); :}
   ;
 
 NEW_TYPE ::=
@@ -347,8 +355,8 @@ STMNT_LIST ::=
   ;
 
 STMNT_FUNC ::=
-  ID: id PAR_IZQ EXPR_LIST: exprList PAR_DER
-  {: RESULT = new NFuncCall(id, (Node) exprList); :}
+  ID: id PAR_IZQ MAYBE_EXPR_LIST: maybeExprList PAR_DER
+  {: RESULT = new NFuncCall(id, (Node) maybeExprList); :}
   | FUNC_READ PAR_IZQ VARIABLE: var PAR_DER
   {: RESULT = new NFuncRead((Node) var); :}
   | FUNC_WRITE PAR_IZQ CONSTSTR: string PAR_DER
@@ -442,6 +450,12 @@ EXPR_LIST ::=
   {: RESULT = expr; :}
   ;
 
+MAYBE_EXPR_LIST ::=
+    EXPR_LIST: exprList
+    {: RESULT = exprList; :}
+    |
+    ;
+
 EXPR ::=
   SIMPLE_EXPR: simpleExpr
   {: RESULT = simpleExpr; :}
@@ -493,14 +507,15 @@ VARIABLE ::=
 CONST_VAL ::=
   NUM_INTEGER: num
   {: RESULT = new NInteger(num); :}
-  | NUM_DOUBLE: num
-  {: RESULT = new NDouble(num); :}
   | CONSTCHAR: constchar
   {: RESULT = new NChar(constchar); :}
   | CONSTSTR: string
   {: RESULT = new NString(string); :}
   | CONSTBOOL: bool
   {: RESULT = new NBool(bool); :}
-  | NIL: nil
-  {: RESULT = new NNil(); :}
+//  XXX no se piden en el proyecto
+//  | NUM_DOUBLE: num
+//  {: RESULT = new NDouble(num); :}
+//  | NIL: nil
+//  {: RESULT = new NNil(); :}
   ;

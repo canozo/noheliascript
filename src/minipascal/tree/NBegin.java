@@ -1,7 +1,5 @@
 package minipascal.tree;
 
-import minipascal.util.Globals;
-
 public class NBegin<T> extends Node<T> {
 
     public NBegin(Node<T> stmntList) {
