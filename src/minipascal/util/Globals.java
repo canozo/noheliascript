@@ -18,6 +18,7 @@ public class Globals {
     public static int ambito;
 
     public static void create() {
+        // esta funcion debe de llamarse antes de iniciar la construccion del arbol
         simbolos = HashBasedTable.create();
         records = new HashMap<>();
         ambito = 0;

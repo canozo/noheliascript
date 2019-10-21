@@ -2,6 +2,7 @@ package minipascal.test;
 
 import minipascal.lexer.Lexer;
 import minipascal.cup_parser.parser;
+import minipascal.util.Globals;
 
 import java.io.*;
 
@@ -28,6 +29,7 @@ public class Test {
                 reader = new BufferedReader(new FileReader(programa));
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
+                Globals.create();
                 cupParser.parse();
                 System.out.println("------------------------------------------------------------------");
                 assert !cupParser.ERROR;

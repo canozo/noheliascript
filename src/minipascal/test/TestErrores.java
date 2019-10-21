@@ -31,7 +31,7 @@ public class TestErrores {
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
                 cupParser.parse();
-                System.out.println("------------------------------------------------------------------");
+                System.out.println("-----------------------------------------------------------------");
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
             } catch (Exception e) {
