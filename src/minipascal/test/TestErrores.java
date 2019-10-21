@@ -1,4 +1,4 @@
-package minipascal;
+package minipascal.test;
 
 import minipascal.lexer.Lexer;
 import minipascal.cup_parser.parser;
@@ -9,17 +9,17 @@ import java.io.*;
 // https://jsoneditoronline.org/
 // https://vanya.jp.net/vtree/
 
-public class Main {
+public class TestErrores {
 
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
-                "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
                 "inputs/malos/coma.pas",
                 "inputs/malos/loop.pas",
                 "inputs/malos/funcs_procs.pas",
                 "inputs/malos/recuperacion.pas",
+                "inputs/malos/records.pas",
+                "inputs/malos/error_var.pas",
+                "inputs/malos/bad_proc.pas",
         };
         Reader reader;
         Lexer lexer;
@@ -31,7 +31,7 @@ public class Main {
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
                 cupParser.parse();
-                System.out.println("-------------------------------------------------------------------");
+                System.out.println("------------------------------------------------------------------");
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
             } catch (Exception e) {

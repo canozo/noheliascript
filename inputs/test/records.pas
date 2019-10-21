@@ -1,7 +1,7 @@
 program records;
 
 type persona = record
-  nombre: string;
+  nombre, apellido: string;
   edad: integer;
 end;
 
@@ -18,6 +18,7 @@ var
 begin
   otro := 'Otro';
   yo.nombre := 'Javier';
+  yo.apellido := 'Cano';
   yo.edad := 22;
 
   read(nave.modelo);

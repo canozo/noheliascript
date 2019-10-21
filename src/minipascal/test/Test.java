@@ -1,42 +1,45 @@
-package minipascal;
+package minipascal.test;
 
 import minipascal.lexer.Lexer;
 import minipascal.cup_parser.parser;
 
 import java.io.*;
 
-// Paginas para ver los JSON:
-// https://jsoneditoronline.org/
-// https://vanya.jp.net/vtree/
-
-public class Main {
+public class Test {
 
     public static void main(String[] args) {
         String[] programas = {
                 "inputs/buenos/factorial.pas",
                 "inputs/buenos/func.pas",
                 "inputs/buenos/rel.pas",
-                "inputs/malos/coma.pas",
-                "inputs/malos/loop.pas",
-                "inputs/malos/funcs_procs.pas",
-                "inputs/malos/recuperacion.pas",
+                "inputs/test/test.pas",
+                "inputs/test/vacio.pas",
+                "inputs/test/jumps.pas",
+                "inputs/test/caseinsensitive.pas",
+                "inputs/test/records.pas",
+//                "inputs/test/acento.pas",
         };
         Reader reader;
         Lexer lexer;
         parser cupParser;
         for (String programa : programas) {
-            System.out.println("Corriendo programa: " + programa);
+            System.out.println("Corriendo test: " + programa);
             try {
                 reader = new BufferedReader(new FileReader(programa));
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
                 cupParser.parse();
-                System.out.println("-------------------------------------------------------------------");
+                System.out.println("------------------------------------------------------------------");
+                assert !cupParser.ERROR;
             } catch (FileNotFoundException ex) {
                 System.out.println(ex);
+            } catch (AssertionError e) {
+                System.out.println("No se pasaron todas las pruebas! Saliendo.");
+                System.exit(0);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        System.out.println("Se pasaron todas las pruebas con exito!");
     }
 }
