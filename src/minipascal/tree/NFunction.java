@@ -1,5 +1,7 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+
 public class NFunction<T> extends Node<T> {
 
     public NFunction(Node<T> id, Node<T> returnType, Node<T> maybeArgs, Node<T> maybeVars, Node<T> maybeStmntList) {
@@ -12,8 +14,19 @@ public class NFunction<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Function: Name:");
-        children.get(0).visit();
+        // con cada llamado, hay un nuevo ambito (de funcion o procedure)
+        // antes de visitar los argumentos o las variables locales de la funcion,
+        // cambiamos el id del ambito
+        Globals.ambito += 1;
+
+        // agregar a la tabla de simbolos:
+        // nombre de la funcion con su tipo
+        // argumentos de la funcion con su tipo (*)
+        // variables locales de la funcion con su tipo
+
+        String id = (String) children.get(0).data;
+
+//        Globals.addSimbolo(id, );
         System.out.println("Return type:");
         children.get(1).visit();
         if (children.get(2) != null) {

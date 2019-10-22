@@ -1,8 +1,8 @@
 program func;
 var
-  nombre, a, b, c, res: integer;
+  a, b, c, res: integer;
 
-procedure hola();
+function hola(): boolean;
 var
   edad: integer;
 begin
@@ -11,9 +11,11 @@ begin
   read(edad);
   if edad < 18 then begin
     write('Aun no puedes manejar!');
+    hola := false;
   end else begin
     write('Ya puedes empezar a manejar!');
   end;
+  hola := true;
 end;
 
 function maths(a, b, c: integer): integer;

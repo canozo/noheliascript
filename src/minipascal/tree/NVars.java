@@ -9,7 +9,6 @@ public class NVars<T> extends Node<T> {
     }
 
     public void visit() {
-        // con cada llamado, hay un nuevo ambito
         System.out.println("Begin var list:");
         for (Node<T> child : children) {
             child.visit();

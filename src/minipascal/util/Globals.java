@@ -32,10 +32,10 @@ public class Globals {
         }
     }
 
-    public static void addRecord(String type, List<Node> children) {
-        if (!records.containsKey(type)) {
-        } else {
-            System.out.println("Ya existe el tipo de record <" + type + ">.");
-        }
-    }
+//    public static void addRecord(String type, List<Node> children) {
+//        if (!records.containsKey(type)) {
+//        } else {
+//            System.out.println("Ya existe el tipo de record <" + type + ">.");
+//        }
+//    }
 }
