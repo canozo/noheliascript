@@ -2,6 +2,7 @@ package minipascal.test;
 
 import minipascal.lexer.Lexer;
 import minipascal.cup_parser.parser;
+import minipascal.tree.Node;
 import minipascal.util.Globals;
 
 import java.io.*;
@@ -10,16 +11,17 @@ public class Test {
 
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
-                "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
+//                "inputs/buenos/factorial.pas",
+//                "inputs/buenos/func.pas",
+//                "inputs/buenos/rel.pas",
                 "inputs/test/test.pas",
-                "inputs/test/vacio.pas",
-                "inputs/test/jumps.pas",
-                "inputs/test/caseinsensitive.pas",
-                "inputs/test/records.pas",
+//                "inputs/test/vacio.pas",
+//                "inputs/test/jumps.pas",
+//                "inputs/test/caseinsensitive.pas",
+//                "inputs/test/records.pas",
 //                "inputs/test/acento.pas",
         };
+        Node root;
         Reader reader;
         Lexer lexer;
         parser cupParser;
@@ -31,6 +33,8 @@ public class Test {
                 cupParser = new parser(lexer);
                 Globals.create();
                 cupParser.parse();
+                root = cupParser.root;
+                root.visit();
                 System.out.println("------------------------------------------------------------------");
                 assert !cupParser.ERROR;
             } catch (FileNotFoundException ex) {

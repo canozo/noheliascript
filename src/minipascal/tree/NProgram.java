@@ -7,7 +7,6 @@ public class NProgram<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Program name: " + data.toString());
         for (Node child : children) {
             child.visit();
         }

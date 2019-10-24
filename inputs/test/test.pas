@@ -1,7 +1,13 @@
 program test;
 var
-  a, b, c, d: integer;
+  edad, edad2: integer;
+  genero: char;
+  genero2: char;
 
-begin
-  if a = 1 or b <> c and d > 2 then write('true');
-end.
+function test1(a, b: integer; c, d: char; e: otro): integer;
+begin end;
+
+function test2(a, b: integer; rep, rep: boolean): boolean;
+begin end;
+
+begin end.

@@ -8,10 +8,9 @@ public class NMain<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin main:");
+        // statements del main
         if (children.get(0) != null) {
             children.get(0).visit();
         }
-        System.out.println("End.");
     }
 }

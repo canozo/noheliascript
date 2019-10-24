@@ -7,9 +7,6 @@ public class NType<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Builtin type: " + data.toString());
-        for (Node<T> child : children) {
-            child.visit();
-        }
+        // tipo simple (integer, real, boolean, char)
     }
 }

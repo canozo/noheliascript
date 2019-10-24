@@ -11,4 +11,9 @@ public class TypeVal {
         this.type = type;
         this.val = val;
     }
+
+    TypeVal(Type type) {
+        this.type = type;
+        this.val = null;
+    }
 }

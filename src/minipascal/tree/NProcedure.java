@@ -2,6 +2,7 @@ package minipascal.tree;
 
 // No se necesita
 
+@Deprecated
 public class NProcedure<T> extends Node<T> {
 
     public NProcedure(Node<T> id, Node<T> maybeArgs, Node<T> maybeVars, Node<T> maybeStmntList) {

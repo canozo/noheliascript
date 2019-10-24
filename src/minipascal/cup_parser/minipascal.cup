@@ -221,12 +221,11 @@ FUNC_DECL ::=
   COMPOUND_STATEMENT: maybeStmntList
   PUNTOCOMA
   {:
-//     TODO quitar esto, solo sirve para el print del json
-    String nid = String.format("\"%s\"", (String) ((Node) returnType).data);
+//    TODO quitar esto, solo sirve para el print del json
+    ((Node) returnType).data = String.format("\"%s\"", (String) ((Node) returnType).data);
     RESULT = new NFunction(
       new NID(id),
-//      (Node) returnType,
-      new NType(nid),
+      (Node) returnType,
       (Node) maybeArgs,
       (Node) maybeVars,
       (Node) maybeStmntList
@@ -287,12 +286,12 @@ MAYBE_ARGS ::=
 ARGS ::=
   IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA ARGS: moreArgs
   {:
-    Node res = new NArgs((Node) type, (Node) ids);
-    res.join((NArgs) moreArgs);
+    Node res = new NVars((Node) type, (Node) ids);
+    res.join((NVars) moreArgs);
     RESULT = res;
   :}
   | IDS: ids DOSPUNTOS VAR_TYPE: type
-  {: RESULT = new NArgs((Node) type, (Node) ids); :}
+  {: RESULT = new NVars((Node) type, (Node) ids); :}
   ;
 
 IDS ::=

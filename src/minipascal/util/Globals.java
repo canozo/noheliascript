@@ -2,14 +2,10 @@ package minipascal.util;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import minipascal.tree.Node;
 import minipascal.util.types.Type;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-// TODO llenar la tabla de simbolos con variables
 
 public class Globals {
 
@@ -24,9 +20,9 @@ public class Globals {
         ambito = 0;
     }
 
-    public static void addSimbolo(String id, int ambito, Type type, Object val) {
+    public static void addSimbolo(String id, Type type) {
         if (!simbolos.contains(id, ambito)) {
-            simbolos.put(id, ambito, new TypeVal(type, val));
+            simbolos.put(id, ambito, new TypeVal(type));
         } else {
             System.out.println("Combinacion de <" + id + ", " + ambito + "> ya existe.");
         }

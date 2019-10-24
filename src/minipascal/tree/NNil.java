@@ -2,6 +2,7 @@ package minipascal.tree;
 
 // No se necesita
 
+@Deprecated
 public class NNil<T> extends Node<T> {
 
     public NNil() {

@@ -21,26 +21,25 @@ public class NFunction<T> extends Node<T> {
 
         // agregar a la tabla de simbolos:
         // nombre de la funcion con su tipo
-        // argumentos de la funcion con su tipo (*)
-        // variables locales de la funcion con su tipo
 
-        String id = (String) children.get(0).data;
+        // return type
+//        children.get(1).visit();
+//        String id = (String) children.get(0).data;
+//        Globals.addSimbolo(id, new Type());
 
-//        Globals.addSimbolo(id, );
-        System.out.println("Return type:");
-        children.get(1).visit();
+        // argumentos de la funcion con su tipo
         if (children.get(2) != null) {
-            System.out.println("Function args:");
             children.get(2).visit();
         }
+
+        // variables locales de la funcion con su tipo
         if (children.get(3) != null) {
-            System.out.println("Function vars:");
             children.get(3).visit();
         }
-        if (children.get(4) != null) {
-            System.out.println("Function statements:");
-            children.get(4).visit();
-        }
-        System.out.println("End.");
+
+        // statements de la funcion
+//        if (children.get(4) != null) {
+//            children.get(4).visit();
+//        }
     }
 }

@@ -1,5 +1,11 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+import minipascal.util.types.TVar;
+
+// No se necesita, reemplazado por NVars
+
+@Deprecated
 public class NArgs<T> extends Node<T> {
 
     public NArgs(Node<T> type, Node<T> ids) {
@@ -9,10 +15,30 @@ public class NArgs<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin arg list:");
+        // agregar todos los argumentos a la tabla de simbolos
         for (Node<T> child : children) {
-            child.visit();
+            String type = (String) child.data;
+            // cada child es un NType o NNewType
+
+            // si es NNewType, verificar que el tipo existe
+            if (child instanceof NNewType) {
+                child.visit();
+            }
+
+            // el nodo contiene todos los args (pueden ser muchos)
+            for (Node<T> arg : child.children) {
+                if (arg.children.size() > 1) {
+                    // tiene varios args de este tipo
+                    for (Node<T> innerArg : arg.children) {
+                        String id = (String) innerArg .data;
+                        Globals.addSimbolo(id, new TVar(type));
+                    }
+                } else {
+                    // solo tiene un arg de este tipo
+                    String id = (String) arg.data;
+                    Globals.addSimbolo(id, new TVar(type));
+                }
+            }
         }
-        System.out.println("End arg list.");
     }
 }

@@ -1,5 +1,8 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+import minipascal.util.types.TVar;
+
 public class NVars<T> extends Node<T> {
 
     public NVars(Node<T> type, Node<T> ids) {
@@ -9,10 +12,35 @@ public class NVars<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin var list:");
+        // agregar todos los argumentos a la tabla de simbolos
         for (Node<T> child : children) {
-            child.visit();
+            String type = (String) child.data;
+            // cada child es un NType o NNewType
+
+            // si es NNewType, verificar que el tipo existe
+            if (child instanceof NNewType) {
+                child.visit();
+            }
+
+            // el nodo contiene todos los args (pueden ser muchos)
+            for (Node<T> arg : child.children) {
+                if (arg.children.size() > 1) {
+                    // tiene varios args de este tipo
+                    for (Node<T> innerArg : arg.children) {
+                        String id = (String) innerArg .data;
+                        Globals.addSimbolo(id, new TVar(type));
+                        // DEBUG
+                        System.out.println(String.format("\t\t\t\t<%s, %s>", id, type));
+                    }
+                } else {
+                    // solo tiene un arg de este tipo
+                    String id = (String) arg.data;
+                    Globals.addSimbolo(id, new TVar(type));
+                    // DEBUG
+                    System.out.println(String.format("\t\t\t\t<%s, %s>", id, type));
+                }
+            }
         }
-        System.out.println("End var list.");
+
     }
 }
