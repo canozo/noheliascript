@@ -221,7 +221,7 @@ FUNC_DECL ::=
   COMPOUND_STATEMENT: maybeStmntList
   PUNTOCOMA
   {:
-//    TODO quitar esto, solo sirve para el print del json
+    // XXX sirve para el print del json
     ((Node) returnType).data = String.format("\"%s\"", (String) ((Node) returnType).data);
     RESULT = new NFunction(
       new NID(id),

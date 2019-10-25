@@ -16,6 +16,7 @@ public class NArgs<T> extends Node<T> {
         // info para tipo de la funcion
         String funcName = (String) parent.children.get(0).data;
         String retType = (String) parent.children.get(1).data;
+        retType = retType.substring(1, retType.length() - 1);
         TFunc funcType = new TFunc(funcName, retType);
 
         // agregar todos los argumentos a la tabla de simbolos
