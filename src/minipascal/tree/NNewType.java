@@ -8,6 +8,6 @@ public class NNewType<T> extends Node<T> {
 
     public void visit() {
         // tipo creado por el usuario (record)
-        // revisar que el tipo ya fue definido anteriormente
+        // TODO revisar que el tipo ya fue definido anteriormente
     }
 }

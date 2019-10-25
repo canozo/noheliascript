@@ -26,7 +26,7 @@ parser code {:
       sym.terminalNames[s.sym],
       expStr
     );
-    System.out.println(msg);
+    System.err.println(msg);
   }
 
   public void unrecovered_syntax_error(Symbol s) {
@@ -185,8 +185,8 @@ RECORD_DECL ::=
     if ("=".equals(maybeEq)) {
       RESULT = new NRecord(new NID(id), (Node) fields);
     } else {
-      System.out.println("Error en declaracion del record!");
-      System.out.println("Se esperaba \"=\", se obtuvo \"" + maybeEq + "\".\n");
+      System.err.println("Error en declaracion del record!");
+      System.err.println("Se esperaba \"=\", se obtuvo \"" + maybeEq + "\".\n");
       ERROR = true;
     }
   :}
@@ -286,12 +286,12 @@ MAYBE_ARGS ::=
 ARGS ::=
   IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA ARGS: moreArgs
   {:
-    Node res = new NVars((Node) type, (Node) ids);
-    res.join((NVars) moreArgs);
+    Node res = new NArgs((Node) type, (Node) ids);
+    res.join((NArgs) moreArgs);
     RESULT = res;
   :}
   | IDS: ids DOSPUNTOS VAR_TYPE: type
-  {: RESULT = new NVars((Node) type, (Node) ids); :}
+  {: RESULT = new NArgs((Node) type, (Node) ids); :}
   ;
 
 IDS ::=

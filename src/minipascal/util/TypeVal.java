@@ -16,4 +16,13 @@ public class TypeVal {
         this.type = type;
         this.val = null;
     }
+
+    @Override
+    public String toString() {
+        String valStr = "null";
+        if (val != null) {
+            valStr = val.toString();
+        }
+        return String.format("<%s, %s>", type.toString(), valStr);
+    }
 }

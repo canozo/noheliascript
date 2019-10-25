@@ -1,6 +1,8 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.types.TFunc;
+import minipascal.util.types.Type;
 
 public class NFunction<T> extends Node<T> {
 
@@ -20,13 +22,7 @@ public class NFunction<T> extends Node<T> {
         Globals.ambito += 1;
 
         // agregar a la tabla de simbolos:
-        // nombre de la funcion con su tipo
-
-        // return type
-//        children.get(1).visit();
-//        String id = (String) children.get(0).data;
-//        Globals.addSimbolo(id, new Type());
-
+        // nombre de la funcion con su tipo (argumentos)
         // argumentos de la funcion con su tipo
         if (children.get(2) != null) {
             children.get(2).visit();
