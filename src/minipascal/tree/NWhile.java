@@ -9,9 +9,9 @@ public class NWhile<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin while mientras:");
+        // while
         children.get(0).visit();
+        // do
         children.get(1).visit();
-        System.out.println("End while.");
     }
 }

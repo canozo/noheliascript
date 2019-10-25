@@ -9,10 +9,9 @@ public class NRepeat<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin repeat:");
+        // repeat
         children.get(0).visit();
-        System.out.println("Until:");
+        // until
         children.get(1).visit();
-        System.out.println("End repeat.");
     }
 }

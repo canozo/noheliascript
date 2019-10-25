@@ -9,10 +9,9 @@ public class NRecordField<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin record var field: ");
+        // acceso de field a record, ej: persona.nombre
+        // TODO verificar que variable es un record, y tiene el tipo field
         children.get(0).visit();
-        System.out.println(".");
         children.get(1).visit();
-        System.out.println("End record var field: ");
     }
 }

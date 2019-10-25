@@ -9,10 +9,9 @@ public class NMult<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Mult, operador: " + data.toString());
+        // operador multiplicacion (data)
         for (Node<T> child : children) {
             child.visit();
         }
-        System.out.println("End Mult.");
     }
 }

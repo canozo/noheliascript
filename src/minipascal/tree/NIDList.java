@@ -8,10 +8,9 @@ public class NIDList<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin id list:");
+        // lista de IDs
         for (Node<T> child : children) {
             child.visit();
         }
-        System.out.println("End id list.");
     }
 }

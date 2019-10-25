@@ -14,15 +14,14 @@ public class NSuma<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Suma:");
+        // operador suma
         if (children.size() == 1) {
-            System.out.println("Operador suma: " + data.toString());
+            // suma unaria (-5)
             children.get(0).visit();
         } else if (children.size() == 2) {
+            // suma binaria (5-3)
             children.get(0).visit();
-            System.out.println("Operador suma: " + data.toString());
             children.get(1).visit();
         }
-        System.out.println("End suma.");
     }
 }

@@ -7,7 +7,7 @@ public class NString<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("String: " + data);
+        // conststr
     }
 
     @Override

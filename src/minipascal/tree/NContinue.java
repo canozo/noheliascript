@@ -7,7 +7,7 @@ public class NContinue<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Continue.");
+        // continue
     }
 
     @Override

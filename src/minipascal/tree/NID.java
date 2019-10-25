@@ -7,7 +7,7 @@ public class NID<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Identificador: " + data.toString());
+        // identificador
     }
 
     @Override

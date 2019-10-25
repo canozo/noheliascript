@@ -7,7 +7,7 @@ public class NChar<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Char: " + data.toString());
+        // constchar
     }
 
     @Override

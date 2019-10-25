@@ -9,10 +9,8 @@ public class NOr<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Or:");
+        // operador or
         children.get(0).visit();
-        System.out.println("or");
         children.get(1).visit();
-        System.out.println("End Or.");
     }
 }

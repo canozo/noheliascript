@@ -14,13 +14,13 @@ public class NFuncWrite<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Write Function:");
-        System.out.println("(Param 1) String:");
+        // TODO verificar que el tipo de var es integer o char
+        // funcion especial write
+        // primer parametro string
         children.get(0).visit();
         if (children.size() > 1) {
-            System.out.println("(Param 2) Var Id:");
+            // segundo parametro var
             children.get(1).visit();
         }
-        System.out.println("End Write Function.");
     }
 }

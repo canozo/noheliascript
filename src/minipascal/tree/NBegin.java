@@ -8,8 +8,6 @@ public class NBegin<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin:");
         children.get(0).visit();
-        System.out.println("End.");
     }
 }

@@ -8,13 +8,12 @@ public class NFuncCall<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Function Call: " + data.toString());
+        // llamado de funcion
         if (children.get(0) != null) {
-            System.out.println("Expresions:");
+            // expresiones enviadas a la funcion como argumentos
             for (Node<T> child : children) {
                 child.visit();
             }
         }
-        System.out.println("End Function Call.");
     }
 }

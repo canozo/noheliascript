@@ -8,10 +8,9 @@ public class NStmntList<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin statement list:");
+        // lista de statements
         for (Node<T> child : children) {
             child.visit();
         }
-        System.out.println("End statement list.");
     }
 }

@@ -8,8 +8,7 @@ public class NFuncRead<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Read Function:");
+        // funcion especial read
         children.get(0).visit();
-        System.out.println("End Read Function.");
     }
 }

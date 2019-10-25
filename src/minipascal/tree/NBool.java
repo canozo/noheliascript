@@ -7,6 +7,6 @@ public class NBool<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Boolean: " + data.toString());
+        // true o false
     }
 }

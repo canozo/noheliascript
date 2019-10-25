@@ -7,6 +7,6 @@ public class NInteger<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Integer: " + data.toString());
+        // integer
     }
 }

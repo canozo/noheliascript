@@ -8,10 +8,9 @@ public class NExprList<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin expresion list:");
+        // lista de expresiones
         for (Node<T> child : children) {
             child.visit();
         }
-        System.out.println("End expresion list.");
     }
 }

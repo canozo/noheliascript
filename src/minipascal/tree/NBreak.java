@@ -7,7 +7,7 @@ public class NBreak<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Break.");
+        // break
     }
 
     @Override

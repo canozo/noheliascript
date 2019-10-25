@@ -9,10 +9,8 @@ public class NRecord<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin Record: Name:");
-        children.get(0).visit();
-        System.out.println("Record fields:");
+        // definicion del record
+        // agregar info del record con su nombre y campos
         children.get(1).visit();
-        System.out.println("End.");
     }
 }

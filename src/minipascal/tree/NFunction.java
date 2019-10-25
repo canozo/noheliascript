@@ -34,8 +34,8 @@ public class NFunction<T> extends Node<T> {
         }
 
         // statements de la funcion
-//        if (children.get(4) != null) {
-//            children.get(4).visit();
-//        }
+        if (children.get(4) != null) {
+            children.get(4).visit();
+        }
     }
 }

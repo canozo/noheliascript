@@ -5,16 +5,18 @@ public class NFor<T> extends Node<T> {
     public NFor(Node<T> asign, Node<T> toFactor, Node<T> doStmnt) {
         super((T) "for");
         add(asign);
-        add(doStmnt);
         add(toFactor);
+        add(doStmnt);
     }
 
     public void visit() {
-        System.out.println("Begin for:");
+        // TODO ver que el tipo de asign y to factor es integer, y que esten en la tabla de simbolos
+        // for loop:
+        // asign:
         children.get(0).visit();
+        // to:
         children.get(1).visit();
-        System.out.println("To:");
+        // statements:
         children.get(2).visit();
-        System.out.println("End for.");
     }
 }

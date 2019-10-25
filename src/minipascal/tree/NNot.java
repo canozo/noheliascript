@@ -8,7 +8,7 @@ public class NNot<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Not:");
+        // operador not
         children.get(0).visit();
     }
 }

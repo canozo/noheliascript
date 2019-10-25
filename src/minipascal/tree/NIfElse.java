@@ -16,14 +16,13 @@ public class NIfElse<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin if:");
+        // if
         children.get(0).visit();
-        System.out.println("then:");
+        // then
         children.get(1).visit();
         if (children.size() > 2) {
-            System.out.println("else:");
+            // else
             children.get(2).visit();
         }
-        System.out.println("End if.");
     }
 }

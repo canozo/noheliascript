@@ -8,10 +8,9 @@ public class NRecordList<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Begin record list:");
+        // lista de definiciones de records
         for (Node<T> child : children) {
             child.visit();
         }
-        System.out.println("End record list.");
     }
 }
