@@ -163,7 +163,7 @@ INICIO ::=
   ;
 
 PROGRAM_BLOCK ::=
-  PROGRAM: program ID: id PUNTOCOMA
+  PROGRAM ID: id PUNTOCOMA
   {: RESULT = new NProgram(id); :}
   ;
 

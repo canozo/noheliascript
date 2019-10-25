@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Globals {
 
-    public static Table<String, Integer, TypeVal> simbolos;
+    public static Table<String, Integer, Type> simbolos;
     public static Map<String, TFunc> funciones;
     public static Map<String, TRecord> records;
     public static int ambito;
@@ -28,7 +28,7 @@ public class Globals {
 
     public static void addSimbolo(String id, Type type) {
         if (!simbolos.contains(id, ambito)) {
-            simbolos.put(id, ambito, new TypeVal(type));
+            simbolos.put(id, ambito, type);
         } else {
             System.err.println("ERROR: Combinacion de <" + id + ", " + ambito + "> ya existe.");
             error = true;
@@ -37,7 +37,7 @@ public class Globals {
 
     public static void addSimbolo(String id, int amb, Type type) {
         if (!simbolos.contains(id, amb)) {
-            simbolos.put(id, amb, new TypeVal(type));
+            simbolos.put(id, amb, type);
         } else {
             System.err.println("ERROR: Combinacion de <" + id + ", " + amb + "> ya existe.");
             error = true;
@@ -63,16 +63,9 @@ public class Globals {
     }
 
     public static void printSimbolos() {
-        for (Table.Cell<String, Integer, TypeVal> cell : simbolos.cellSet()) {
+        for (Table.Cell<String, Integer, Type> cell : simbolos.cellSet()) {
             String p = String.format("<\"%s\", %d> = %s", cell.getRowKey(), cell.getColumnKey(), cell.getValue());
             System.out.println(p);
         }
     }
-
-//    public static void addRecord(String type, List<Node> children) {
-//        if (!records.containsKey(type)) {
-//        } else {
-//            System.out.println("Ya existe el tipo de record <" + type + ">.");
-//        }
-//    }
 }

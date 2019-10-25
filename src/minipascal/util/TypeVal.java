@@ -2,6 +2,9 @@ package minipascal.util;
 
 import minipascal.util.types.Type;
 
+// No se necesita, reemplazada por Type
+
+@Deprecated
 public class TypeVal {
 
     public Type type;
