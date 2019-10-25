@@ -2,6 +2,8 @@ package minipascal;
 
 import minipascal.lexer.Lexer;
 import minipascal.cup_parser.parser;
+import minipascal.tree.Node;
+import minipascal.util.Globals;
 
 import java.io.*;
 
@@ -24,16 +26,30 @@ public class Main {
         Reader reader;
         Lexer lexer;
         parser cupParser;
+        Node root;
         for (String programa : programas) {
             System.out.println("Corriendo programa: " + programa);
             try {
                 reader = new BufferedReader(new FileReader(programa));
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
+
+                // iniciar variables globales
+                Globals.create();
+
+                // crear el arbol
                 cupParser.parse();
+                root = cupParser.root;
+
+                if (!cupParser.ERROR) {
+                    // recorrer el arbol
+                    root.visit();
+                    Globals.printSimbolos();
+                }
+
                 System.out.println("-------------------------------------------------------------------");
             } catch (FileNotFoundException ex) {
-                System.out.println(ex);
+                System.err.println(ex);
             } catch (Exception e) {
                 e.printStackTrace();
             }

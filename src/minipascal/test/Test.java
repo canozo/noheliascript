@@ -39,20 +39,25 @@ public class Test {
                 cupParser.parse();
                 root = cupParser.root;
 
+                // verificar que no hay errores de parseo
+                assert !cupParser.ERROR;
+
                 // recorrer el arbol
                 root.visit();
                 Globals.printSimbolos();
 
-                System.out.println("------------------------------------------------------------------");
-                assert !cupParser.ERROR;
+                // verificar que no hay errores lexicos
+                assert !Globals.error;
+
             } catch (FileNotFoundException ex) {
-                System.out.println(ex);
+                System.err.println(ex);
             } catch (AssertionError e) {
-                System.out.println("No se pasaron todas las pruebas! Saliendo.");
+                System.err.println("No se pasaron todas las pruebas! Saliendo.");
                 System.exit(0);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            System.out.println("------------------------------------------------------------------");
         }
         System.out.println("Se pasaron todas las pruebas con exito!");
     }

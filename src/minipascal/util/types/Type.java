@@ -1,9 +1,5 @@
 package minipascal.util.types;
 
-// TODO types de funciones
-// TODO types de procedures
-// TODO types de records
-
 public class Type {
 
     public String type;

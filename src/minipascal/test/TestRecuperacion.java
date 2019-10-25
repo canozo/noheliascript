@@ -9,7 +9,7 @@ import java.io.*;
 // https://jsoneditoronline.org/
 // https://vanya.jp.net/vtree/
 
-public class TestErrores {
+public class TestRecuperacion {
 
     public static void main(String[] args) {
         String[] programas = {
@@ -19,7 +19,7 @@ public class TestErrores {
                 "inputs/malos/recuperacion.pas",
                 "inputs/malos/records.pas",
                 "inputs/malos/error_var.pas",
-                "inputs/malos/bad_proc.pas",
+//                "inputs/malos/bad_proc.pas",
         };
         Reader reader;
         Lexer lexer;
@@ -33,7 +33,7 @@ public class TestErrores {
                 cupParser.parse();
                 System.out.println("-----------------------------------------------------------------");
             } catch (FileNotFoundException ex) {
-                System.out.println(ex);
+                System.err.println(ex);
             } catch (Exception e) {
                 e.printStackTrace();
             }

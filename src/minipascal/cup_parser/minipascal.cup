@@ -31,7 +31,7 @@ parser code {:
 
   public void unrecovered_syntax_error(Symbol s) {
     ERROR = true;
-    System.out.println("No se puede recuperar del error!");
+    System.err.println("No se puede recuperar del error!");
   }
 :}
 
