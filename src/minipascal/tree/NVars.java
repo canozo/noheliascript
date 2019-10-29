@@ -28,12 +28,12 @@ public class NVars<T> extends Node<T> {
                     // tiene varios args de este tipo
                     for (Node<T> innerArg : arg.children) {
                         String id = (String) innerArg .data;
-                        Globals.addSimbolo(id, new TVar(type));
+                        Globals.addSimbolo(id, type);
                     }
                 } else {
                     // solo tiene un arg de este tipo
                     String id = (String) arg.data;
-                    Globals.addSimbolo(id, new TVar(type));
+                    Globals.addSimbolo(id, type);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+
 public class NNewType<T> extends Node<T> {
 
     public NNewType(T data) {
@@ -8,6 +10,9 @@ public class NNewType<T> extends Node<T> {
 
     public void visit() {
         // tipo creado por el usuario (record)
-        // TODO revisar que el tipo ya fue definido anteriormente
+        if (!Globals.records.containsKey(data)) {
+            System.err.println("ERROR: No se encontro el identificador \"" + data + "\".");
+            Globals.error = true;
+        }
     }
 }

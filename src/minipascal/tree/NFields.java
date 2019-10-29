@@ -28,16 +28,15 @@ public class NFields<T> extends Node<T> {
                     // tiene varios args de este tipo
                     for (Node<T> innerArg : arg.children) {
                         String id = (String) innerArg.data;
-                        recType.addField(id, new TVar(type));
+                        recType.addField(id, type);
                     }
                 } else {
                     // solo tiene un arg de este tipo
                     String id = (String) arg.data;
-                    recType.addField(id, new TVar(type));
+                    recType.addField(id, type);
                 }
             }
         }
         Globals.addRecord(recordName, recType);
-        Globals.addSimbolo(recordName, 0, recType);
     }
 }

@@ -1,47 +1,38 @@
 package minipascal.util.types;
 
-import java.util.ArrayList;
-import java.util.List;
+import minipascal.util.Globals;
+
+import java.util.HashMap;
 
 public class TRecord extends Type {
 
-    public class Bucket {
-        public String id;
-        public Type type;
-
-        public Bucket(String id, Type type) {
-            this.id = id;
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("(%s x %s)", id, type);
-        }
-    }
-
-    public List<Bucket> fields;
+    public HashMap<String, Type> fields;
 
     public TRecord(String id) {
         super(id);
-        fields = new ArrayList<>();
+        fields = new HashMap<>();
     }
 
-    public void addField(String id, Type type) {
-        fields.add(new Bucket(id, type));
+    public void addField(String id, String type) {
+        Type resType = Globals.findType(type);
+        fields.put(id, resType);
+    }
+
+    public Type getField(String field) {
+        return fields.get(field);
     }
 
     @Override
     public String toString() {
         StringBuilder strFields = new StringBuilder();
         boolean first = true;
-        for (Bucket field : fields) {
+        for (String id : fields.keySet()) {
             if (first) {
-                strFields.append(field);
+                strFields.append(String.format("(%s x %s)", id, fields.get(id)));
                 first = false;
             } else {
                 strFields.append(" x ");
-                strFields.append(field);
+                strFields.append(String.format("(%s x %s)", id, fields.get(id)));
             }
         }
         return String.format("%s: record(%s)", type, strFields);

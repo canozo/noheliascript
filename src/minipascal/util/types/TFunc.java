@@ -1,5 +1,7 @@
 package minipascal.util.types;
 
+import minipascal.util.Globals;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,9 @@ public class TFunc extends Type {
         args = new ArrayList<>();
     }
 
-    public void addArg(Type type) {
-        args.add(type);
+    public void addArg(String type) {
+        Type resType = Globals.findType(type);
+        args.add(resType);
     }
 
     @Override

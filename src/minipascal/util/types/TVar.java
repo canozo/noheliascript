@@ -7,6 +7,17 @@ public class TVar extends Type {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TVar)) {
+            return false;
+        }
+
+        TVar other = (TVar) obj;
+        return this.type.equals(other.type);
+    }
+
+
+    @Override
     public String toString() {
         return type;
     }

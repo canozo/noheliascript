@@ -1,9 +1,11 @@
 package minipascal.tree;
 
-public class NChar<T> extends Node<T> {
+import minipascal.util.types.Type;
+
+public class NChar<T> extends NodeType<T> {
 
     public NChar(T data) {
-        super(data);
+        super(data, Type.CHAR);
     }
 
     public void visit() {

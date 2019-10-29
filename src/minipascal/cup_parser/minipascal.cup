@@ -137,17 +137,18 @@ INICIO ::=
   FUNC_PROC_BLOCK: maybeFuncs
   MAIN_BLOCK: maybeMain
   {:
+    // TODO poder poner declaraciones en cualquier orden
     // program es obligatorio, seria la raiz
     Node raiz = (NProgram) program;
-
-    // var es opcional
-    if (maybeVar != null) {
-      raiz.add((NVars) maybeVar);
-    }
 
     // records son opcionales
     if (maybeRecords != null) {
       raiz.add((NRecordList) maybeRecords);
+    }
+
+    // var es opcional
+    if (maybeVar != null) {
+      raiz.add((NVars) maybeVar);
     }
 
     // functions y procedures son opcionales

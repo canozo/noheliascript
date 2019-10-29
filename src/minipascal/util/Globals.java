@@ -26,9 +26,7 @@ public class Globals {
         funciones = new HashMap<>();
         records = new HashMap<>();
         nombreAmbitos = HashBiMap.create();
-        ambito = 0; // 0 esta reservado para funciones y records
-        addNombreAmbito("globales");
-        ambito += 1; // 1 se utiliza para variables del main
+        ambito = 0; // 1 esta reservado para variables del main
         addNombreAmbito("main");
         error = false;
     }
@@ -44,20 +42,34 @@ public class Globals {
         }
     }
 
-    public static void addSimbolo(String id, Type type) {
-        if (!simbolos.contains(id, ambito)) {
-            simbolos.put(id, ambito, type);
-        } else {
-            System.err.println("ERROR: Combinacion de <" + id + ", " + ambito + "> ya existe.");
-            error = true;
+    public static Type findType(String type) {
+        // ver si el tipo es un primitivo
+        switch(type) {
+            case "boolean":
+                return Type.BOOLEAN;
+            case "integer":
+                return Type.INTEGER;
+            case "string":
+                return Type.STRING;
+            case "char":
+                return Type.CHAR;
+            default:
+                if (records.containsKey(type)) {
+                    return records.get(type);
+                } else {
+                    System.err.println("ERROR: No existe el tipo \"" + type + "\".");
+                    error = true;
+                    return null;
+                }
         }
     }
 
-    public static void addSimbolo(String id, int amb, Type type) {
-        if (!simbolos.contains(id, amb)) {
-            simbolos.put(id, amb, type);
+    public static void addSimbolo(String id, String type) {
+        Type resType = findType(type);
+        if (!simbolos.contains(id, ambito)) {
+            simbolos.put(id, ambito, resType);
         } else {
-            System.err.println("ERROR: Combinacion de <" + id + ", " + amb + "> ya existe.");
+            System.err.println("ERROR: Combinacion de <" + id + ", " + ambito + "> ya existe.");
             error = true;
         }
     }

@@ -4,6 +4,11 @@ public class Type {
 
     public String type;
 
+    public static Type BOOLEAN = new TVar("boolean");
+    public static Type INTEGER = new TVar("integer");
+    public static Type STRING = new TVar("string");
+    public static Type CHAR = new TVar("char");
+
     Type(String type) {
         this.type = type;
     }

@@ -1,9 +1,11 @@
 package minipascal.tree;
 
-public class NBool<T> extends Node<T> {
+import minipascal.util.types.Type;
+
+public class NBool<T> extends NodeType<T> {
 
     public NBool(T data) {
-        super(data);
+        super(data, Type.BOOLEAN);
     }
 
     public void visit() {

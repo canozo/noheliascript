@@ -1,9 +1,11 @@
 package minipascal.tree;
 
-public class NString<T> extends Node<T> {
+import minipascal.util.types.Type;
+
+public class NString<T> extends NodeType<T> {
 
     public NString(T data) {
-        super(data);
+        super(data, Type.STRING);
     }
 
     public void visit() {
