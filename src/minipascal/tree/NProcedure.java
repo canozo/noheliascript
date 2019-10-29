@@ -1,33 +1,42 @@
 package minipascal.tree;
 
-// No se necesita
+import minipascal.util.Globals;
 
-@Deprecated
 public class NProcedure<T> extends Node<T> {
 
     public NProcedure(Node<T> id, Node<T> maybeArgs, Node<T> maybeVars, Node<T> maybeStmntList) {
         super((T) "procedure");
         add(id);
+        add(new NType("\"void\""));
         add(maybeArgs);
         add(maybeVars);
         add(maybeStmntList);
     }
 
     public void visit() {
-        System.out.println("Begin Procedure: Name:");
-        children.get(0).visit();
-        if (children.get(1) != null) {
-            System.out.println("Procedure args:");
-            children.get(1).visit();
-        }
+        // con cada llamado, hay un nuevo ambito (de funcion o procedure)
+        // antes de visitar los argumentos o las variables locales de la funcion,
+        // cambiamos el id del ambito
+        Globals.ambito += 1;
+
+        // agregar nombre del ambito
+        Globals.addNombreAmbito((String) children.get(0).data);
+
+        // agregar a la tabla de simbolos:
+        // nombre de la funcion con su tipo (argumentos)
+        // argumentos de la funcion con su tipo
         if (children.get(2) != null) {
-            System.out.println("Procedure vars:");
             children.get(2).visit();
         }
+
+        // variables locales de la funcion con su tipo
         if (children.get(3) != null) {
-            System.out.println("Procedure statements:");
             children.get(3).visit();
         }
-        System.out.println("End.");
+
+        // statements de la funcion
+        if (children.get(4) != null) {
+            children.get(4).visit();
+        }
     }
 }

@@ -202,15 +202,14 @@ FUNC_PROC_BLOCK ::=
     }
     RESULT = res;
   :}
-//  XXX no se piden en el proyecto
-//  | PROC_DECL: proc FUNC_PROC_BLOCK: maybeMore
-//  {:
-//    Node res = new NFuncProcList((Node) proc);
-//    if (maybeMore != null) {
-//      res.join((NFuncProcList) maybeMore);
-//    }
-//    RESULT = res;
-//  :}
+  | PROC_DECL: proc FUNC_PROC_BLOCK: maybeMore
+  {:
+    Node res = new NFuncProcList((Node) proc);
+    if (maybeMore != null) {
+      res.join((NFuncProcList) maybeMore);
+    }
+    RESULT = res;
+  :}
   |
   | error FUNC_PROC_BLOCK
   ;

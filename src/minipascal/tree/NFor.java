@@ -10,7 +10,7 @@ public class NFor<T> extends Node<T> {
     }
 
     public void visit() {
-        // TODO ver que el tipo de asign y to factor es integer, y que esten en la tabla de simbolos
+        // TODO ver que el tipo de asign y to factor es integer, o que esten en la tabla de simbolos
         // for loop:
         // asign:
         children.get(0).visit();

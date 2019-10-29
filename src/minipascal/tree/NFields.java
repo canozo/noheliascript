@@ -1,7 +1,6 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
-import minipascal.util.types.TFunc;
 import minipascal.util.types.TRecord;
 import minipascal.util.types.TVar;
 
