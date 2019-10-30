@@ -1,13 +1,21 @@
 package minipascal.tree;
 
-public class NID<T> extends Node<T> {
+import minipascal.util.Globals;
+
+public class NID<T> extends NodeType<T> {
 
     public NID(T data) {
-        super(data);
+        super(data, null);
     }
 
     public void visit() {
-        // identificador
+        // identificador, ver si ha sido definido
+        if (!Globals.simbolos.contains(data, Globals.ambito)) {
+            System.err.println("ERROR: El identificador  \"" + data + "\" no hace referencia a una variable.");
+            return;
+        }
+        // si es una variable
+        type = Globals.simbolos.get(data, Globals.ambito);
     }
 
     @Override
