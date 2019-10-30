@@ -1,17 +1,18 @@
 package minipascal.tree;
 
-public class NMult<T> extends Node<T> {
+import minipascal.util.types.Type;
+
+public class NMult<T> extends NodeType<T> {
 
     public NMult(Node<T> left, T data, Node<T> right) {
-        super(data);
+        super(data, Type.INTEGER);
         add(left);
         add(right);
     }
 
     public void visit() {
-        // operador multiplicacion (data)
-        for (Node<T> child : children) {
-            child.visit();
-        }
+        // TODO verificar que los tipos sean integer
+        children.get(0).visit();
+        children.get(1).visit();
     }
 }

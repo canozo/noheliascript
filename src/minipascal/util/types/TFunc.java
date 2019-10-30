@@ -26,6 +26,21 @@ public class TFunc extends Type {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TFunc)) {
+            return false;
+        }
+
+        TFunc other = (TFunc) obj;
+        for (Type arg : args) {
+            if (!arg.equals(other)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         StringBuilder strArgs = new StringBuilder();
         boolean first = true;

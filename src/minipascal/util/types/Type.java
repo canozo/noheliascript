@@ -8,6 +8,7 @@ public class Type {
     public static Type INTEGER = new TVar("integer");
     public static Type STRING = new TVar("string");
     public static Type CHAR = new TVar("char");
+    public static Type VOID = new TVar("void");
 
     Type(String type) {
         this.type = type;

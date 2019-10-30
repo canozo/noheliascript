@@ -27,6 +27,16 @@ public class TRecord extends Type {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TRecord)) {
+            return false;
+        }
+
+        TRecord other = (TRecord) obj;
+        return fields.equals(other.fields);
+    }
+
+    @Override
     public String toString() {
         StringBuilder strFields = new StringBuilder();
         boolean first = true;
