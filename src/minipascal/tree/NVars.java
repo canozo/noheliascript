@@ -1,9 +1,10 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
-import minipascal.util.types.TVar;
 
 public class NVars<T> extends Node<T> {
+
+    public boolean mainBlock = false;
 
     public NVars(Node<T> type, Node<T> ids) {
         super((T) "vars");
@@ -27,13 +28,21 @@ public class NVars<T> extends Node<T> {
                 if (arg.children.size() > 1) {
                     // tiene varios args de este tipo
                     for (Node<T> innerArg : arg.children) {
-                        String id = (String) innerArg .data;
-                        Globals.addSimbolo(id, type);
+                        String id = (String) innerArg.data;
+                        if (mainBlock) {
+                            Globals.addSimboloMain(id, type);
+                        } else {
+                            Globals.addSimbolo(id, type);
+                        }
                     }
                 } else {
                     // solo tiene un arg de este tipo
                     String id = (String) arg.data;
-                    Globals.addSimbolo(id, type);
+                    if (mainBlock) {
+                        Globals.addSimboloMain(id, type);
+                    } else {
+                        Globals.addSimbolo(id, type);
+                    }
                 }
             }
         }

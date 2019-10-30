@@ -11,8 +11,9 @@ public class NNewType<T> extends Node<T> {
     public void visit() {
         // tipo creado por el usuario (record)
         if (!Globals.records.containsKey(data)) {
-            System.err.println("ERROR: No se encontro el identificador \"" + data + "\".");
+            System.err.println("ERROR: El identificador  \"" + data + "\" no hace referencia a un tipo.");
             Globals.error = true;
         }
+        // el tipo si hace referencia a un record
     }
 }

@@ -11,7 +11,13 @@ var
   genero2: char;
   yo: persona;
 
+type otro = record
+  sexo, sangre: char;
+  edad: integer;
+end;
+
 function test1(a, b: integer; c, d: char): integer;
+var x: boolean;
 begin end;
 
 procedure test2(a, b: integer; rep: boolean);

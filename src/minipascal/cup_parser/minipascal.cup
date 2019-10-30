@@ -87,11 +87,11 @@ non terminal S;
 non terminal PROGRAM_BLOCK;
 non terminal VAR_BLOCK;
 non terminal VARS;
+non terminal PROC_VARS;
 non terminal ARGS;
 non terminal MAYBE_ARGS;
 non terminal IDS;
 non terminal VAR_TYPE;
-non terminal FUNC_PROC_BLOCK;
 non terminal FUNC_DECL;
 non terminal PROC_DECL;
 non terminal MAIN_BLOCK;
@@ -113,11 +113,12 @@ non terminal FOR_BLOCK;
 non terminal REPEAT_BLOCK;
 non terminal VARIABLE;
 non terminal NEW_TYPE;
-non terminal RECORD_BLOCK;
 non terminal RECORD_DECL;
 non terminal FIELDS;
 non terminal PRIMITIVOS;
 non terminal MAYBE_EXPR_LIST;
+non terminal GLOBAL_BLOCKS;
+non terminal GLOBAL_BLOCK;
 non terminal INICIO;
 
 start with S;
@@ -132,28 +133,15 @@ S ::=
 
 INICIO ::=
   PROGRAM_BLOCK: program
-  RECORD_BLOCK: maybeRecords
-  VAR_BLOCK: maybeVar
-  FUNC_PROC_BLOCK: maybeFuncs
+  GLOBAL_BLOCKS: maybeBlocks
   MAIN_BLOCK: maybeMain
   {:
-    // TODO poder poner declaraciones en cualquier orden
     // program es obligatorio, seria la raiz
     Node raiz = (NProgram) program;
 
-    // records son opcionales
-    if (maybeRecords != null) {
-      raiz.add((NRecordList) maybeRecords);
-    }
-
-    // var es opcional
-    if (maybeVar != null) {
-      raiz.add((NVars) maybeVar);
-    }
-
-    // functions y procedures son opcionales
-    if (maybeFuncs != null) {
-      raiz.add((NFuncProcList) maybeFuncs);
+    // agregar los bloques globales (si hay)
+    if (maybeBlocks != null) {
+      raiz.add((NBlockList) maybeBlocks);
     }
 
     // main
@@ -168,16 +156,28 @@ PROGRAM_BLOCK ::=
   {: RESULT = new NProgram(id); :}
   ;
 
-RECORD_BLOCK ::=
-  RECORD_DECL: record RECORD_BLOCK: maybeMore
+GLOBAL_BLOCKS ::=
+  GLOBAL_BLOCK: some GLOBAL_BLOCKS: maybeMore
   {:
-    Node res = new NRecordList((Node) record);
+    Node res = new NBlockList((Node) some);
     if (maybeMore != null) {
-      res.join((NRecordList) maybeMore);
+      res.join((NBlockList) maybeMore);
     }
     RESULT = res;
   :}
   |
+  | error GLOBAL_BLOCKS
+  ;
+
+GLOBAL_BLOCK ::=
+  RECORD_DECL: record
+  {: RESULT = record; :}
+  | FUNC_DECL: func
+  {: RESULT = func; :}
+  | PROC_DECL: proc
+  {: RESULT = proc; :}
+  | VAR_BLOCK: var
+  {: RESULT = var; :}
   ;
 
 RECORD_DECL ::=
@@ -194,30 +194,9 @@ RECORD_DECL ::=
   | TYPE error PUNTOCOMA
   ;
 
-FUNC_PROC_BLOCK ::=
-  FUNC_DECL: func FUNC_PROC_BLOCK: maybeMore
-  {:
-    Node res = new NFuncProcList((Node) func);
-    if (maybeMore != null) {
-      res.join((NFuncProcList) maybeMore);
-    }
-    RESULT = res;
-  :}
-  | PROC_DECL: proc FUNC_PROC_BLOCK: maybeMore
-  {:
-    Node res = new NFuncProcList((Node) proc);
-    if (maybeMore != null) {
-      res.join((NFuncProcList) maybeMore);
-    }
-    RESULT = res;
-  :}
-  |
-  | error FUNC_PROC_BLOCK
-  ;
-
 FUNC_DECL ::=
   FUNCTION ID: id PAR_IZQ MAYBE_ARGS: maybeArgs PAR_DER DOSPUNTOS VAR_TYPE: returnType PUNTOCOMA
-  VAR_BLOCK: maybeVars
+  PROC_VARS: maybeVars
   COMPOUND_STATEMENT: maybeStmntList
   PUNTOCOMA
   {:
@@ -235,7 +214,7 @@ FUNC_DECL ::=
 
 PROC_DECL ::=
   PROCEDURE ID: id PAR_IZQ MAYBE_ARGS: maybeArgs PAR_DER PUNTOCOMA
-  VAR_BLOCK: maybeVars
+  PROC_VARS: maybeVars
   COMPOUND_STATEMENT: maybeStmntList
   PUNTOCOMA
   {:
@@ -250,8 +229,11 @@ PROC_DECL ::=
 
 VAR_BLOCK ::=
   VAR VARS: vars
-  {: RESULT = vars; :}
-  |
+  {:
+    NVars res = (NVars) vars;
+    res.mainBlock = true;
+    RESULT = res;
+  :}
   | VAR error
   ;
 
@@ -275,6 +257,12 @@ VARS ::=
   :}
   | IDS: ids DOSPUNTOS VAR_TYPE: type PUNTOCOMA
   {: RESULT = new NVars((Node) type, (Node) ids); :}
+  ;
+
+PROC_VARS ::=
+  VAR VARS: vars
+  {: RESULT = vars; :}
+  |
   ;
 
 MAYBE_ARGS ::=

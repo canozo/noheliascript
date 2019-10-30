@@ -42,25 +42,13 @@ public class Globals {
         }
     }
 
-    public static Type findType(String type) {
-        // ver si el tipo es un primitivo
-        switch(type) {
-            case "boolean":
-                return Type.BOOLEAN;
-            case "integer":
-                return Type.INTEGER;
-            case "string":
-                return Type.STRING;
-            case "char":
-                return Type.CHAR;
-            default:
-                if (records.containsKey(type)) {
-                    return records.get(type);
-                } else {
-                    System.err.println("ERROR: No existe el tipo \"" + type + "\".");
-                    error = true;
-                    return null;
-                }
+    public static void addSimboloMain(String id, String type) {
+        Type resType = findType(type);
+        if (!simbolos.contains(id, 0)) {
+            simbolos.put(id, 0, resType);
+        } else {
+            System.err.println("ERROR: Identificador <" + id + "> ya existe en el main.");
+            error = true;
         }
     }
 
@@ -89,6 +77,28 @@ public class Globals {
         } else {
             System.err.println("ERROR: El record nombre <" + id + "> ya fue definido.");
             error = true;
+        }
+    }
+
+    public static Type findType(String type) {
+        // ver si el tipo es un primitivo
+        switch(type) {
+            case "boolean":
+                return Type.BOOLEAN;
+            case "integer":
+                return Type.INTEGER;
+            case "string":
+                return Type.STRING;
+            case "char":
+                return Type.CHAR;
+            default:
+                if (records.containsKey(type)) {
+                    return records.get(type);
+                } else {
+                    System.err.println("ERROR: No existe el tipo \"" + type + "\".");
+                    error = true;
+                    return null;
+                }
         }
     }
 

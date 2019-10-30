@@ -1,9 +1,20 @@
 program records;
 
+var
+  hola: integer;
+  adios: char;
+
 type persona = record
   sexo, sangre: char;
   edad: integer;
 end;
+
+procedure hola_mundo();
+begin write('hola mundo'); end;
+
+var
+  ok: boolean;
+  bye: persona;
 
 type carro = record
   modelo: char;

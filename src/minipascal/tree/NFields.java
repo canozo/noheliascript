@@ -2,7 +2,6 @@ package minipascal.tree;
 
 import minipascal.util.Globals;
 import minipascal.util.types.TRecord;
-import minipascal.util.types.TVar;
 
 public class NFields<T> extends Node<T> {
 
