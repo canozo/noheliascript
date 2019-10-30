@@ -1,5 +1,6 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
 import minipascal.util.types.Type;
 
 public class NNot<T> extends NodeType<T> {
@@ -11,7 +12,13 @@ public class NNot<T> extends NodeType<T> {
 
     public void visit() {
         // operador not
-        // TODO verificar que el tipo es boolean
         children.get(0).visit();
+
+        NodeType expr = (NodeType) children.get(0);
+        if (!expr.type.equals(Type.BOOLEAN)) {
+            System.err.println("ERROR: <" + expr + "> en <OP NOT> no es de tipo esperado (boolean).");
+            System.err.println("Tipo recibido: " + expr.type);
+            Globals.error = true;
+        }
     }
 }

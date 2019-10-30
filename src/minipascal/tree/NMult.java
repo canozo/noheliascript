@@ -1,5 +1,6 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
 import minipascal.util.types.Type;
 
 public class NMult<T> extends NodeType<T> {
@@ -11,8 +12,22 @@ public class NMult<T> extends NodeType<T> {
     }
 
     public void visit() {
-        // TODO verificar que los tipos sean integer
         children.get(0).visit();
         children.get(1).visit();
+
+        NodeType left = (NodeType) children.get(0);
+        NodeType right = (NodeType) children.get(1);
+
+        if (!left.type.equals(Type.INTEGER)) {
+            System.err.println("ERROR: <" + left + "> en <OP MULT> no es de tipo esperado (integer).");
+            System.err.println("Tipo recibido: " + left.type);
+            Globals.error = true;
+        }
+
+        if (!right.type.equals(Type.INTEGER)) {
+            System.err.println("ERROR: <" + right + "> en <OP MULT> no es de tipo esperado (integer).");
+            System.err.println("Tipo recibido: " + right.type);
+            Globals.error = true;
+        }
     }
 }
