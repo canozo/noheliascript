@@ -25,7 +25,7 @@ begin end;
 
 begin
   test2();
-  if (3 < (5 + 2)) = (genero2 = 'f') then
+  if ((-3 < 5 + 2 * 0) = false) = (genero2 = 'f') then
     write('c mamo');
   edad2 := 10 + 12;
 end.

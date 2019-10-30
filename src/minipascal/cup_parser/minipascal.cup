@@ -447,8 +447,8 @@ MAYBE_EXPR_LIST ::=
 EXPR ::=
   SIMPLE_EXPR: simpleExpr
   {: RESULT = simpleExpr; :}
-  | SIMPLE_EXPR: simpleExpr1 OR SIMPLE_EXPR: simpleExpr2
-  {: RESULT = new NOr((Node) simpleExpr1, (Node) simpleExpr2); :}
+  | SIMPLE_EXPR: simpleExpr1 OP_RELACIONAL: op SIMPLE_EXPR: simpleExpr2
+  {: RESULT = new NOpRel((Node) simpleExpr1, op, (Node) simpleExpr2); :}
   | error
   ;
 
@@ -459,8 +459,8 @@ SIMPLE_EXPR ::=
   {: RESULT = new NSuma(op, (Node) termino); :}
   | SIMPLE_EXPR: simpleExpr OP_SUMA: op TERMINO: termino
   {: RESULT = new NSuma((Node) simpleExpr, op, (Node) termino); :}
-  | TERMINO: termino1 AND TERMINO: termino2
-  {: RESULT = new NAnd((Node) termino1, (Node) termino2); :}
+  | TERMINO: termino1 OR TERMINO: termino2
+  {: RESULT = new NOr((Node) termino1, (Node) termino2); :}
   ;
 
 TERMINO ::=
@@ -468,8 +468,8 @@ TERMINO ::=
   {: RESULT = factor; :}
   | TERMINO: termino OP_MULT: op FACTOR: factor
   {: RESULT = new NMult((Node) termino, op, (Node) factor); :}
-  | FACTOR: factor1 OP_RELACIONAL: op FACTOR: factor2
-  {: RESULT = new NOpRel((Node) factor1, op, (Node) factor2); :}
+  | FACTOR: factor1 AND FACTOR: factor2
+  {: RESULT = new NAnd((Node) factor1, (Node) factor2); :}
   ;
 
 FACTOR ::=
