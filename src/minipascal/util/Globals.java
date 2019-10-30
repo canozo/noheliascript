@@ -44,6 +44,10 @@ public class Globals {
 
     public static void addSimboloMain(String id, String type) {
         Type resType = findType(type);
+        if (resType == null) {
+            return;
+        }
+
         if (!simbolos.contains(id, 0)) {
             simbolos.put(id, 0, resType);
         } else {
@@ -54,6 +58,10 @@ public class Globals {
 
     public static void addSimbolo(String id, String type) {
         Type resType = findType(type);
+        if (resType == null) {
+            return;
+        }
+
         if (!simbolos.contains(id, ambito)) {
             simbolos.put(id, ambito, resType);
         } else {

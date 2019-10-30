@@ -2,9 +2,9 @@ package minipascal.tree;
 
 public class NAssign<T> extends Node<T> {
 
-    public NAssign(Node<T> id, Node<T> expr) {
+    public NAssign(Node<T> var, Node<T> expr) {
         super((T) ":=");
-        add(id);
+        add(var);
         add(expr);
     }
 

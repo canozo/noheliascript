@@ -18,6 +18,10 @@ public class TFunc extends Type {
 
     public void addArg(String type) {
         Type resType = Globals.findType(type);
+        if (resType == null) {
+            return;
+        }
+
         args.add(resType);
     }
 

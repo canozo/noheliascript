@@ -15,6 +15,10 @@ public class TRecord extends Type {
 
     public void addField(String id, String type) {
         Type resType = Globals.findType(type);
+        if (resType == null) {
+            return;
+        }
+
         fields.put(id, resType);
     }
 
