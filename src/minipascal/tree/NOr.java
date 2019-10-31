@@ -1,5 +1,4 @@
 package minipascal.tree;
-
 import minipascal.util.Globals;
 import minipascal.util.types.Type;
 

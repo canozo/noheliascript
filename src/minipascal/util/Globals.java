@@ -110,6 +110,7 @@ public class Globals {
         }
     }
 
+
     public static void printSimbolos() {
         System.out.println("\nTabla de simbolos:");
         for (Table.Cell<String, Integer, Type> cell : simbolos.cellSet()) {
