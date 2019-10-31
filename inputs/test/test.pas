@@ -23,9 +23,12 @@ begin end;
 procedure test2(a, b: integer; rep: boolean);
 begin end;
 
+function test3(): char;
+begin test3 := 'x'; end;
+
 begin
   test2();
-  if ((-3 < 5 + 2 * 0) = false) = (genero2 = 'f') then
+  if ((-3 < 5 + 2 * 0) = false) = (genero2 = test3()) then
     write('c mamo');
   edad2 := 10 + 12;
 end.

@@ -33,7 +33,7 @@ public class TRecord extends Type {
         }
 
         TRecord other = (TRecord) obj;
-        return fields.equals(other.fields);
+        return type.equals(other.type) && fields.equals(other.fields);
     }
 
     @Override

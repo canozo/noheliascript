@@ -1,5 +1,8 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+import minipascal.util.types.TFunc;
+
 public class NFuncCall<T> extends NodeType<T> {
 
     public NFuncCall(T data, Node<T> exprList) {
@@ -8,15 +11,35 @@ public class NFuncCall<T> extends NodeType<T> {
     }
 
     public void visit() {
-        // TODO buscar si la funcion esta definida
         // llamado de funcion
+        String funcName = (String) data;
+        if (!Globals.funciones.containsKey(funcName)) {
+            System.err.println("ERROR: El identificador  \"" + data + "\" no hace referencia a una funcion.");
+            Globals.error = true;
+
+            // visitar children y volver
+            for (Node<T> child : children) {
+                child.visit();
+            }
+            return;
+        }
+
+        // TODO ver si sirve
+        TFunc candidato = Globals.funciones.get(funcName);
+        TFunc nuevo = new TFunc(funcName, candidato.returnType);
         if (children.get(0) != null) {
             // expresiones enviadas a la funcion como argumentos
             for (Node<T> child : children) {
-                // TODO si esta definida, guardar el candidato y verificar que todos sus args se enviaron correctamente
                 child.visit();
+                nuevo.addArg(((NodeType) child).type);
             }
         }
-        // TODO setear el tipo de la funcion
+        if (!candidato.equals(nuevo)) {
+            System.err.println("ERROR: El llamado a funcion \"" + data + "\" no concuerda con el esperado.");
+            System.err.println("Se obtuvo: <" + nuevo + ">, se esperaba: <" + candidato + ">");
+            return;
+        }
+        // el llamado es valido
+        type = candidato.returnType;
     }
 }
