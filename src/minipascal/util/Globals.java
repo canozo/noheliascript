@@ -99,6 +99,8 @@ public class Globals {
                 return Type.STRING;
             case "char":
                 return Type.CHAR;
+            case "void":
+                return Type.VOID;
             default:
                 if (records.containsKey(type)) {
                     return records.get(type);

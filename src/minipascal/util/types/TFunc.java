@@ -7,10 +7,16 @@ import java.util.List;
 
 public class TFunc extends Type {
 
-    public String returnType;
+    public Type returnType;
     public List<Type> args;
 
     public TFunc(String id, String returnType) {
+        super(id);
+        this.returnType = Globals.findType(returnType);
+        args = new ArrayList<>();
+    }
+
+    public TFunc(String id, Type returnType) {
         super(id);
         this.returnType = returnType;
         args = new ArrayList<>();
@@ -25,6 +31,13 @@ public class TFunc extends Type {
         args.add(resType);
     }
 
+    public void addArg(Type type) {
+        if (type == null) {
+            return;
+        }
+        args.add(type);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof TFunc)) {
@@ -32,12 +45,7 @@ public class TFunc extends Type {
         }
 
         TFunc other = (TFunc) obj;
-        for (Type arg : args) {
-            if (!arg.equals(other)) {
-                return false;
-            }
-        }
-        return true;
+        return type.equals(other.type) && returnType.equals(other.returnType) && args.equals(other.args);
     }
 
     @Override
