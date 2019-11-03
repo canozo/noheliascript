@@ -29,7 +29,7 @@ public class NFuncWrite<T> extends NodeType<T> {
                 return;
             }
 
-            if (!var.type.equals(Type.INTEGER) && !var.type.equals(Type.CHAR)) {
+            if (!Type.INTEGER.equals(var.type) && !Type.CHAR.equals(var.type)) {
                 System.err.println("ERROR: La variable <" + var + "> no es de tipo integer o char (para funcion write).");
                 Globals.error = true;
             }

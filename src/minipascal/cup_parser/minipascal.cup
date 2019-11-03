@@ -435,7 +435,7 @@ EXPR_LIST ::=
     RESULT = list;
   :}
   | EXPR: expr
-  {: RESULT = expr; :}
+  {: RESULT = new NExprList((Node) expr); :}
   ;
 
 MAYBE_EXPR_LIST ::=

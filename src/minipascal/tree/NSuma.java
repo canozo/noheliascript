@@ -23,7 +23,7 @@ public class NSuma<T> extends NodeType<T> {
             children.get(0).visit();
 
             NodeType num = (NodeType) children.get(0);
-            if (!num.type.equals(Type.INTEGER)) {
+            if (!Type.INTEGER.equals(num.type)) {
                 System.err.println("ERROR: <" + num + "> en <OP SUMA> no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + num.type);
                 Globals.error = true;
@@ -36,13 +36,13 @@ public class NSuma<T> extends NodeType<T> {
             NodeType left = (NodeType) children.get(0);
             NodeType right = (NodeType) children.get(1);
 
-            if (!left.type.equals(Type.INTEGER)) {
+            if (!Type.INTEGER.equals(left.type)) {
                 System.err.println("ERROR: <" + left + "> en <OP SUMA> no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + left.type);
                 Globals.error = true;
             }
 
-            if (!right.type.equals(Type.INTEGER)) {
+            if (!Type.INTEGER.equals(right.type)) {
                 System.err.println("ERROR: <" + right + "> en <OP SUMA> no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + right.type);
                 Globals.error = true;

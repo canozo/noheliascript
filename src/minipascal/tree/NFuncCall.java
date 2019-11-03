@@ -29,7 +29,8 @@ public class NFuncCall<T> extends NodeType<T> {
         TFunc nuevo = new TFunc(funcName, candidato.returnType);
         if (children.get(0) != null) {
             // expresiones enviadas a la funcion como argumentos
-            for (Node<T> child : children) {
+            Node<T> exprList = children.get(0);
+            for (Node<T> child : exprList.children) {
                 child.visit();
                 nuevo.addArg(((NodeType) child).type);
             }

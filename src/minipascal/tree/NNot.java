@@ -15,7 +15,7 @@ public class NNot<T> extends NodeType<T> {
         children.get(0).visit();
 
         NodeType expr = (NodeType) children.get(0);
-        if (!expr.type.equals(Type.BOOLEAN)) {
+        if (!Type.BOOLEAN.equals(expr.type)) {
             System.err.println("ERROR: <" + expr + "> en <OP NOT> no es de tipo esperado (boolean).");
             System.err.println("Tipo recibido: " + expr.type);
             Globals.error = true;

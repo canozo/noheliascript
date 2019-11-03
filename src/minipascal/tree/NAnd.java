@@ -19,13 +19,13 @@ public class NAnd<T> extends NodeType<T> {
         NodeType left = (NodeType) children.get(0);
         NodeType right = (NodeType) children.get(1);
 
-        if (!left.type.equals(Type.BOOLEAN)) {
+        if (!Type.BOOLEAN.equals(left.type)) {
             System.err.println("ERROR: <" + left + "> en <OP AND> no es de tipo esperado (boolean).");
             System.err.println("Tipo recibido: " + left.type);
             Globals.error = true;
         }
 
-        if (!right.type.equals(Type.BOOLEAN)) {
+        if (!Type.BOOLEAN.equals(right.type)) {
             System.err.println("ERROR: <" + right + "> en <OP AND> no es de tipo esperado (boolean).");
             System.err.println("Tipo recibido: " + right.type);
             Globals.error = true;
