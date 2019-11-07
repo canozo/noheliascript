@@ -26,7 +26,7 @@ public class Globals {
         funciones = new HashMap<>();
         records = new HashMap<>();
         nombreAmbitos = HashBiMap.create();
-        ambito = 0; // 1 esta reservado para variables del main
+        ambito = 0; // 0 esta reservado para variables globales
         addNombreAmbito("global");
         error = false;
     }
