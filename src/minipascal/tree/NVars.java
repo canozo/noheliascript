@@ -4,7 +4,7 @@ import minipascal.util.Globals;
 
 public class NVars<T> extends Node<T> {
 
-    public boolean mainBlock = false;
+    public boolean globalBlock = false;
 
     public NVars(Node<T> type, Node<T> ids) {
         super((T) "vars");
@@ -29,8 +29,8 @@ public class NVars<T> extends Node<T> {
                     // tiene varios args de este tipo
                     for (Node<T> innerArg : arg.children) {
                         String id = (String) innerArg.data;
-                        if (mainBlock) {
-                            Globals.addSimboloMain(id, type);
+                        if (globalBlock) {
+                            Globals.addSimboloGlobal(id, type);
                         } else {
                             Globals.addSimbolo(id, type);
                         }
@@ -38,8 +38,8 @@ public class NVars<T> extends Node<T> {
                 } else {
                     // solo tiene un arg de este tipo
                     String id = (String) arg.data;
-                    if (mainBlock) {
-                        Globals.addSimboloMain(id, type);
+                    if (globalBlock) {
+                        Globals.addSimboloGlobal(id, type);
                     } else {
                         Globals.addSimbolo(id, type);
                     }

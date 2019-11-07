@@ -42,7 +42,7 @@ public class Globals {
         }
     }
 
-    public static void addSimboloMain(String id, String type) {
+    public static void addSimboloGlobal(String id, String type) {
         Type resType = findType(type);
         if (resType == null) {
             return;
