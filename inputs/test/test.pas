@@ -18,7 +18,7 @@ end;
 
 function test1(a, b: integer; c, d: char): integer;
 var x: boolean;
-begin end;
+begin write('edad: ', yo.edad); end;
 
 procedure test2(a, b: integer; rep: boolean);
 begin end;

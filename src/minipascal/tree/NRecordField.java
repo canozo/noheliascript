@@ -16,14 +16,19 @@ public class NRecordField<T> extends NodeType<T> {
         // acceso de field a record, ej: persona.nombre
         String variable = (String) children.get(0).data;
         String field = (String) children.get(1).data;
+        int ambito;
 
-        if (!Globals.simbolos.contains(variable, Globals.ambito)) {
+        if (!Globals.simbolos.contains(variable, Globals.ambito) && !Globals.simbolos.contains(variable, 0)) {
             System.err.println("ERROR: El identificador \"" + variable + "\" no hace referencia a una variable.");
             Globals.error = true;
             return;
+        } else if (Globals.simbolos.contains(variable, Globals.ambito)) {
+            ambito = Globals.ambito;
+        } else {
+            ambito = 0;
         }
 
-        Type type = Globals.simbolos.get(variable, Globals.ambito);
+        Type type = Globals.simbolos.get(variable, ambito);
         if (!(type instanceof TRecord)) {
             System.err.println("ERROR: El identificador \"" + variable + "\" no hace referencia a un record.");
             Globals.error = true;

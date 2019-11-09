@@ -51,7 +51,7 @@ public class Globals {
         if (!simbolos.contains(id, 0)) {
             simbolos.put(id, 0, resType);
         } else {
-            System.err.println("ERROR: Identificador <" + id + "> ya existe en el main.");
+            System.err.println("ERROR: Identificador <" + id + "> ya existe en las variables globales.");
             error = true;
         }
     }
