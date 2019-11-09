@@ -1,5 +1,8 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+import minipascal.util.types.Type;
+
 public class NIfElse<T> extends Node<T> {
 
     public NIfElse(Node<T> ifExpr, Node<T> thenStmnt) {
@@ -23,6 +26,11 @@ public class NIfElse<T> extends Node<T> {
         if (children.size() > 2) {
             // else
             children.get(2).visit();
+        }
+        NodeType bo = (NodeType) children.get(0);
+        if (!Type.BOOLEAN.equals(bo.type)) {
+            System.err.println("ERROR: La variable <" + bo + "> no es de tipo boolean. (If)");
+            Globals.error = true;
         }
     }
 }

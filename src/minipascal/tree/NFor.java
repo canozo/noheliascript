@@ -1,5 +1,8 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+import minipascal.util.types.Type;
+
 public class NFor<T> extends Node<T> {
 
     public NFor(Node<T> asign, Node<T> toFactor, Node<T> doStmnt) {
@@ -10,7 +13,6 @@ public class NFor<T> extends Node<T> {
     }
 
     public void visit() {
-        // TODO ver que el tipo de asign y to factor es integer, o que esten en la tabla de simbolos
         // for loop:
         // asign:
         children.get(0).visit();
@@ -18,5 +20,11 @@ public class NFor<T> extends Node<T> {
         children.get(1).visit();
         // statements:
         children.get(2).visit();
+
+        NodeType to = (NodeType) children.get(1);
+        if (!Type.INTEGER.equals(to.type)) {
+            System.err.println("ERROR: La variable <" + to + "> no es de tipo integer. (For Loop)");
+            Globals.error = true;
+        }
     }
 }
