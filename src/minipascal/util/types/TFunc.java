@@ -61,6 +61,6 @@ public class TFunc extends Type {
                 strArgs.append(arg.toString());
             }
         }
-        return String.format("%s: %s -> %s", type, strArgs, returnType);
+        return String.format("%s: (%s) -> %s", type, strArgs, returnType);
     }
 }
