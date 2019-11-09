@@ -35,6 +35,7 @@ public class NProcedure<T> extends Node<T> {
             String retType = (String) children.get(1).data;
             retType = retType.substring(1, retType.length() - 1);
             Globals.addFuncion(funcName, new TFunc(funcName, retType));
+            Globals.addSimbolo(funcName, retType);
         }
 
         // variables locales de la funcion con su tipo

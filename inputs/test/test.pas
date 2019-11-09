@@ -27,7 +27,6 @@ function test3(): char;
 begin test3 := 'x'; end;
 
 begin
-  test2();
   if ((-3 < 5 + 2 * 0) = false) = (genero2 = test3()) then
     write('c mamo');
   edad2 := 10 + 12;

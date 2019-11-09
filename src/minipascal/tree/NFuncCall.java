@@ -24,7 +24,6 @@ public class NFuncCall<T> extends NodeType<T> {
             return;
         }
 
-        // TODO ver si sirve
         TFunc candidato = Globals.funciones.get(funcName);
         TFunc nuevo = new TFunc(funcName, candidato.returnType);
         if (children.get(0) != null) {

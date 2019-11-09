@@ -231,7 +231,7 @@ VAR_BLOCK ::=
   VAR VARS: vars
   {:
     NVars res = (NVars) vars;
-    res.mainBlock = true;
+    res.globalBlock = true;
     RESULT = res;
   :}
   | VAR error

@@ -46,5 +46,6 @@ public class NArgs<T> extends Node<T> {
             }
         }
         Globals.addFuncion(funcName, funcType);
+        Globals.addSimbolo(funcName, retType);
     }
 }

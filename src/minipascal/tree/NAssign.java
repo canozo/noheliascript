@@ -14,17 +14,22 @@ public class NAssign<T> extends Node<T> {
         // tiene un var o un var.var
         children.get(0).visit();
         children.get(1).visit();
-/*
-        if (children.get(0) instanceof NID) {
-            if (!(((NID) children.get(0)).type).equals(((NodeType)children.get(1)).type) ){
-                System.err.println("Los tipos no concuerdan: " + ((NID) children.get(0)).type + " y " + ((NodeType)children.get(1)).type);
-                Globals.error = true;
-            }
 
-        } else if (children.get(0) instanceof NRecordField) {
-            System.out.println(((NodeType)children.get(1)).type + " eeeeeh");
+        NodeType left = (NodeType) children.get(0);
+        NodeType right = (NodeType) children.get(1);
 
-        }*/
+        // Puede ser record field = algo, variable = algo, funcion = algo
+        if (left.type == null) {
+            System.err.println("ERROR PROPAGADO: Se recibio tipo 'null' en <OP ASIGNACION '" + data + "'>.");
+            System.err.println("Tipos recibido: <" + left.type + "> <OP ASIGNACION '" + data + "'> <" + right.type + ">");
+            return;
+        }
+
+        if (!left.type.equals(right.type)) {
+            System.err.println("ERROR: Se esperaban tipos iguales en <OP ASIGNACION '" + data + "'>.");
+            System.err.println("Tipos recibido: <" + left.type + "> vs <" + right.type + ">");
+            Globals.error = true;
+        }
     }
 }
 
