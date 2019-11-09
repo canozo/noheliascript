@@ -27,6 +27,7 @@ public class NIfElse<T> extends Node<T> {
             // else
             children.get(2).visit();
         }
+
         NodeType bo = (NodeType) children.get(0);
         if (!Type.BOOLEAN.equals(bo.type)) {
             System.err.println("ERROR: La variable <" + bo + "> no es de tipo boolean. (If)");

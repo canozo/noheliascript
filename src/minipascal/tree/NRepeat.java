@@ -16,6 +16,7 @@ public class NRepeat<T> extends Node<T> {
         children.get(0).visit();
         // until
         children.get(1).visit();
+
         NodeType bo = (NodeType) children.get(1);
         if (!Type.BOOLEAN.equals(bo.type)) {
             System.err.println("ERROR: La variable <" + bo + "> no es de tipo boolean. (repeat)");
