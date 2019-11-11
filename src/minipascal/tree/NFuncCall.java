@@ -18,8 +18,11 @@ public class NFuncCall<T> extends NodeType<T> {
             Globals.error = true;
 
             // visitar children y volver
-            for (Node<T> child : children) {
-                child.visit();
+            if (children.get(0) != null) {
+                Node<T> exprList = children.get(0);
+                for (Node<T> child : exprList.children) {
+                    child.visit();
+                }
             }
             return;
         }

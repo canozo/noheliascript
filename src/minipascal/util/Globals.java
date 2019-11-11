@@ -32,13 +32,17 @@ public class Globals {
     }
 
     public static void addNombreAmbito(String nombre) {
-        if (!nombreAmbitos.containsKey(ambito)) {
-            nombreAmbitos.put(ambito, nombre);
-        } else {
+        if (nombreAmbitos.containsKey(ambito)) {
             String p = String.format("ERROR: Ya existe ambito con id <%d>.\n", ambito);
             p += String.format("Actual: \"%s\" vs conflicto: \"%s\"", nombreAmbitos.get(ambito), nombre);
             System.err.println(p);
             error = true;
+        } else if (nombreAmbitos.containsValue(nombre)) {
+            String p = String.format("ERROR: Ya existe ambito con nombre <%s>.\n", nombre);
+            System.err.println(p);
+            error = true;
+        } else {
+            nombreAmbitos.put(ambito, nombre);
         }
     }
 
