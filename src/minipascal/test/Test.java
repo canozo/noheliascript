@@ -9,6 +9,10 @@ import java.io.*;
 
 public class Test {
 
+    private static final boolean PRINT_ARBOL = false;
+    private static final boolean PRINT_TABLAS = false;
+
+    @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
                 "inputs/buenos/factorial.pas",
@@ -38,13 +42,18 @@ public class Test {
                 // crear el arbol
                 cupParser.parse();
                 root = cupParser.root;
+                if (PRINT_ARBOL) {
+                    System.out.println(root);
+                }
 
                 // verificar que no hay errores de parseo
                 assert !cupParser.ERROR;
 
                 // recorrer el arbol
                 root.visit();
-                Globals.printSimbolos();
+                if (PRINT_TABLAS) {
+                    Globals.printSimbolos();
+                }
 
                 // verificar que no hay errores lexicos
                 assert !Globals.error;

@@ -126,7 +126,6 @@ start with S;
 S ::=
   INICIO: inicio
   {:
-    System.out.println(inicio);
     root = (Node) inicio;
   :}
   ;

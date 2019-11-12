@@ -13,6 +13,10 @@ import java.io.*;
 
 public class Main {
 
+    private static final boolean PRINT_ARBOL = false;
+    private static final boolean PRINT_TABLAS = false;
+
+    @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
                 "inputs/buenos/factorial.pas",
@@ -36,11 +40,16 @@ public class Main {
                 // crear el arbol
                 cupParser.parse();
                 root = cupParser.root;
+                if (PRINT_ARBOL) {
+                    System.out.println(root);
+                }
 
                 if (!cupParser.ERROR) {
                     // recorrer el arbol
                     root.visit();
-                    Globals.printSimbolos();
+                    if (PRINT_TABLAS) {
+                        Globals.printSimbolos();
+                    }
                 }
 
                 System.out.println("-------------------------------------------------------------------");
