@@ -14,6 +14,9 @@ public class NContinue<T> extends Node<T> {
         return "continue";
     }
 
+    public void compile() {
+    }
+
     @Override
     public String toString() {
         return "\"continue\"";

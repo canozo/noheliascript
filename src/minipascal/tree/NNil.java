@@ -17,6 +17,9 @@ public class NNil<T> extends Node<T> {
         return "nil";
     }
 
+    public void compile() {
+    }
+
     @Override
     public String toString() {
         return "null";

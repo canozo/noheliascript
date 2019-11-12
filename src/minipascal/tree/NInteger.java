@@ -12,6 +12,9 @@ public class NInteger<T> extends NodeType<T> {
         // integer
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return data.toString();
     }

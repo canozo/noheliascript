@@ -49,6 +49,9 @@ public class NArgs<T> extends Node<T> {
         Globals.addSimbolo(funcName, retType);
     }
 
+    public void compile() {
+    }
+
     @SuppressWarnings("Duplicates")
     public String rebuild() {
         // tal vez no es necesario

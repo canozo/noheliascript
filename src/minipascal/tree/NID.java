@@ -25,6 +25,9 @@ public class NID<T> extends NodeType<T> {
         return (String) data;
     }
 
+    public void compile() {
+    }
+
     @Override
     public String toString() {
         return String.format("\"%s\"", data.toString());

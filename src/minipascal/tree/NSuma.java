@@ -57,6 +57,9 @@ public class NSuma<T> extends NodeType<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);

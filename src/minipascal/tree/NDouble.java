@@ -13,6 +13,9 @@ public class NDouble<T> extends Node<T> {
         // double
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return data.toString();
     }

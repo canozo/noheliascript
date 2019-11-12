@@ -28,6 +28,9 @@ public class NRepeat<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> until = children.get(1);
         return String.format("repeat ... until %s", until.rebuild());

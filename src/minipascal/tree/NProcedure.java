@@ -49,6 +49,9 @@ public class NProcedure<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         // no es necesario el rebuild
         return "NProcedure";

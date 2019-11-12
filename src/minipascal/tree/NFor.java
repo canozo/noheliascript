@@ -31,6 +31,9 @@ public class NFor<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> assign = children.get(0);
         Node<T> toFactor = children.get(1);

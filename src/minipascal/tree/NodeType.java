@@ -10,7 +10,4 @@ public abstract class NodeType<T> extends Node<T> {
         super(data);
         this.type = type;
     }
-
-    public abstract void visit();
-
 }

@@ -12,6 +12,9 @@ public class NString<T> extends NodeType<T> {
         // conststr
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return (String) data;
     }

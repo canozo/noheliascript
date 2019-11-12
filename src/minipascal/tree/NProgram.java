@@ -12,6 +12,9 @@ public class NProgram<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return String.format("program %s", data);
     }

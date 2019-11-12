@@ -54,6 +54,9 @@ public class NRecordField<T> extends NodeType<T> {
         this.type = typeField;
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> variable = children.get(0);
         Node<T> field = children.get(1);

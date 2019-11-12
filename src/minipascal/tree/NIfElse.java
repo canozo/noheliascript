@@ -37,6 +37,9 @@ public class NIfElse<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> ifExpr = children.get(0);
         return String.format("if %s then ...", ifExpr.rebuild());

@@ -11,6 +11,9 @@ public class NWhile<T> extends Node<T> {
         add(doStmnt);
     }
 
+    public void compile() {
+    }
+
     @SuppressWarnings("Duplicates")
     public void visit() {
         // while

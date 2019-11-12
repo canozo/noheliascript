@@ -14,6 +14,9 @@ public class NFunction<T> extends Node<T> {
         add(maybeStmntList);
     }
 
+    public void compile() {
+    }
+
     @SuppressWarnings("Duplicates")
     public void visit() {
         // con cada llamado, hay un nuevo ambito (de funcion o procedure)

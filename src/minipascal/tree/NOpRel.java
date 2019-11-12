@@ -50,7 +50,7 @@ public class NOpRel<T> extends NodeType<T> {
             // ambos tipos deben de ser integer
             if (!Type.INTEGER.equals(left.type)) {
                 System.err.println("ERROR EN: " + this.rebuild());
-                System.err.println(left + " no es de tipo esperado (integer).");
+                System.err.println(left.rebuild() + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + left.type);
                 System.err.println();
                 Globals.error = true;
@@ -58,12 +58,15 @@ public class NOpRel<T> extends NodeType<T> {
 
             if (!Type.INTEGER.equals(right.type)) {
                 System.err.println("ERROR EN: " + this.rebuild());
-                System.err.println(right + " no es de tipo esperado (integer).");
+                System.err.println(right.rebuild() + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + right.type);
                 System.err.println();
                 Globals.error = true;
             }
         }
+    }
+
+    public void compile() {
     }
 
     public String rebuild() {

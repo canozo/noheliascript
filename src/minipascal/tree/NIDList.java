@@ -14,6 +14,9 @@ public class NIDList<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         // no es necesario el rebuild
         return "NIDList";

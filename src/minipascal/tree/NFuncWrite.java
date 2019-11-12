@@ -38,6 +38,9 @@ public class NFuncWrite<T> extends NodeType<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> string = children.get(0);
         Node<T> var = children.get(1);

@@ -39,6 +39,9 @@ public class NFields<T> extends Node<T> {
         Globals.addRecord(recordName, recType);
     }
 
+    public void compile() {
+    }
+
     @SuppressWarnings("Duplicates")
     public String rebuild() {
         StringBuilder builder = new StringBuilder();

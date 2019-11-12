@@ -4,10 +4,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Table;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.TFunc;
 import minipascal.util.types.TRecord;
 import minipascal.util.types.Type;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,7 @@ public class Globals {
     public static Map<String, TFunc> funciones;
     public static Map<String, TRecord> records;
     public static BiMap<Integer, String> nombreAmbitos;
+    public static ArrayList<Cuadruplo> cuadruplos;
     public static int ambito;
     public static boolean error;
 

@@ -16,6 +16,9 @@ public class NChar<T> extends NodeType<T> {
         return data.toString();
     }
 
+    public void compile() {
+    }
+
     @Override
     public String toString() {
         return String.format("\"%s\"", data.toString());

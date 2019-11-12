@@ -21,6 +21,9 @@ public class NNewType<T> extends NodeType<T> {
         type = Globals.findType((String) data);
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return (String) data;
     }

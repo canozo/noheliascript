@@ -14,6 +14,9 @@ public class NExprList<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         StringBuilder builder = new StringBuilder();
         boolean first = true;

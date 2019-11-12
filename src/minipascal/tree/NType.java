@@ -10,6 +10,9 @@ public class NType<T> extends Node<T> {
         // tipo simple (integer, real, boolean, char)
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return (String) data;
     }

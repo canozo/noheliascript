@@ -51,6 +51,9 @@ public class NFuncCall<T> extends NodeType<T> {
         type = candidato.returnType;
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> exprList = children.get(0);
         String id = (String) data;

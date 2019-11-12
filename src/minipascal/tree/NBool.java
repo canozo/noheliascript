@@ -12,6 +12,9 @@ public class NBool<T> extends NodeType<T> {
         // true o false
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         return data.toString();
     }

@@ -33,6 +33,9 @@ public class NAssign<T> extends Node<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);

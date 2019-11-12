@@ -29,6 +29,9 @@ public class NFuncRead<T> extends NodeType<T> {
         }
     }
 
+    public void compile() {
+    }
+
     public String rebuild() {
         Node<T> var = children.get(0);
         return String.format("read(%s)", var.rebuild());

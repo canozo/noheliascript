@@ -14,6 +14,9 @@ public class NBreak<T> extends Node<T> {
         return "break";
     }
 
+    public void compile() {
+    }
+
     @Override
     public String toString() {
         return "\"break\"";
