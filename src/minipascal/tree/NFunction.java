@@ -48,4 +48,9 @@ public class NFunction<T> extends Node<T> {
             children.get(4).visit();
         }
     }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NFunction";
+    }
 }

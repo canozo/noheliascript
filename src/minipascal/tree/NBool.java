@@ -11,4 +11,8 @@ public class NBool<T> extends NodeType<T> {
     public void visit() {
         // true o false
     }
+
+    public String rebuild() {
+        return data.toString();
+    }
 }

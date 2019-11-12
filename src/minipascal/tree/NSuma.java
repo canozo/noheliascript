@@ -16,6 +16,7 @@ public class NSuma<T> extends NodeType<T> {
         add(term);
     }
 
+    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador suma
         if (children.size() == 1) {
@@ -24,8 +25,10 @@ public class NSuma<T> extends NodeType<T> {
 
             NodeType num = (NodeType) children.get(0);
             if (!Type.INTEGER.equals(num.type)) {
-                System.err.println("ERROR: <" + num + "> en <OP SUMA> no es de tipo esperado (integer).");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.println(num.rebuild() + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + num.type);
+                System.err.println();
                 Globals.error = true;
             }
         } else if (children.size() == 2) {
@@ -37,16 +40,26 @@ public class NSuma<T> extends NodeType<T> {
             NodeType right = (NodeType) children.get(1);
 
             if (!Type.INTEGER.equals(left.type)) {
-                System.err.println("ERROR: <" + left + "> en <OP SUMA> no es de tipo esperado (integer).");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.println(left.rebuild() + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + left.type);
+                System.err.println();
                 Globals.error = true;
             }
 
             if (!Type.INTEGER.equals(right.type)) {
-                System.err.println("ERROR: <" + right + "> en <OP SUMA> no es de tipo esperado (integer).");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.println(right.rebuild() + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + right.type);
+                System.err.println();
                 Globals.error = true;
             }
         }
+    }
+
+    public String rebuild() {
+        Node<T> left = children.get(0);
+        Node<T> right = children.get(1);
+        return String.format("%s %s %s", left.rebuild(), data, right.rebuild());
     }
 }

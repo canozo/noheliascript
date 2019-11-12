@@ -11,11 +11,18 @@ public class NID<T> extends NodeType<T> {
     public void visit() {
         // identificador, ver si ha sido definido
         if (!Globals.simbolos.contains(data, Globals.ambito) && !Globals.simbolos.contains(data, 0)) {
-            System.err.println("ERROR: El identificador \"" + data + "\" no hace referencia a una variable.");
+            System.err.println("ERROR EN: " + data);
+            System.err.println("El identificador no hace referencia a un nombre valido.");
+            System.err.println();
+            Globals.error = true;
             return;
         }
         // si es una variable
         type = Globals.simbolos.get(data, Globals.ambito);
+    }
+
+    public String rebuild() {
+        return (String) data;
     }
 
     @Override

@@ -47,4 +47,44 @@ public class NVars<T> extends Node<T> {
             }
         }
     }
+
+    @SuppressWarnings("Duplicates")
+    public String rebuild() {
+        // tal vez no es necesario
+        StringBuilder builder = new StringBuilder();
+        boolean firstType = true;
+        for (Node<T> child : children) {
+            // cada child es un NType o NNewType
+            String type = (String) child.data;
+
+            if (firstType) {
+                builder.append(String.format("%s: ", type));
+                firstType = false;
+            } else {
+                builder.append(String.format("; %s: ", type));
+            }
+
+            // el nodo contiene todos los args (pueden ser muchos)
+            for (Node<T> arg : child.children) {
+                if (arg.children.size() > 1) {
+                    // tiene varios args de este tipo
+                    boolean firstArg = true;
+                    for (Node<T> innerArg : arg.children) {
+                        String id = (String) innerArg.data;
+                        if (firstArg) {
+                            firstArg = false;
+                            builder.append(String.format("%s ", id));
+                        } else {
+                            builder.append(String.format(", %s", id));
+                        }
+                    }
+                } else {
+                    // solo tiene un arg de este tipo
+                    String id = (String) arg.data;
+                    builder.append(id);
+                }
+            }
+        }
+        return builder.toString();
+    }
 }

@@ -10,6 +10,10 @@ public class NBreak<T> extends Node<T> {
         // break
     }
 
+    public String rebuild() {
+        return "break";
+    }
+
     @Override
     public String toString() {
         return "\"break\"";

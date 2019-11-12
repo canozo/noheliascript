@@ -28,6 +28,7 @@ public abstract class Node<T> {
     }
 
     public abstract void visit();
+    public abstract String rebuild();
 
     @Override
     public String toString() {

@@ -1,5 +1,8 @@
 package minipascal.tree;
 
+// No se necesita
+
+@Deprecated
 public class NFuncProcList<T> extends Node<T> {
 
     public NFuncProcList(Node<T> decl) {
@@ -11,5 +14,10 @@ public class NFuncProcList<T> extends Node<T> {
         for (Node<T> child : children) {
             child.visit();
         }
+    }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NFuncProcList";
     }
 }

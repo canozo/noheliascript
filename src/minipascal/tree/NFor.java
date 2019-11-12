@@ -23,8 +23,19 @@ public class NFor<T> extends Node<T> {
 
         NodeType to = (NodeType) children.get(1);
         if (!Type.INTEGER.equals(to.type)) {
-            System.err.println("ERROR: La variable <" + to + "> no es de tipo integer. (For Loop)");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println("La expresion " + to.rebuild() + " no es de tipo integer.");
+            System.err.println("Tipo de la expresion: <" + to.type + ">");
+            System.err.println();
             Globals.error = true;
         }
+    }
+
+    public String rebuild() {
+        Node<T> assign = children.get(0);
+        Node<T> toFactor = children.get(1);
+
+        // for c := 10 to 20 do
+        return String.format("for %s to %s do ...", assign.rebuild(), toFactor.rebuild());
     }
 }

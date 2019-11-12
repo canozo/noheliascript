@@ -20,16 +20,23 @@ public class NAssign<T> extends Node<T> {
 
         // Puede ser record field = algo, variable = algo, funcion = algo
         if (left.type == null) {
-            System.err.println("ERROR PROPAGADO: Se recibio tipo 'null' en <OP ASIGNACION '" + data + "'>.");
-            System.err.println("Tipos recibido: <" + left.type + "> <OP ASIGNACION '" + data + "'> <" + right.type + ">");
+            // ERROR PROPAGADO
             return;
         }
 
         if (!left.type.equals(right.type)) {
-            System.err.println("ERROR: Se esperaban tipos iguales en <OP ASIGNACION '" + data + "'>.");
-            System.err.println("Tipos recibido: <" + left.type + "> vs <" + right.type + ">");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println("Se esperaban tipos iguales en la expresion.");
+            System.err.println("Tipos recibidos: <" + left.type + "> vs <" + right.type + ">");
+            System.err.println();
             Globals.error = true;
         }
+    }
+
+    public String rebuild() {
+        Node<T> left = children.get(0);
+        Node<T> right = children.get(1);
+        return String.format("%s := %s", left.rebuild(), right.rebuild());
     }
 }
 

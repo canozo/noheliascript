@@ -21,8 +21,16 @@ public class NFuncRead<T> extends NodeType<T> {
         }
 
         if (!Type.INTEGER.equals(var.type) && !Type.CHAR.equals(var.type)) {
-            System.err.println("ERROR: La variable <" + var + "> no es de tipo integer o char (para funcion read).");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println("La variable " + var + " no es de tipo integer o char (funcion read).");
+            System.err.println("Tipo recibido: <" + var.type + ">.");
+            System.err.println();
             Globals.error = true;
         }
+    }
+
+    public String rebuild() {
+        Node<T> var = children.get(0);
+        return String.format("read(%s)", var.rebuild());
     }
 }

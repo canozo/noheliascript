@@ -14,7 +14,9 @@ public class NFuncCall<T> extends NodeType<T> {
         // llamado de funcion
         String funcName = (String) data;
         if (!Globals.funciones.containsKey(funcName)) {
-            System.err.println("ERROR: El identificador  \"" + data + "\" no hace referencia a una funcion.");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println("El identificador  \"" + data + "\" no hace referencia a una funcion.");
+            System.err.println();
             Globals.error = true;
 
             // visitar children y volver
@@ -38,11 +40,25 @@ public class NFuncCall<T> extends NodeType<T> {
             }
         }
         if (!candidato.equals(nuevo)) {
-            System.err.println("ERROR: El llamado a funcion \"" + data + "\" no concuerda con el esperado.");
-            System.err.println("Se obtuvo: <" + nuevo + ">, se esperaba: <" + candidato + ">");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println("El llamado a funcion \"" + data + "\" no concuerda con el esperado.");
+            System.err.println("Se obtuvo: " + nuevo);
+            System.err.println("Se esperaba: " + candidato);
+            System.err.println();
             return;
         }
         // el llamado es valido
         type = candidato.returnType;
+    }
+
+    public String rebuild() {
+        Node<T> exprList = children.get(0);
+        String id = (String) data;
+
+        if (exprList == null) {
+            return String.format("%s()", id);
+        } else {
+            return String.format("%s(%s)", id, exprList.rebuild());
+        }
     }
 }

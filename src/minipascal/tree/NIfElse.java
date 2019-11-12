@@ -30,8 +30,15 @@ public class NIfElse<T> extends Node<T> {
 
         NodeType bo = (NodeType) children.get(0);
         if (!Type.BOOLEAN.equals(bo.type)) {
-            System.err.println("ERROR: La variable <" + bo + "> no es de tipo boolean. (If)");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println("La expresion " + bo.rebuild() + " no es de tipo boolean.");
+            System.err.println();
             Globals.error = true;
         }
+    }
+
+    public String rebuild() {
+        Node<T> ifExpr = children.get(0);
+        return String.format("if %s then ...", ifExpr.rebuild());
     }
 }

@@ -11,6 +11,7 @@ public class NWhile<T> extends Node<T> {
         add(doStmnt);
     }
 
+    @SuppressWarnings("Duplicates")
     public void visit() {
         // while
         children.get(0).visit();
@@ -19,8 +20,16 @@ public class NWhile<T> extends Node<T> {
 
         NodeType bo = (NodeType) children.get(0);
         if (!Type.BOOLEAN.equals(bo.type)) {
-            System.err.println("ERROR: La variable <" + bo + "> no es de tipo boolean. (while)");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println(bo.rebuild() + " no es de tipo boolean.");
+            System.err.println("Tipo recibido: " + bo.type);
+            System.err.println();
             Globals.error = true;
         }
+    }
+
+    public String rebuild() {
+        Node<T> whileExpr = children.get(0);
+        return String.format("while %s do ...", whileExpr.rebuild());
     }
 }

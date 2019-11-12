@@ -12,6 +12,10 @@ public class NChar<T> extends NodeType<T> {
         // constchar
     }
 
+    public String rebuild() {
+        return data.toString();
+    }
+
     @Override
     public String toString() {
         return String.format("\"%s\"", data.toString());

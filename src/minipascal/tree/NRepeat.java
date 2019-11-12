@@ -11,6 +11,7 @@ public class NRepeat<T> extends Node<T> {
         add(exprUntil);
     }
 
+    @SuppressWarnings("Duplicates")
     public void visit() {
         // repeat
         children.get(0).visit();
@@ -19,8 +20,16 @@ public class NRepeat<T> extends Node<T> {
 
         NodeType bo = (NodeType) children.get(1);
         if (!Type.BOOLEAN.equals(bo.type)) {
-            System.err.println("ERROR: La variable <" + bo + "> no es de tipo boolean. (repeat)");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println(bo.rebuild() + " no es de tipo boolean.");
+            System.err.println("Tipo recibido: " + bo.type);
+            System.err.println();
             Globals.error = true;
         }
+    }
+
+    public String rebuild() {
+        Node<T> until = children.get(1);
+        return String.format("repeat ... until %s", until.rebuild());
     }
 }

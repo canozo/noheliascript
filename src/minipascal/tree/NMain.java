@@ -18,4 +18,9 @@ public class NMain<T> extends Node<T> {
             children.get(0).visit();
         }
     }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NMain";
+    }
 }

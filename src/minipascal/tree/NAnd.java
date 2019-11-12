@@ -11,6 +11,7 @@ public class NAnd<T> extends NodeType<T> {
         add(right);
     }
 
+    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador and
         children.get(0).visit();
@@ -20,16 +21,25 @@ public class NAnd<T> extends NodeType<T> {
         NodeType right = (NodeType) children.get(1);
 
         if (!Type.BOOLEAN.equals(left.type)) {
-            System.err.println("ERROR: <" + left + "> en <OP AND> no es de tipo esperado (boolean).");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println(left.rebuild() + " no es de tipo esperado (boolean).");
             System.err.println("Tipo recibido: " + left.type);
+            System.err.println();
             Globals.error = true;
         }
 
         if (!Type.BOOLEAN.equals(right.type)) {
-            System.err.println("ERROR: <" + right + "> en <OP AND> no es de tipo esperado (boolean).");
+            System.err.println("ERROR EN: " + this.rebuild());
+            System.err.println(right.rebuild() + " no es de tipo esperado (boolean).");
             System.err.println("Tipo recibido: " + right.type);
+            System.err.println();
             Globals.error = true;
         }
+    }
 
+    public String rebuild() {
+        Node<T> left = children.get(0);
+        Node<T> right = children.get(1);
+        return String.format("%s and %s", left.rebuild(), right.rebuild());
     }
 }

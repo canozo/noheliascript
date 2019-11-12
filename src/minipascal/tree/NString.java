@@ -12,6 +12,10 @@ public class NString<T> extends NodeType<T> {
         // conststr
     }
 
+    public String rebuild() {
+        return (String) data;
+    }
+
     @Override
     public String toString() {
         return String.format("\"%s\"", data.toString());

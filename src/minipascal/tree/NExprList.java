@@ -13,4 +13,18 @@ public class NExprList<T> extends Node<T> {
             child.visit();
         }
     }
+
+    public String rebuild() {
+        StringBuilder builder = new StringBuilder();
+        boolean first = true;
+        for (Node<T> child : children) {
+            if (first) {
+                builder.append(child.rebuild());
+                first = false;
+            } else {
+                builder.append(String.format(", %s", child.rebuild()));
+            }
+        }
+        return builder.toString();
+    }
 }

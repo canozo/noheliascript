@@ -13,4 +13,9 @@ public class NBlockList<T> extends Node<T> {
             child.visit();
         }
     }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NBlockList";
+    }
 }

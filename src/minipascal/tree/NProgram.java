@@ -11,4 +11,8 @@ public class NProgram<T> extends Node<T> {
             child.visit();
         }
     }
+
+    public String rebuild() {
+        return String.format("program %s", data);
+    }
 }

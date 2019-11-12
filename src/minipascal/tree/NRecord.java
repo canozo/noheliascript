@@ -13,4 +13,9 @@ public class NRecord<T> extends Node<T> {
         // agregar info del record con su nombre y campos
         children.get(1).visit();
     }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NRecord";
+    }
 }

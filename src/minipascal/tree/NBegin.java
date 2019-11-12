@@ -10,4 +10,9 @@ public class NBegin<T> extends Node<T> {
     public void visit() {
         children.get(0).visit();
     }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NBegin";
+    }
 }

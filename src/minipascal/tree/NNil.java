@@ -13,6 +13,10 @@ public class NNil<T> extends Node<T> {
         System.out.println("Null.");
     }
 
+    public String rebuild() {
+        return "nil";
+    }
+
     @Override
     public String toString() {
         return "null";

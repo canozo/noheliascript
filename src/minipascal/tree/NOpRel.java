@@ -11,6 +11,7 @@ public class NOpRel<T> extends NodeType<T> {
         add(right);
     }
 
+    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador relacional (data)
         children.get(0).visit();
@@ -22,39 +23,52 @@ public class NOpRel<T> extends NodeType<T> {
         String op = (String) data;
         if (op.equals("=") || op.equals("<>")) {
             // ambos tipos deben de ser iguales (char, integer o boolean)
-            if (left.type == null) {
-                System.err.println("ERROR PROPAGADO: Se recibio tipo 'null' en <OP REL '" + data + "'>.");
-                System.err.println("Tipos recibido: <" + left.type + "> <OP REL '" + data + "'> <" + right.type + ">");
+            if (left.type == null || right.type == null) {
+                // ERROR PROPAGADO
                 return;
             }
 
             if (!left.type.equals(right.type)) {
-                System.err.println("ERROR: Se esperaban tipos iguales en <OP REL '" + data + "'>.");
-                System.err.println("Tipos recibido: <" + left.type + "> vs <" + right.type + ">");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.println("Se esperaban tipos iguales en la expresion.");
+                System.err.println("Tipos recibidos: <" + left.type + "> y <" + right.type + ">");
+                System.err.println();
                 Globals.error = true;
                 return;
             }
 
             Type t = left.type;
             if (!Type.CHAR.equals(t) && !Type.INTEGER.equals(t) && !Type.BOOLEAN.equals(t)) {
-                System.err.print("ERROR: <" + left + "> y <" + right + "> en <OP REL '" + data + "'>");
-                System.err.println("no son de los tipos esperados (integer, char, boolean).");
-                System.err.println("Tipos recibidos: <" + left.type + ">");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.print(left.rebuild() + " y " + right.rebuild());
+                System.err.println(" no son de los tipos esperados (integer, char, boolean).");
+                System.err.println("Tipo recibido: <" + left.type + ">");
+                System.err.println();
                 Globals.error = true;
             }
         } else {
             // ambos tipos deben de ser integer
             if (!Type.INTEGER.equals(left.type)) {
-                System.err.println("ERROR: <" + left + "> en <OP REL '" + data + "'> no es de tipo esperado (integer).");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.println(left + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + left.type);
+                System.err.println();
                 Globals.error = true;
             }
 
             if (!Type.INTEGER.equals(right.type)) {
-                System.err.println("ERROR: <" + right + "> en <OP REL '" + data + "'> no es de tipo esperado (integer).");
+                System.err.println("ERROR EN: " + this.rebuild());
+                System.err.println(right + " no es de tipo esperado (integer).");
                 System.err.println("Tipo recibido: " + right.type);
+                System.err.println();
                 Globals.error = true;
             }
         }
+    }
+
+    public String rebuild() {
+        Node<T> left = children.get(0);
+        Node<T> right = children.get(1);
+        return String.format("%s %s %s", left.rebuild(), data, right.rebuild());
     }
 }

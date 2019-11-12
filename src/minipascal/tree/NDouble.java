@@ -10,6 +10,10 @@ public class NDouble<T> extends Node<T> {
     }
 
     public void visit() {
-        System.out.println("Double: " + data.toString());
+        // double
+    }
+
+    public String rebuild() {
+        return data.toString();
     }
 }

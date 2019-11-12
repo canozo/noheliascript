@@ -11,4 +11,8 @@ public class NInteger<T> extends NodeType<T> {
     public void visit() {
         // integer
     }
+
+    public String rebuild() {
+        return data.toString();
+    }
 }

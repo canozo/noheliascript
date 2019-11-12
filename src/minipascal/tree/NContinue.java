@@ -10,6 +10,10 @@ public class NContinue<T> extends Node<T> {
         // continue
     }
 
+    public String rebuild() {
+        return "continue";
+    }
+
     @Override
     public String toString() {
         return "\"continue\"";

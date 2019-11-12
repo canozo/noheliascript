@@ -48,4 +48,44 @@ public class NArgs<T> extends Node<T> {
         Globals.addFuncion(funcName, funcType);
         Globals.addSimbolo(funcName, retType);
     }
+
+    @SuppressWarnings("Duplicates")
+    public String rebuild() {
+        // tal vez no es necesario
+        StringBuilder buffer = new StringBuilder();
+        boolean firstType = true;
+        for (Node<T> child : children) {
+            // cada child es un NType o NNewType
+            String type = (String) child.data;
+
+            if (firstType) {
+                buffer.append(String.format("%s: ", type));
+                firstType = false;
+            } else {
+                buffer.append(String.format("; %s: ", type));
+            }
+
+            // el nodo contiene todos los args (pueden ser muchos)
+            for (Node<T> arg : child.children) {
+                if (arg.children.size() > 1) {
+                    // tiene varios args de este tipo
+                    boolean firstArg = true;
+                    for (Node<T> innerArg : arg.children) {
+                        String id = (String) innerArg.data;
+                        if (firstArg) {
+                            firstArg = false;
+                            buffer.append(String.format("%s ", id));
+                        } else {
+                            buffer.append(String.format(", %s", id));
+                        }
+                    }
+                } else {
+                    // solo tiene un arg de este tipo
+                    String id = (String) arg.data;
+                    buffer.append(id);
+                }
+            }
+        }
+        return buffer.toString();
+    }
 }

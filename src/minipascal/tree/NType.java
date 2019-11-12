@@ -9,4 +9,8 @@ public class NType<T> extends Node<T> {
     public void visit() {
         // tipo simple (integer, real, boolean, char)
     }
+
+    public String rebuild() {
+        return (String) data;
+    }
 }

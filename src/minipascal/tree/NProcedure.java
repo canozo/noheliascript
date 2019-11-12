@@ -48,4 +48,9 @@ public class NProcedure<T> extends Node<T> {
             children.get(4).visit();
         }
     }
+
+    public String rebuild() {
+        // no es necesario el rebuild
+        return "NProcedure";
+    }
 }
