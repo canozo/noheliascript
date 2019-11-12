@@ -15,6 +15,7 @@ public class Main {
 
     private static final boolean PRINT_ARBOL = false;
     private static final boolean PRINT_TABLAS = false;
+    private static final boolean PRINT_CUADRUPLOS = false;
 
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
@@ -52,7 +53,14 @@ public class Main {
                     }
                 }
 
-                System.out.println("-------------------------------------------------------------------");
+                // compilar
+                root.compile();
+
+                if (PRINT_CUADRUPLOS) {
+                    Globals.printCuadruplos();
+                }
+
+                System.out.println("___________________________________________________________________");
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             } catch (Exception e) {

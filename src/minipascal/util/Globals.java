@@ -21,6 +21,7 @@ public class Globals {
     public static BiMap<Integer, String> nombreAmbitos;
     public static ArrayList<Cuadruplo> cuadruplos;
     public static int ambito;
+    public static int temporal;
     public static boolean error;
 
     public static void create() {
@@ -29,7 +30,9 @@ public class Globals {
         funciones = new HashMap<>();
         records = new HashMap<>();
         nombreAmbitos = HashBiMap.create();
+        cuadruplos = new ArrayList<>();
         ambito = 0; // 0 esta reservado para variables globales
+        temporal = 0;
         addNombreAmbito("global");
         error = false;
     }
@@ -119,7 +122,6 @@ public class Globals {
         }
     }
 
-
     public static void printSimbolos() {
         System.out.println("\nTabla de simbolos:");
         for (Table.Cell<String, Integer, Type> cell : simbolos.cellSet()) {
@@ -140,6 +142,15 @@ public class Globals {
         for (int key : nombreAmbitos.keySet()) {
             String p = String.format("<%d> = \"%s\"", key, nombreAmbitos.get(key));
             System.out.println(p);
+        }
+    }
+
+    public static void printCuadruplos() {
+        System.out.println("\nTabla de cuadruplos:");
+        System.out.println(String.format("%8s | %8s | %8s | %8s", "op", "arg1", "arg2", "res"));
+        System.out.println(String.format("%41s", "").replaceAll(" ", "-"));
+        for (Cuadruplo cuadruplo : cuadruplos) {
+            System.out.println(cuadruplo);
         }
     }
 }

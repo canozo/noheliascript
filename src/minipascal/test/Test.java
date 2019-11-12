@@ -11,6 +11,7 @@ public class Test {
 
     private static final boolean PRINT_ARBOL = false;
     private static final boolean PRINT_TABLAS = false;
+    private static final boolean PRINT_CUADRUPLOS = true;
 
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
@@ -58,6 +59,13 @@ public class Test {
                 // verificar que no hay errores lexicos
                 assert !Globals.error;
 
+                // compilar
+                root.compile();
+
+                if (PRINT_CUADRUPLOS) {
+                    Globals.printCuadruplos();
+                }
+
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             } catch (AssertionError e) {
@@ -66,7 +74,7 @@ public class Test {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println("------------------------------------------------------------------");
+            System.out.println("__________________________________________________________________");
         }
         System.out.println("Se pasaron todas las pruebas con exito!");
     }

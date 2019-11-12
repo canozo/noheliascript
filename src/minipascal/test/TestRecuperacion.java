@@ -31,7 +31,7 @@ public class TestRecuperacion {
                 lexer = new Lexer(reader);
                 cupParser = new parser(lexer);
                 cupParser.parse();
-                System.out.println("-----------------------------------------------------------------");
+                System.out.println("_________________________________________________________________");
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             } catch (Exception e) {

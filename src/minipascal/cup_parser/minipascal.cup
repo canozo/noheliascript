@@ -125,9 +125,7 @@ start with S;
 
 S ::=
   INICIO: inicio
-  {:
-    root = (Node) inicio;
-  :}
+  {: root = (Node) inicio; :}
   ;
 
 INICIO ::=

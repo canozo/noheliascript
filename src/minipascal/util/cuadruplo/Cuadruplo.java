@@ -14,4 +14,8 @@ public class Cuadruplo {
         this.res = res;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%8s | %8s | %8s | %8s", op, arg1, arg2, res);
+    }
 }
