@@ -14,7 +14,7 @@ public class NFuncRead<T> extends NodeType<T> {
         // funcion especial read
         children.get(0).visit();
 
-        NodeType var = (NodeType) children.get(0);
+        NodeType<T> var = (NodeType<T>) children.get(0);
         if (var.type == null) {
             // tipo de variable no definido
             return;
@@ -30,6 +30,7 @@ public class NFuncRead<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
     }
 
     public String rebuild() {

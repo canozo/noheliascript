@@ -12,6 +12,7 @@ public class NBegin<T> extends Node<T> {
     }
 
     public void compile() {
+        children.get(0).compile();
     }
 
     public String rebuild() {

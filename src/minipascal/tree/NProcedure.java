@@ -49,7 +49,24 @@ public class NProcedure<T> extends Node<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> maybeArgs = children.get(2);
+        Node<T> maybeVars = children.get(3);
+        Node<T> maybeStmntList = children.get(4);
+
+        if (maybeArgs != null) {
+            maybeArgs.compile();
+        }
+
+        if (maybeVars != null) {
+            maybeVars.compile();
+        }
+
+        if (maybeStmntList != null) {
+            maybeStmntList.compile();
+        }
     }
 
     public String rebuild() {

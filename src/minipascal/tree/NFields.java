@@ -12,7 +12,7 @@ public class NFields<T> extends Node<T> {
     }
 
     public void visit() {
-        // info para tipo de la funcion
+        // info para el record
         String recordName = (String) parent.children.get(0).data;
         TRecord recType = new TRecord(recordName);
 
@@ -40,6 +40,7 @@ public class NFields<T> extends Node<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
     }
 
     @SuppressWarnings("Duplicates")

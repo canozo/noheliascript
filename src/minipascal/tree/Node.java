@@ -8,10 +8,12 @@ import org.json.simple.JSONArray;
 public abstract class Node<T> {
 
     public T data;
+    public String place;
     public Node<T> parent;
     public List<Node<T>> children;
 
     public Node(T data) {
+        this.place = null;
         this.data = data;
         this.children = new LinkedList<>();
     }

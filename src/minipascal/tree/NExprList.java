@@ -15,6 +15,9 @@ public class NExprList<T> extends Node<T> {
     }
 
     public void compile() {
+        for (Node<T> child : children) {
+            child.compile();
+        }
     }
 
     public String rebuild() {

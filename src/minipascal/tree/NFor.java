@@ -21,7 +21,7 @@ public class NFor<T> extends Node<T> {
         // statements:
         children.get(2).visit();
 
-        NodeType to = (NodeType) children.get(1);
+        NodeType<T> to = (NodeType<T>) children.get(1);
         if (!Type.INTEGER.equals(to.type)) {
             System.err.println("ERROR EN: " + this.rebuild());
             System.err.println("La expresion " + to.rebuild() + " no es de tipo integer.");
@@ -32,6 +32,14 @@ public class NFor<T> extends Node<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> asign = children.get(0);
+        Node<T> to = children.get(1);
+        Node<T> statements = children.get(2);
+
+        asign.compile();
+        to.compile();
+        statements.compile();
     }
 
     public String rebuild() {

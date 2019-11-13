@@ -28,7 +28,7 @@ public class NIfElse<T> extends Node<T> {
             children.get(2).visit();
         }
 
-        NodeType bo = (NodeType) children.get(0);
+        NodeType<T> bo = (NodeType<T>) children.get(0);
         if (!Type.BOOLEAN.equals(bo.type)) {
             System.err.println("ERROR EN: " + this.rebuild());
             System.err.println("La expresion " + bo.rebuild() + " no es de tipo boolean.");
@@ -38,6 +38,17 @@ public class NIfElse<T> extends Node<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> nIf = children.get(0);
+        Node<T> then = children.get(1);
+        Node<T> nElse;
+
+        nIf.compile();
+        then.compile();
+        if (children.size() > 2) {
+            nElse = children.get(2);
+            nElse.compile();
+        }
     }
 
     public String rebuild() {

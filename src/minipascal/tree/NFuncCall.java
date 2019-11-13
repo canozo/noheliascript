@@ -36,7 +36,7 @@ public class NFuncCall<T> extends NodeType<T> {
             Node<T> exprList = children.get(0);
             for (Node<T> child : exprList.children) {
                 child.visit();
-                nuevo.addArg(((NodeType) child).type);
+                nuevo.addArg(((NodeType<T>) child).type);
             }
         }
         if (!candidato.equals(nuevo)) {
@@ -52,6 +52,14 @@ public class NFuncCall<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> exprList = children.get(0);
+        if (exprList != null) {
+            // expresiones enviadas a la funcion como argumentos
+            for (Node<T> child : exprList.children) {
+                child.compile();
+            }
+        }
     }
 
     public String rebuild() {

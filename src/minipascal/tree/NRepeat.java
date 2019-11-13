@@ -18,7 +18,7 @@ public class NRepeat<T> extends Node<T> {
         // until
         children.get(1).visit();
 
-        NodeType bo = (NodeType) children.get(1);
+        NodeType<T> bo = (NodeType<T>) children.get(1);
         if (!Type.BOOLEAN.equals(bo.type)) {
             System.err.println("ERROR EN: " + this.rebuild());
             System.err.println(bo.rebuild() + " no es de tipo boolean.");
@@ -29,6 +29,12 @@ public class NRepeat<T> extends Node<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> repeat = children.get(0);
+        Node<T> until = children.get(1);
+
+        repeat.compile();
+        until.compile();
     }
 
     public String rebuild() {

@@ -23,7 +23,7 @@ public class NFuncWrite<T> extends NodeType<T> {
             // segundo parametro var
             children.get(1).visit();
 
-            NodeType var = (NodeType) children.get(1);
+            NodeType<T> var = (NodeType<T>) children.get(1);
             if (var.type == null) {
                 // tipo de variable no definido
                 return;
@@ -39,6 +39,7 @@ public class NFuncWrite<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
     }
 
     public String rebuild() {

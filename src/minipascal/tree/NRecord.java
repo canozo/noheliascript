@@ -15,6 +15,8 @@ public class NRecord<T> extends Node<T> {
     }
 
     public void compile() {
+        // TODO crear el codigo intermedio
+        children.get(1).compile();
     }
 
     public String rebuild() {

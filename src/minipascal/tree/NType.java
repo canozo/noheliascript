@@ -11,6 +11,7 @@ public class NType<T> extends Node<T> {
     }
 
     public void compile() {
+        // no necesitamos hacer nada
     }
 
     public String rebuild() {

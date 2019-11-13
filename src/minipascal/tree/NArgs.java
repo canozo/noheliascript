@@ -50,6 +50,7 @@ public class NArgs<T> extends Node<T> {
     }
 
     public void compile() {
+        // no ocupamos hacer nada
     }
 
     @SuppressWarnings("Duplicates")

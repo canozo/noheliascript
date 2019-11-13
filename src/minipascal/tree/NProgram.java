@@ -7,12 +7,15 @@ public class NProgram<T> extends Node<T> {
     }
 
     public void visit() {
-        for (Node child : children) {
+        for (Node<T> child : children) {
             child.visit();
         }
     }
 
     public void compile() {
+        for (Node<T> child : children) {
+            child.compile();
+        }
     }
 
     public String rebuild() {

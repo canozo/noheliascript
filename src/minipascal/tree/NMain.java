@@ -11,8 +11,7 @@ public class NMain<T> extends Node<T> {
 
     public void visit() {
         // statements del main
-        // XXX chanchada
-        // cuando se visita el main, cambiamos el ambito a las variables del main denuevo
+        // cuando se visita el main, cambiamos el ambito a las variables globales
         Globals.ambito = 0;
         if (children.get(0) != null) {
             children.get(0).visit();
@@ -20,6 +19,9 @@ public class NMain<T> extends Node<T> {
     }
 
     public void compile() {
+        if (children.get(0) != null) {
+            children.get(0).compile();
+        }
     }
 
     public String rebuild() {

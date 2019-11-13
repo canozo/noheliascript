@@ -11,9 +11,6 @@ public class NWhile<T> extends Node<T> {
         add(doStmnt);
     }
 
-    public void compile() {
-    }
-
     @SuppressWarnings("Duplicates")
     public void visit() {
         // while
@@ -21,7 +18,7 @@ public class NWhile<T> extends Node<T> {
         // do
         children.get(1).visit();
 
-        NodeType bo = (NodeType) children.get(0);
+        NodeType<T> bo = (NodeType<T>) children.get(0);
         if (!Type.BOOLEAN.equals(bo.type)) {
             System.err.println("ERROR EN: " + this.rebuild());
             System.err.println(bo.rebuild() + " no es de tipo boolean.");
@@ -29,6 +26,15 @@ public class NWhile<T> extends Node<T> {
             System.err.println();
             Globals.error = true;
         }
+    }
+
+    public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> nWhile = children.get(0);
+        Node<T> nDo = children.get(1);
+
+        nWhile.compile();
+        nDo.compile();
     }
 
     public String rebuild() {

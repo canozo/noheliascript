@@ -15,8 +15,8 @@ public class NAssign<T> extends Node<T> {
         children.get(0).visit();
         children.get(1).visit();
 
-        NodeType left = (NodeType) children.get(0);
-        NodeType right = (NodeType) children.get(1);
+        NodeType<T> left = (NodeType<T>) children.get(0);
+        NodeType<T> right = (NodeType<T>) children.get(1);
 
         // Puede ser record field = algo, variable = algo, funcion = algo
         if (left.type == null) {
@@ -34,6 +34,12 @@ public class NAssign<T> extends Node<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> left = children.get(0);
+        Node<T> right = children.get(1);
+
+        left.compile();
+        right.compile();
     }
 
     public String rebuild() {

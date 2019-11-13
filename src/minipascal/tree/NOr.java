@@ -16,8 +16,8 @@ public class NOr<T> extends NodeType<T> {
         children.get(0).visit();
         children.get(1).visit();
 
-        NodeType left = (NodeType) children.get(0);
-        NodeType right = (NodeType) children.get(1);
+        NodeType<T> left = (NodeType<T>) children.get(0);
+        NodeType<T> right = (NodeType<T>) children.get(1);
 
         if (!Type.BOOLEAN.equals(left.type)) {
             System.err.println("ERROR EN: " + this.rebuild());
@@ -37,6 +37,12 @@ public class NOr<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> left = children.get(0);
+        Node<T> right = children.get(1);
+
+        left.compile();
+        right.compile();
     }
 
     public String rebuild() {

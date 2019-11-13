@@ -15,7 +15,7 @@ public class NNot<T> extends NodeType<T> {
         // operador not
         children.get(0).visit();
 
-        NodeType expr = (NodeType) children.get(0);
+        NodeType<T> expr = (NodeType<T>) children.get(0);
         if (!Type.BOOLEAN.equals(expr.type)) {
             System.err.println("ERROR EN: " + this.rebuild());
             System.err.println(expr.rebuild() + " no es de tipo esperado (boolean).");
@@ -26,6 +26,10 @@ public class NNot<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        Node<T> expr = children.get(0);
+
+        expr.compile();
     }
 
     public String rebuild() {

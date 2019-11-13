@@ -22,6 +22,7 @@ public class NNewType<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // no necesitamos hacer nada
     }
 
     public String rebuild() {

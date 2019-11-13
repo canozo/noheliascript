@@ -23,7 +23,7 @@ public class NSuma<T> extends NodeType<T> {
             // suma unaria (-5)
             children.get(0).visit();
 
-            NodeType num = (NodeType) children.get(0);
+            NodeType<T> num = (NodeType<T>) children.get(0);
             if (!Type.INTEGER.equals(num.type)) {
                 System.err.println("ERROR EN: " + this.rebuild());
                 System.err.println(num.rebuild() + " no es de tipo esperado (integer).");
@@ -36,8 +36,8 @@ public class NSuma<T> extends NodeType<T> {
             children.get(0).visit();
             children.get(1).visit();
 
-            NodeType left = (NodeType) children.get(0);
-            NodeType right = (NodeType) children.get(1);
+            NodeType<T> left = (NodeType<T>) children.get(0);
+            NodeType<T> right = (NodeType<T>) children.get(1);
 
             if (!Type.INTEGER.equals(left.type)) {
                 System.err.println("ERROR EN: " + this.rebuild());
@@ -58,6 +58,20 @@ public class NSuma<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
+        if (children.size() == 1) {
+            // suma unaria
+            Node<T> num = children.get(0);
+
+            num.compile();
+        } else if (children.size() == 2) {
+            // suma binaria
+            Node<T> left = children.get(0);
+            Node<T> right = children.get(1);
+
+            left.compile();
+            right.compile();
+        }
     }
 
     public String rebuild() {

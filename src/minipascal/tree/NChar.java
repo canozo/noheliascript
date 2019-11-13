@@ -17,6 +17,7 @@ public class NChar<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
     }
 
     @Override

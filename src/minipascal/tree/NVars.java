@@ -49,6 +49,7 @@ public class NVars<T> extends Node<T> {
     }
 
     public void compile() {
+        // no necesitamos hacer nada
     }
 
     @SuppressWarnings("Duplicates")

@@ -55,6 +55,7 @@ public class NRecordField<T> extends NodeType<T> {
     }
 
     public void compile() {
+        // TODO crear codigo intermedio
     }
 
     public String rebuild() {
