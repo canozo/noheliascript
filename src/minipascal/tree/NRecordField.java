@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.TRecord;
 import minipascal.util.types.Type;
 
@@ -55,7 +56,11 @@ public class NRecordField<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
+        Node<T> variable = children.get(0);
+        Node<T> field = children.get(1);
+
+        place = rebuild();
+//        Globals.cuadruplos.add(new Cuadruplo(".", variable.rebuild(), field.rebuild(), place));
     }
 
     public String rebuild() {
