@@ -14,6 +14,20 @@ public class Cuadruplo {
         this.res = res;
     }
 
+    public Cuadruplo(String op, String arg1, String res) {
+        this.op = op;
+        this.arg1 = arg1;
+        this.arg2 = "";
+        this.res = res;
+    }
+
+    public Cuadruplo(String op, String res) {
+        this.op = op;
+        this.arg1 = "";
+        this.arg2 = "";
+        this.res = res;
+    }
+
     @Override
     public String toString() {
         return String.format("%8s | %8s | %8s | %8s", op, arg1, arg2, res);

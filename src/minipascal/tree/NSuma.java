@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NSuma<T> extends NodeType<T> {
@@ -57,13 +58,15 @@ public class NSuma<T> extends NodeType<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
+        place = Globals.temporalNuevo();
         if (children.size() == 1) {
             // suma unaria
             Node<T> num = children.get(0);
-
             num.compile();
+            Globals.cuadruplos.add(new Cuadruplo((String) data, num.place, place));
+
         } else if (children.size() == 2) {
             // suma binaria
             Node<T> left = children.get(0);
@@ -71,6 +74,7 @@ public class NSuma<T> extends NodeType<T> {
 
             left.compile();
             right.compile();
+            Globals.cuadruplos.add(new Cuadruplo((String) data, left.place, right.place, place));
         }
     }
 

@@ -1,5 +1,6 @@
 package minipascal.tree;
 
+@Deprecated
 public class NBreak<T> extends Node<T> {
 
     public NBreak() {

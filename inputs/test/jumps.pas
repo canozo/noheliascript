@@ -4,15 +4,9 @@ var
 
 begin
   count := 100;
-  while true do
+  while count = -1 do
     begin
       if count = 0 then
-        continue;
-
-      if count < 0 then begin
-        break;
-      end;
-
-      write('Count: ', count);
+        write('count: ', count);
     end;
 end.

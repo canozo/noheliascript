@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 
 public class NAssign<T> extends Node<T> {
 
@@ -33,13 +34,14 @@ public class NAssign<T> extends Node<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);
 
         left.compile();
         right.compile();
+        Globals.cuadruplos.add(new Cuadruplo(":=", right.place, left.place));
     }
 
     public String rebuild() {

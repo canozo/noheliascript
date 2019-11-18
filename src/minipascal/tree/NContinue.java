@@ -1,5 +1,6 @@
 package minipascal.tree;
 
+@Deprecated
 public class NContinue<T> extends Node<T> {
 
     public NContinue() {

@@ -24,6 +24,7 @@ public class Test {
                 "inputs/test/jumps.pas",
                 "inputs/test/caseinsensitive.pas",
                 "inputs/test/records.pas",
+                "inputs/test/quads.pas",
 //                "inputs/test/acento.pas",
         };
         Node root;

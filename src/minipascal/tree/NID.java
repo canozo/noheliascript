@@ -26,7 +26,7 @@ public class NID<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO creo que no necesitamos hacer nada
+        place = (String) data;
     }
 
     @Override

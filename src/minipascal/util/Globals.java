@@ -37,6 +37,11 @@ public class Globals {
         error = false;
     }
 
+    public static String temporalNuevo() {
+        temporal += 1;
+        return String.format("t%d", temporal);
+    }
+
     public static void addNombreAmbito(String nombre) {
         if (nombreAmbitos.containsKey(ambito)) {
             String p = String.format("ERROR: Ya existe ambito con id <%d>.\n", ambito);

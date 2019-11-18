@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NMult<T> extends NodeType<T> {
@@ -36,13 +37,15 @@ public class NMult<T> extends NodeType<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);
 
         left.compile();
         right.compile();
+        place = Globals.temporalNuevo();
+        Globals.cuadruplos.add(new Cuadruplo((String) data, left.place, right.place, place));
     }
 
     public String rebuild() {

@@ -378,10 +378,10 @@ COMPOUND_STATEMENT ::=
 SIMPLE_STATEMENT ::=
   VARIABLE: var ASIGNACION EXPR: expr
   {: RESULT = new NAssign((Node) var, (Node) expr); :}
-  | BREAK
-  {: RESULT = new NBreak(); :}
-  | CONTINUE
-  {: RESULT = new NContinue(); :}
+//  | BREAK
+//  {: RESULT = new NBreak(); :}
+//  | CONTINUE
+//  {: RESULT = new NContinue(); :}
   | STMNT_FUNC: stmntFunc
   {: RESULT = stmntFunc; :}
   | COMPOUND_STATEMENT: c
