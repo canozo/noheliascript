@@ -28,8 +28,7 @@ begin test3 := 'x'; end;
 
 begin
   if not(test1(1, 2, '1', '2') = 5) then write('nice');
-  if ((-3 < 5 + 2 * 0) = false) = (genero2 = test3()) then
-    write('c mamo');
+  if ((-3 < 5 + 2 * 0) = false) = (genero2 = test3()) then write('c mamo');
   edad2 := 10 + 12;
   for edad := 0 to 10 do write('edad: ', edad);
 end.

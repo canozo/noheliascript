@@ -11,25 +11,17 @@ import java.io.*;
 // https://jsoneditoronline.org/
 // https://vanya.jp.net/vtree/
 
-public class Test {
+public class TestErrores {
 
     private static final boolean PRINT_ARBOL = true;
     private static final boolean PRINT_TABLAS = false;
-    private static final boolean PRINT_CUADRUPLOS = true;
 
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
-                "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
-                "inputs/test/test.pas",
-                "inputs/test/vacio.pas",
-                "inputs/test/jumps.pas",
-                "inputs/test/caseinsensitive.pas",
-                "inputs/test/records.pas",
-                "inputs/test/quads.pas",
-//                "inputs/test/acento.pas",
+                "inputs/errLexicos/factorial.pas",
+                "inputs/errLexicos/func.pas",
+                "inputs/errLexicos/rel.pas",
         };
         Node root;
         Reader reader;
@@ -60,17 +52,6 @@ public class Test {
                 if (PRINT_TABLAS) {
                     Globals.printSimbolos();
                 }
-
-                // verificar que no hay errores lexicos
-                assert !Globals.error;
-
-                // compilar
-                root.compile();
-
-                if (PRINT_CUADRUPLOS) {
-                    Globals.printCuadruplos();
-                }
-
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             } catch (AssertionError e) {

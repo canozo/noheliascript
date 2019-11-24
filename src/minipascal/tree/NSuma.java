@@ -79,8 +79,13 @@ public class NSuma<T> extends NodeType<T> {
     }
 
     public String rebuild() {
-        Node<T> left = children.get(0);
-        Node<T> right = children.get(1);
-        return String.format("%s %s %s", left.rebuild(), data, right.rebuild());
+        if (children.size() == 1) {
+            Node<T> num = children.get(0);
+            return String.format("%s%s", data, num.rebuild());
+        } else {
+            Node<T> left = children.get(0);
+            Node<T> right = children.get(1);
+            return String.format("%s %s %s", left.rebuild(), data, right.rebuild());
+        }
     }
 }

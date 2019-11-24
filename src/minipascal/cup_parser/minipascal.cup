@@ -102,6 +102,9 @@ non terminal COMPOUND_STATEMENT;
 non terminal CONST_VAL;
 non terminal EXPR;
 non terminal SIMPLE_EXPR;
+non terminal SIMPLE_EXPR_2;
+non terminal SIMPLE_EXPR_3;
+non terminal SIMPLE_EXPR_4;
 non terminal EXPR_LIST;
 non terminal TERMINO;
 non terminal FACTOR;
@@ -442,31 +445,46 @@ MAYBE_EXPR_LIST ::=
     ;
 
 EXPR ::=
-  SIMPLE_EXPR: simpleExpr
-  {: RESULT = simpleExpr; :}
-  | SIMPLE_EXPR: simpleExpr1 OP_RELACIONAL: op SIMPLE_EXPR: simpleExpr2
-  {: RESULT = new NOpRel((Node) simpleExpr1, op, (Node) simpleExpr2); :}
+  SIMPLE_EXPR: expr
+  {: RESULT = expr; :}
+  | SIMPLE_EXPR: eLeft OR EXPR: eRight
+  {: RESULT = new NOr((Node) eLeft, (Node) eRight); :}
   | error
   ;
 
 SIMPLE_EXPR ::=
+  SIMPLE_EXPR_2: expr
+  {: RESULT = expr; :}
+  | SIMPLE_EXPR_2: eLeft AND SIMPLE_EXPR: eRight
+  {: RESULT = new NAnd((Node) eLeft, (Node) eRight); :}
+  ;
+
+SIMPLE_EXPR_2 ::=
+  SIMPLE_EXPR_3: expr
+  {: RESULT = expr; :}
+  | SIMPLE_EXPR_3: eLeft OP_RELACIONAL: op SIMPLE_EXPR_2: eRight
+  {: RESULT = new NOpRel((Node) eLeft, op, (Node) eRight); :}
+  ;
+
+SIMPLE_EXPR_3 ::=
+  SIMPLE_EXPR_4: expr
+  {: RESULT = expr; :}
+  | SIMPLE_EXPR_4: eLeft OP_SUMA: op SIMPLE_EXPR_3: eRight
+  {: RESULT = new NSuma((Node) eLeft, op, (Node) eRight); :}
+  ;
+
+SIMPLE_EXPR_4 ::=
   TERMINO: termino
   {: RESULT = termino; :}
-  | OP_SUMA: op TERMINO: termino
-  {: RESULT = new NSuma(op, (Node) termino); :}
-  | SIMPLE_EXPR: simpleExpr OP_SUMA: op TERMINO: termino
-  {: RESULT = new NSuma((Node) simpleExpr, op, (Node) termino); :}
-  | TERMINO: termino1 OR TERMINO: termino2
-  {: RESULT = new NOr((Node) termino1, (Node) termino2); :}
+  | TERMINO: eLeft OP_MULT: op SIMPLE_EXPR_4: eRight
+  {: RESULT = new NMult((Node) eLeft, op, (Node) eRight); :}
   ;
 
 TERMINO ::=
   FACTOR: factor
   {: RESULT = factor; :}
-  | TERMINO: termino OP_MULT: op FACTOR: factor
-  {: RESULT = new NMult((Node) termino, op, (Node) factor); :}
-  | FACTOR: factor1 AND FACTOR: factor2
-  {: RESULT = new NAnd((Node) factor1, (Node) factor2); :}
+  | OP_SUMA: op TERMINO: expr
+  {: RESULT = new NSuma(op, (Node) expr); :}
   ;
 
 FACTOR ::=

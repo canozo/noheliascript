@@ -22,6 +22,7 @@ public class Globals {
     public static ArrayList<Cuadruplo> cuadruplos;
     public static int ambito;
     public static int temporal;
+    public static int etiquieta;
     public static boolean error;
 
     public static void create() {
@@ -33,6 +34,7 @@ public class Globals {
         cuadruplos = new ArrayList<>();
         ambito = 0; // 0 esta reservado para variables globales
         temporal = 0;
+        etiquieta = 0;
         addNombreAmbito("global");
         error = false;
     }
@@ -40,6 +42,11 @@ public class Globals {
     public static String temporalNuevo() {
         temporal += 1;
         return String.format("t%d", temporal);
+    }
+
+    public static String etiquetaNueva() {
+        etiquieta += 1;
+        return String.format("etiq%d:", etiquieta);
     }
 
     public static void addNombreAmbito(String nombre) {
@@ -152,8 +159,8 @@ public class Globals {
 
     public static void printCuadruplos() {
         System.out.println("\nTabla de cuadruplos:");
-        System.out.println(String.format("%8s | %8s | %8s | %8s", "op", "arg1", "arg2", "res"));
-        System.out.println(String.format("%41s", "").replaceAll(" ", "-"));
+        System.out.println(String.format("%10s | %10s | %10s | %10s", "op", "arg1", "arg2", "res"));
+        System.out.println(String.format("%49s", "").replaceAll(" ", "-"));
         for (Cuadruplo cuadruplo : cuadruplos) {
             System.out.println(cuadruplo);
         }

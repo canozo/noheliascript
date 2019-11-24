@@ -12,12 +12,12 @@ public class NChar<T> extends NodeType<T> {
         // constchar
     }
 
-    public String rebuild() {
-        return data.toString();
+    public void compile() {
+        place = rebuild();
     }
 
-    public void compile() {
-        // TODO crear codigo intermedio
+    public String rebuild() {
+        return String.format("'%s'", data.toString());
     }
 
     @Override

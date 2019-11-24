@@ -13,7 +13,8 @@ public class NBool<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
+        Boolean boolData = (Boolean) data;
+        place = boolData.toString();
     }
 
     public String rebuild() {

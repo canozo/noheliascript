@@ -13,11 +13,11 @@ public class NString<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO creo que no necesitamos hacer nada
+        place = rebuild();
     }
 
     public String rebuild() {
-        return (String) data;
+        return String.format("\"%s\"", data.toString());
     }
 
     @Override

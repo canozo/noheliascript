@@ -30,6 +30,6 @@ public class Cuadruplo {
 
     @Override
     public String toString() {
-        return String.format("%8s | %8s | %8s | %8s", op, arg1, arg2, res);
+        return String.format("%10s | %10s | %10s | %10s", op, arg1, arg2, res);
     }
 }

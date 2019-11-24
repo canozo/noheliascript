@@ -54,10 +54,12 @@ public class NFuncCall<T> extends NodeType<T> {
     public void compile() {
         // TODO crear codigo intermedio
         Node<T> exprList = children.get(0);
+        int args = 0;
         if (exprList != null) {
             // expresiones enviadas a la funcion como argumentos
             for (Node<T> child : exprList.children) {
                 child.compile();
+                args += 1;
             }
         }
     }

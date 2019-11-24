@@ -56,11 +56,8 @@ public class NRecordField<T> extends NodeType<T> {
     }
 
     public void compile() {
-        Node<T> variable = children.get(0);
-        Node<T> field = children.get(1);
-
+        // TODO fix esto
         place = rebuild();
-//        Globals.cuadruplos.add(new Cuadruplo(".", variable.rebuild(), field.rebuild(), place));
     }
 
     public String rebuild() {
