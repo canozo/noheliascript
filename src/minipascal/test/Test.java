@@ -13,22 +13,23 @@ import java.io.*;
 
 public class Test {
 
-    private static final boolean PRINT_ARBOL = false;
+    private static final boolean PRINT_ARBOL = true;
     private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = true;
 
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
-                "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
-                "inputs/test/test.pas",
-                "inputs/test/vacio.pas",
-                "inputs/test/jumps.pas",
-                "inputs/test/caseinsensitive.pas",
-                "inputs/test/records.pas",
-                "inputs/test/quads.pas",
+//                "inputs/buenos/factorial.pas",
+//                "inputs/buenos/func.pas",
+//                "inputs/buenos/rel.pas",
+//                "inputs/test/test.pas",
+//                "inputs/test/vacio.pas",
+//                "inputs/test/jumps.pas",
+//                "inputs/test/caseinsensitive.pas",
+//                "inputs/test/records.pas",
+//                "inputs/test/quads.pas",
+                "inputs/buenos/psuma.pas",
 //                "inputs/test/acento.pas",
         };
         Node root;
@@ -78,6 +79,8 @@ public class Test {
                 System.exit(0);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.err.println("No se pasaron todas las pruebas! Saliendo.");
+                System.exit(0);
             }
             System.out.println("__________________________________________________________________");
         }

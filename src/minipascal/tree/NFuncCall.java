@@ -64,6 +64,8 @@ public class NFuncCall<T> extends NodeType<T> {
                 args += 1;
             }
             Globals.cuadruplos.add(new Cuadruplo("call", Integer.toString(args), (String) data));
+        } else {
+            Globals.cuadruplos.add(new Cuadruplo("call", (String) data));
         }
         place = (String) data;
     }

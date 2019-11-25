@@ -11,6 +11,7 @@ import minipascal.util.types.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Globals {
@@ -22,7 +23,6 @@ public class Globals {
     public static ArrayList<Cuadruplo> cuadruplos;
     public static int ambito;
     public static int temporal;
-    public static int etiquieta;
     public static boolean error;
 
     public static void create() {
@@ -34,7 +34,6 @@ public class Globals {
         cuadruplos = new ArrayList<>();
         ambito = 0; // 0 esta reservado para variables globales
         temporal = 0;
-        etiquieta = 0;
         addNombreAmbito("global");
         error = false;
     }
@@ -44,9 +43,29 @@ public class Globals {
         return String.format("t%d", temporal);
     }
 
-    public static String etiquetaNueva() {
-        etiquieta += 1;
-        return String.format("etiq%d:", etiquieta);
+    public static ArrayList<Integer> crearLista(int num) {
+        ArrayList<Integer> temp = new ArrayList<>();
+        temp.add(num);
+        return temp;
+    }
+
+    public static ArrayList<Integer> fusionar(List<Integer> a, List<Integer> b) {
+        ArrayList<Integer> res = new ArrayList<>();
+        if (a != null) {
+            res.addAll(a);
+        }
+        if (b != null) {
+            res.addAll(b);
+        }
+        return res;
+    }
+
+    public static void completar(List<Integer> lista, int completacion) {
+        if (lista != null) {
+            for (int num : lista) {
+                cuadruplos.get(num - 1).res = Integer.toString(completacion);
+            }
+        }
     }
 
     public static void addNombreAmbito(String nombre) {
@@ -159,10 +178,12 @@ public class Globals {
 
     public static void printCuadruplos() {
         System.out.println("\nTabla de cuadruplos:");
-        System.out.println(String.format("%10s | %10s | %10s | %10s", "op", "arg1", "arg2", "res"));
-        System.out.println(String.format("%49s", "").replaceAll(" ", "-"));
+        System.out.println(String.format("   # | %10s | %10s | %10s | %10s", "op", "arg1", "arg2", "res"));
+        System.out.println(String.format("%56s", "").replaceAll(" ", "-"));
+        int linea = 1;
         for (Cuadruplo cuadruplo : cuadruplos) {
-            System.out.println(cuadruplo);
+            System.out.println(String.format("%3d: | %s", linea, cuadruplo));
+            linea += 1;
         }
     }
 }

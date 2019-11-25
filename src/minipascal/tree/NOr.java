@@ -37,12 +37,16 @@ public class NOr<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);
 
         left.compile();
+        int sigCuad = Globals.cuadruplos.size() + 1;
         right.compile();
+
+        Globals.completar(left.listaF, sigCuad);
+        listaV = Globals.fusionar(left.listaV, right.listaV);
+        listaF = right.listaF;
     }
 
     public String rebuild() {

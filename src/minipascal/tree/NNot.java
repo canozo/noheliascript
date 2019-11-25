@@ -26,10 +26,11 @@ public class NNot<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> expr = children.get(0);
-
         expr.compile();
+
+        listaF = expr.listaV;
+        listaV = expr.listaF;
     }
 
     public String rebuild() {

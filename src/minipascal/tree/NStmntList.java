@@ -1,5 +1,7 @@
 package minipascal.tree;
 
+import minipascal.util.Globals;
+
 public class NStmntList<T> extends Node<T> {
 
     public NStmntList(Node<T> expr) {
@@ -15,8 +17,22 @@ public class NStmntList<T> extends Node<T> {
     }
 
     public void compile() {
-        for (Node<T> child : children) {
-            child.compile();
+        int sigCuad;
+        Node<T> anterior;
+
+        if (children.size() > 0) {
+            Node<T> primero = children.get(0);
+            primero.compile();
+            anterior = primero;
+
+            for (int i = 1; i < children.size(); i += 1) {
+                Node<T> child = children.get(i);
+                sigCuad = Globals.cuadruplos.size() + 1;
+                child.compile();
+                Globals.completar(anterior.listaSig, sigCuad);
+                anterior = child;
+            }
+            listaSig = anterior.listaSig;
         }
     }
 

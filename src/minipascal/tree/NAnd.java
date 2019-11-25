@@ -37,13 +37,18 @@ public class NAnd<T> extends NodeType<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);
 
         left.compile();
+        int sigCuad = Globals.cuadruplos.size() + 1;
         right.compile();
+
+        Globals.completar(left.listaV, sigCuad);
+        listaV = right.listaV;
+        listaF = Globals.fusionar(left.listaF, right.listaF);
     }
 
     public String rebuild() {

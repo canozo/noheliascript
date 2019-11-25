@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NWhile<T> extends Node<T> {
@@ -29,12 +30,18 @@ public class NWhile<T> extends Node<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> nWhile = children.get(0);
         Node<T> nDo = children.get(1);
 
+        int sigCuad = Globals.cuadruplos.size() + 1;
         nWhile.compile();
+        int sigCuad2 = Globals.cuadruplos.size() + 1;
         nDo.compile();
+
+        Globals.completar(nWhile.listaV, sigCuad2);
+        listaSig = nWhile.listaF;
+        Globals.completar(nDo.listaSig, sigCuad);
+        Globals.cuadruplos.add(new Cuadruplo("goto", null));
     }
 
     public String rebuild() {

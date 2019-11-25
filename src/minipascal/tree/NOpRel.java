@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NOpRel<T> extends NodeType<T> {
@@ -67,12 +68,16 @@ public class NOpRel<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);
-
         left.compile();
         right.compile();
+
+        listaV = Globals.crearLista(Globals.cuadruplos.size() + 1);
+        listaF = Globals.crearLista(Globals.cuadruplos.size() + 2);
+
+        Globals.cuadruplos.add(new Cuadruplo("if" + data, left.place, right.place, null));
+        Globals.cuadruplos.add(new Cuadruplo("goto", null));
     }
 
     public String rebuild() {

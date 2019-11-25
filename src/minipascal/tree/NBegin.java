@@ -12,7 +12,9 @@ public class NBegin<T> extends Node<T> {
     }
 
     public void compile() {
-        children.get(0).compile();
+        Node<T> stmntList = children.get(0);
+        stmntList.compile();
+        listaSig = stmntList.listaSig;
     }
 
     public String rebuild() {

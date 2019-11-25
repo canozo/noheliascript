@@ -9,11 +9,17 @@ public abstract class Node<T> {
 
     public T data;
     public String place;
+    public List<Integer> listaV;
+    public List<Integer> listaF;
+    public List<Integer> listaSig;
     public Node<T> parent;
     public List<Node<T>> children;
 
     public Node(T data) {
         this.place = null;
+        this.listaV = null;
+        this.listaF = null;
+        this.listaSig = null;
         this.data = data;
         this.children = new LinkedList<>();
     }
