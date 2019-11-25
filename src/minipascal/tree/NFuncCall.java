@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.TFunc;
 
 public class NFuncCall<T> extends NodeType<T> {
@@ -52,16 +53,19 @@ public class NFuncCall<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
+        // TODO preguntar al ing
         Node<T> exprList = children.get(0);
         int args = 0;
         if (exprList != null) {
             // expresiones enviadas a la funcion como argumentos
             for (Node<T> child : exprList.children) {
                 child.compile();
+                Globals.cuadruplos.add(new Cuadruplo("param", child.place));
                 args += 1;
             }
+            Globals.cuadruplos.add(new Cuadruplo("call", Integer.toString(args), (String) data));
         }
+        place = (String) data;
     }
 
     public String rebuild() {

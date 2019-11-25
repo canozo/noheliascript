@@ -13,7 +13,7 @@ import java.io.*;
 
 public class Test {
 
-    private static final boolean PRINT_ARBOL = true;
+    private static final boolean PRINT_ARBOL = false;
     private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = true;
 

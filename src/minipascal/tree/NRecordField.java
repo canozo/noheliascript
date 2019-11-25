@@ -56,7 +56,7 @@ public class NRecordField<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO fix esto
+        // TODO preguntar al ing, fix esto
         place = rebuild();
     }
 
