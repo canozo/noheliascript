@@ -41,7 +41,7 @@ public class NWhile<T> extends Node<T> {
         Globals.completar(nWhile.listaV, sigCuad2);
         listaSig = nWhile.listaF;
         Globals.completar(nDo.listaSig, sigCuad);
-        Globals.cuadruplos.add(new Cuadruplo("goto", null));
+        Globals.cuadruplos.add(new Cuadruplo("goto", Integer.toString(sigCuad)));
     }
 
     public String rebuild() {
