@@ -45,7 +45,9 @@ public class Cuadruplo {
     @Override
     public String toString() {
         if (op.equals("write")) {
-            return String.format("%15s | %15s | %15s | %15s", op, "\"texto\"", arg2, res);
+            int maxSize = Math.min(arg1.length(), 15);
+            String shortStr = String.format("\"%s\"", arg1.substring(1, maxSize - 1));
+            return String.format("%15s | %15s | %15s | %15s", op, shortStr, arg2, res);
         }
         return String.format("%15s | %15s | %15s | %15s", op, arg1, arg2, res);
     }

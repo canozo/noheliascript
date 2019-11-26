@@ -6,16 +6,15 @@ function hola(): boolean;
 var
   edad: integer;
 begin
-  write('Hola!');
-  write('Cual es tu edad? ');
+  write('Hola! Cual es tu edad? ');
   read(edad);
   if edad < 18 then begin
     write('Aun no puedes manejar!');
     hola := false;
   end else begin
     write('Ya puedes empezar a manejar!');
+    hola := true;
   end;
-  hola := true;
 end;
 
 function maths(a, b, c: integer): integer;

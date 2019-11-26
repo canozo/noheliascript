@@ -76,7 +76,7 @@ public class NOpRel<T> extends NodeType<T> {
         listaV = Globals.crearLista(Globals.cuadruplos.size() + 1);
         listaF = Globals.crearLista(Globals.cuadruplos.size() + 2);
 
-        Globals.cuadruplos.add(new Cuadruplo("if" + data, left.place, right.place, null));
+        Globals.cuadruplos.add(new Cuadruplo("if" + data + " goto", left.place, right.place, null));
         Globals.cuadruplos.add(new Cuadruplo("goto", null));
     }
 

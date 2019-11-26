@@ -31,6 +31,7 @@ public class Test {
                 "inputs/test/quads.pas",
                 "inputs/buenos/psuma.pas",
                 "inputs/test/ifElse.pas",
+                "inputs/test/booleans.pas",
 //                "inputs/test/acento.pas",
         };
         Node root;

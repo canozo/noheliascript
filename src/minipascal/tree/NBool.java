@@ -19,12 +19,15 @@ public class NBool<T> extends NodeType<T> {
 
         if (boolData) {
             listaV = Globals.crearLista(Globals.cuadruplos.size() + 1);
-            Globals.cuadruplos.add(new Cuadruplo("goto", null));
             place = "1";
         } else {
             listaF = Globals.crearLista(Globals.cuadruplos.size() + 1);
-            Globals.cuadruplos.add(new Cuadruplo("goto", null));
             place = "0";
+        }
+
+//        if (parent instanceof NodeType) {
+        if (parent instanceof NAnd || parent instanceof NOr) {
+            Globals.cuadruplos.add(new Cuadruplo("goto", null));
         }
     }
 

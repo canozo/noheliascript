@@ -66,7 +66,9 @@ public class NFunction<T> extends Node<T> {
 
         if (maybeStmntList != null) {
             maybeStmntList.compile();
+            int sigCuad = Globals.cuadruplos.size() + 1;
             Globals.cuadruplos.add(new Cuadruplo());
+            Globals.completar(maybeStmntList.listaSig, sigCuad);
         }
     }
 
