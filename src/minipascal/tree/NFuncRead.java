@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NFuncRead<T> extends NodeType<T> {
@@ -30,7 +31,9 @@ public class NFuncRead<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
+        Node<T> var = children.get(0);
+        var.compile();
+        Globals.cuadruplos.add(new Cuadruplo("read", var.place));
     }
 
     public String rebuild() {

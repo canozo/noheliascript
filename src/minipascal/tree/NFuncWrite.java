@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NFuncWrite<T> extends NodeType<T> {
@@ -39,7 +40,16 @@ public class NFuncWrite<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
+        if (children.size() == 1) {
+            Node<T> string = children.get(0);
+            Globals.cuadruplos.add(new Cuadruplo("write", string.toString(), ""));
+        } else {
+            Node<T> string = children.get(0);
+            Node<T> var = children.get(1);
+            var.compile();
+            Globals.cuadruplos.add(new Cuadruplo("write", string.toString(), var.place, ""));
+
+        }
     }
 
     public String rebuild() {

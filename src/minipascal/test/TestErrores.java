@@ -60,7 +60,7 @@ public class TestErrores {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println("__________________________________________________________________");
+            System.out.println(String.format("%80s", "").replaceAll(" ", "_"));
         }
         System.out.println("Se pasaron todas las pruebas con exito!");
     }

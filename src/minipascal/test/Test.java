@@ -13,7 +13,7 @@ import java.io.*;
 
 public class Test {
 
-    private static final boolean PRINT_ARBOL = true;
+    private static final boolean PRINT_ARBOL = false;
     private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = true;
 
@@ -30,6 +30,7 @@ public class Test {
                 "inputs/test/records.pas",
                 "inputs/test/quads.pas",
                 "inputs/buenos/psuma.pas",
+                "inputs/test/ifElse.pas",
 //                "inputs/test/acento.pas",
         };
         Node root;
@@ -82,7 +83,7 @@ public class Test {
                 System.err.println("No se pasaron todas las pruebas! Saliendo.");
                 System.exit(0);
             }
-            System.out.println("__________________________________________________________________");
+            System.out.println(String.format("%80s", "").replaceAll(" ", "_"));
         }
         System.out.println("Se pasaron todas las pruebas con exito!");
     }

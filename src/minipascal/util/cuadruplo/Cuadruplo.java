@@ -28,8 +28,25 @@ public class Cuadruplo {
         this.res = res;
     }
 
+    public Cuadruplo(String op) {
+        this.op = op;
+        this.arg1 = "";
+        this.arg2 = "";
+        this.res = "";
+    }
+
+    public Cuadruplo() {
+        this.op = "";
+        this.arg1 = "";
+        this.arg2 = "";
+        this.res = "";
+    }
+
     @Override
     public String toString() {
-        return String.format("%10s | %10s | %10s | %10s", op, arg1, arg2, res);
+        if (op.equals("write")) {
+            return String.format("%15s | %15s | %15s | %15s", op, "\"texto\"", arg2, res);
+        }
+        return String.format("%15s | %15s | %15s | %15s", op, arg1, arg2, res);
     }
 }

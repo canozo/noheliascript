@@ -60,7 +60,7 @@ public class Main {
                     Globals.printCuadruplos();
                 }
 
-                System.out.println("___________________________________________________________________");
+                System.out.println(String.format("%80s", "").replaceAll(" ", "_"));
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             } catch (Exception e) {

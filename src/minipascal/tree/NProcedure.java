@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.TFunc;
 
 public class NProcedure<T> extends Node<T> {
@@ -51,7 +52,6 @@ public class NProcedure<T> extends Node<T> {
 
     @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> maybeArgs = children.get(2);
         Node<T> maybeVars = children.get(3);
         Node<T> maybeStmntList = children.get(4);
@@ -66,6 +66,7 @@ public class NProcedure<T> extends Node<T> {
 
         if (maybeStmntList != null) {
             maybeStmntList.compile();
+            Globals.cuadruplos.add(new Cuadruplo());
         }
     }
 

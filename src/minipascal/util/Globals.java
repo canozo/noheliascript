@@ -178,8 +178,8 @@ public class Globals {
 
     public static void printCuadruplos() {
         System.out.println("\nTabla de cuadruplos:");
-        System.out.println(String.format("   # | %10s | %10s | %10s | %10s", "op", "arg1", "arg2", "res"));
-        System.out.println(String.format("%56s", "").replaceAll(" ", "-"));
+        System.out.println(String.format("   # | %15s | %15s | %15s | %15s", "op", "arg1", "arg2", "res"));
+        System.out.println(String.format("%76s", "").replaceAll(" ", "-"));
         int linea = 1;
         for (Cuadruplo cuadruplo : cuadruplos) {
             System.out.println(String.format("%3d: | %s", linea, cuadruplo));

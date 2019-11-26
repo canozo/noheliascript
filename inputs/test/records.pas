@@ -18,7 +18,7 @@ var
 
 type carro = record
   modelo: char;
-  num_modelo: integer;
+  num_mod: integer;
   hp: integer;
 end;
 
@@ -32,12 +32,12 @@ begin
   yo.edad := 22;
 
   read(nave.modelo);
-  read(nave.num_modelo);
+  read(nave.num_mod);
   read(nave.hp);
 
   write('Mi sexo es ', yo.sexo);
   write('Tengo ', yo.edad);
   write('Mi carro es un modelo ', nave.modelo);
-  write('Mi carro es un num de modelo ', nave.num_modelo);
+  write('Mi carro es un num de modelo ', nave.num_mod);
   write('Mi nave tiene un horse power de ', nave.hp);
 end.

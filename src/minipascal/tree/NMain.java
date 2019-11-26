@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 
 public class NMain<T> extends Node<T> {
 
@@ -19,8 +20,10 @@ public class NMain<T> extends Node<T> {
     }
 
     public void compile() {
-        if (children.get(0) != null) {
-            children.get(0).compile();
+        Node<T> stmntList = children.get(0);
+        if (stmntList != null) {
+            stmntList.compile();
+            Globals.cuadruplos.add(new Cuadruplo());
         }
     }
 
