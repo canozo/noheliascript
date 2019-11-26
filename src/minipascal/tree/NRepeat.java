@@ -28,13 +28,19 @@ public class NRepeat<T> extends Node<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> repeat = children.get(0);
         Node<T> until = children.get(1);
 
+        int sigCuad = Globals.cuadruplos.size() + 1;
         repeat.compile();
+        int sigCuad2 = Globals.cuadruplos.size() + 1;
         until.compile();
+
+        Globals.completar(until.listaF, sigCuad);
+        Globals.completar(repeat.listaSig, sigCuad2);
+        listaSig = until.listaV;
     }
 
     public String rebuild() {
