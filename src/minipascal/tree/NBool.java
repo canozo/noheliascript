@@ -15,16 +15,16 @@ public class NBool<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO preguntar al ing
         Boolean boolData = (Boolean) data;
-        place = boolData.toString();
 
         if (boolData) {
             listaV = Globals.crearLista(Globals.cuadruplos.size() + 1);
             Globals.cuadruplos.add(new Cuadruplo("goto", null));
+            place = "1";
         } else {
             listaF = Globals.crearLista(Globals.cuadruplos.size() + 1);
             Globals.cuadruplos.add(new Cuadruplo("goto", null));
+            place = "0";
         }
     }
 
