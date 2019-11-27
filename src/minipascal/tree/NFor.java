@@ -43,13 +43,16 @@ public class NFor<T> extends Node<T> {
         asign.compile();
         to.compile();
 
+        // marcadores y listas
         int comparacion = Globals.cuadruplos.size() + 1;
         listaV = Globals.crearLista(comparacion);
         listaF = Globals.crearLista(Globals.cuadruplos.size() + 2);
 
+        // agregar los saltos del operador relacional
         Globals.cuadruplos.add(new Cuadruplo("if= goto", asign.place, to.place, null));
         Globals.cuadruplos.add(new Cuadruplo("goto", null));
 
+        // completar el salto verdadero con lo que sigue
         Globals.completar(listaV, Globals.cuadruplos.size() + 1);
 
         if (maybeStmnt != null) {
@@ -57,7 +60,10 @@ public class NFor<T> extends Node<T> {
             Globals.completar(maybeStmnt.listaSig, comparacion);
         }
 
+        // un goto hacia la comparacion si no hay statements anteriores
         Globals.cuadruplos.add(new Cuadruplo("goto", Integer.toString(comparacion)));
+
+        // completar la lista falsa con la siguiente pos
         Globals.completar(listaF, Globals.cuadruplos.size() + 1);
 
         listaSig = listaF;
