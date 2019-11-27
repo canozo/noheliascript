@@ -1,5 +1,7 @@
 package minipascal.util.cuadruplo;
 
+import minipascal.util.Globals;
+
 public class Cuadruplo {
 
     public String op;
@@ -8,10 +10,44 @@ public class Cuadruplo {
     public String res;
 
     public Cuadruplo(String op, String arg1, String arg2, String res) {
+        // si recibimos los cuatro argumentos, es posible que obtengamos mas de 3 direcciones
+        // casos especiales:
+        //      op |     arg1 |     arg2 |     res
+        // ---------------------------------------
+        //       + |     a[1] |        b |       c
+        //       * |        b |     a[1] |       c
+        //       / |        b |        c |    a[1]
+        // en los primeros dos casos, simplemente guardamos el valor de a[1] en una temporal
+        // en el tercer caso, tenemos que guardar el resultado de b y c en una temporal
+        // y asignar la temporal a a[1]
+
         this.op = op;
         this.arg1 = arg1;
         this.arg2 = arg2;
         this.res = res;
+
+        if (arg1.contains("[")) {
+            // primer caso
+            String temp = Globals.temporalNuevo();
+            Globals.cuadruplos.add(new Cuadruplo(":=", arg1, temp));
+            this.arg1 = temp;
+        }
+
+        if (arg2.contains("[")) {
+            // segundo caso
+            String temp = Globals.temporalNuevo();
+            Globals.cuadruplos.add(new Cuadruplo(":=", arg2, temp));
+            this.arg2 = temp;
+        }
+
+        if (res != null && res.contains("[")) {
+            // tercer caso
+            String temp = Globals.temporalNuevo();
+            Globals.cuadruplos.add(new Cuadruplo(op, arg1, arg2, temp));
+            this.op = ":=";
+            this.arg1 = temp;
+            this.arg2 = "";
+        }
     }
 
     public Cuadruplo(String op, String arg1, String res) {
@@ -26,13 +62,6 @@ public class Cuadruplo {
         this.arg1 = "";
         this.arg2 = "";
         this.res = res;
-    }
-
-    public Cuadruplo(String op) {
-        this.op = op;
-        this.arg1 = "";
-        this.arg2 = "";
-        this.res = "";
     }
 
     public Cuadruplo() {
