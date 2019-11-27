@@ -3,7 +3,10 @@ var
   i, suma: integer;
 
 procedure print();
-begin end;
+begin
+  if 1 > 2 then
+    write('khe');
+end;
 
 begin
   i := 0;

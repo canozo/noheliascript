@@ -23,16 +23,15 @@ public class Test {
                 "inputs/buenos/factorial.pas",
                 "inputs/buenos/func.pas",
                 "inputs/buenos/rel.pas",
+                "inputs/buenos/psuma.pas",
                 "inputs/test/test.pas",
                 "inputs/test/vacio.pas",
                 "inputs/test/jumps.pas",
                 "inputs/test/caseinsensitive.pas",
                 "inputs/test/records.pas",
                 "inputs/test/quads.pas",
-                "inputs/buenos/psuma.pas",
                 "inputs/test/ifElse.pas",
                 "inputs/test/booleans.pas",
-//                "inputs/test/acento.pas",
         };
         Node root;
         Reader reader;

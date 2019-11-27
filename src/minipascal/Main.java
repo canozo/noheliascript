@@ -22,7 +22,8 @@ public class Main {
         String[] programas = {
                 "inputs/buenos/factorial.pas",
                 "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas"
+                "inputs/buenos/rel.pas",
+                "inputs/buenos/psuma.pas",
         };
         Reader reader;
         Lexer lexer;

@@ -66,6 +66,8 @@ public class NProcedure<T> extends Node<T> {
 
         if (maybeStmntList != null) {
             maybeStmntList.compile();
+
+            // completar los que quedan al final del procedimiento a una linea vacia
             int sigCuad = Globals.cuadruplos.size() + 1;
             Globals.cuadruplos.add(new Cuadruplo());
             Globals.completar(maybeStmntList.listaSig, sigCuad);

@@ -23,7 +23,11 @@ public class NMain<T> extends Node<T> {
         Node<T> stmntList = children.get(0);
         if (stmntList != null) {
             stmntList.compile();
+
+            // completar los que quedan al final del main a una linea vacia
+            int sigCuad = Globals.cuadruplos.size() + 1;
             Globals.cuadruplos.add(new Cuadruplo());
+            Globals.completar(stmntList.listaSig, sigCuad);
         }
     }
 

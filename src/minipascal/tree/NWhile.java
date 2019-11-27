@@ -29,6 +29,7 @@ public class NWhile<T> extends Node<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
         Node<T> nWhile = children.get(0);
         Node<T> nDo = children.get(1);
