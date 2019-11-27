@@ -42,6 +42,9 @@ public class NAssign<T> extends Node<T> {
         left.compile();
         right.compile();
         Globals.cuadruplos.add(new Cuadruplo(":=", right.place, left.place));
+
+        // el lugar de la asignacion es la variable a la cual asignamos
+        place = left.place;
     }
 
     public String rebuild() {

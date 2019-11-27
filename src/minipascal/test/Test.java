@@ -20,18 +20,18 @@ public class Test {
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
-                "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
-                "inputs/buenos/psuma.pas",
+//                "inputs/buenos/factorial.pas",
+//                "inputs/buenos/func.pas",
+//                "inputs/buenos/rel.pas",
+//                "inputs/buenos/psuma.pas",
                 "inputs/test/test.pas",
-                "inputs/test/vacio.pas",
-                "inputs/test/jumps.pas",
-                "inputs/test/caseinsensitive.pas",
-                "inputs/test/records.pas",
-                "inputs/test/quads.pas",
-                "inputs/test/ifElse.pas",
-                "inputs/test/booleans.pas",
+//                "inputs/test/vacio.pas",
+//                "inputs/test/jumps.pas",
+//                "inputs/test/caseinsensitive.pas",
+//                "inputs/test/records.pas",
+//                "inputs/test/quads.pas",
+//                "inputs/test/ifElse.pas",
+//                "inputs/test/booleans.pas",
         };
         Node root;
         Reader reader;

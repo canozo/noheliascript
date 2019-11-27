@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.Type;
 
 public class NFor<T> extends Node<T> {
@@ -19,7 +20,9 @@ public class NFor<T> extends Node<T> {
         // to:
         children.get(1).visit();
         // statements:
-        children.get(2).visit();
+        if (children.get(2) != null) {
+            children.get(2).visit();
+        }
 
         NodeType<T> to = (NodeType<T>) children.get(1);
         if (!Type.INTEGER.equals(to.type)) {
@@ -31,15 +34,33 @@ public class NFor<T> extends Node<T> {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     public void compile() {
-        // TODO crear codigo intermedio
         Node<T> asign = children.get(0);
         Node<T> to = children.get(1);
-        Node<T> statements = children.get(2);
+        Node<T> maybeStmnt = children.get(2);
 
         asign.compile();
         to.compile();
-        statements.compile();
+
+        int comparacion = Globals.cuadruplos.size() + 1;
+        listaV = Globals.crearLista(comparacion);
+        listaF = Globals.crearLista(Globals.cuadruplos.size() + 2);
+
+        Globals.cuadruplos.add(new Cuadruplo("if= goto", asign.place, to.place, null));
+        Globals.cuadruplos.add(new Cuadruplo("goto", null));
+
+        Globals.completar(listaV, Globals.cuadruplos.size() + 1);
+
+        if (maybeStmnt != null) {
+            maybeStmnt.compile();
+            Globals.completar(maybeStmnt.listaSig, comparacion);
+        }
+
+        Globals.cuadruplos.add(new Cuadruplo("goto", Integer.toString(comparacion)));
+        Globals.completar(listaF, Globals.cuadruplos.size() + 1);
+
+        listaSig = listaF;
     }
 
     public String rebuild() {
