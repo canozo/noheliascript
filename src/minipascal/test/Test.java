@@ -32,6 +32,7 @@ public class Test {
 //                "inputs/test/quads.pas",
 //                "inputs/test/ifElse.pas",
 //                "inputs/test/booleans.pas",
+//                "inputs/test/forloops.pas",
         };
         Node root;
         Reader reader;
@@ -66,7 +67,8 @@ public class Test {
                 // verificar que no hay errores lexicos
                 assert !Globals.error;
 
-                // compilar
+                // reset ambito y compilar ci
+                Globals.ambito = 0;
                 root.compile();
 
                 if (PRINT_CUADRUPLOS) {

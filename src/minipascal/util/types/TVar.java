@@ -2,6 +2,10 @@ package minipascal.util.types;
 
 public class TVar extends Type {
 
+    public TVar(String type, int size) {
+        super(type, size);
+    }
+
     public TVar(String type) {
         super(type);
     }

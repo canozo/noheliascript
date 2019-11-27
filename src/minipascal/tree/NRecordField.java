@@ -1,7 +1,6 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
-import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.TRecord;
 import minipascal.util.types.Type;
 
@@ -56,8 +55,18 @@ public class NRecordField<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO preguntar al ing, fix esto
-        place = rebuild();
+        String variable = (String) children.get(0).data;
+        String field = (String) children.get(1).data;
+        int ambito = 0;
+
+        if (Globals.simbolos.contains(variable, Globals.ambito)) {
+            ambito = Globals.ambito;
+        }
+
+        TRecord typeRec = (TRecord) Globals.simbolos.get(variable, ambito);
+        int fieldSize = typeRec.getFieldSize(field);
+
+        place = String.format("%s[%d]", variable, fieldSize);
     }
 
     public String rebuild() {

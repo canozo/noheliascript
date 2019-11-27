@@ -21,6 +21,7 @@ public class NMain<T> extends Node<T> {
 
     public void compile() {
         Node<T> stmntList = children.get(0);
+        Globals.ambito = 0;
         if (stmntList != null) {
             stmntList.compile();
 

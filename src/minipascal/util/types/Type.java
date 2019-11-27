@@ -3,15 +3,22 @@ package minipascal.util.types;
 public class Type {
 
     public String type;
+    public int size;
 
-    public static Type BOOLEAN = new TVar("boolean");
-    public static Type INTEGER = new TVar("integer");
-    public static Type STRING = new TVar("string");
-    public static Type CHAR = new TVar("char");
-    public static Type VOID = new TVar("void");
+    public static Type BOOLEAN = new TVar("boolean", 4);
+    public static Type INTEGER = new TVar("integer", 4);
+    public static Type STRING = new TVar("string", 4);
+    public static Type CHAR = new TVar("char", 1);
+    public static Type VOID = new TVar("void", 0);
+
+    Type(String type, int size) {
+        this.type = type;
+        this.size = size;
+    }
 
     Type(String type) {
         this.type = type;
+        this.size = 0;
     }
 
     @Override

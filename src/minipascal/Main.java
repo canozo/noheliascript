@@ -54,7 +54,8 @@ public class Main {
                     }
                 }
 
-                // compilar
+                // reset ambito y compilar ci
+                Globals.ambito = 0;
                 root.compile();
 
                 if (PRINT_CUADRUPLOS) {

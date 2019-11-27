@@ -412,8 +412,8 @@ WHILE_BLOCK ::=
   ;
 
 FOR_BLOCK ::=
-  FOR ID: id ASIGNACION: asign EXPR: expr TO FACTOR: toFactor DO STATEMENT: doStmnt
-  {: RESULT = new NFor(new NAssign(new NID(id), (Node) expr), (Node) toFactor, (Node) doStmnt); :}
+  FOR VARIABLE: var ASIGNACION: asign EXPR: expr TO FACTOR: toFactor DO STATEMENT: doStmnt
+  {: RESULT = new NFor(new NAssign((Node) var, (Node) expr), (Node) toFactor, (Node) doStmnt); :}
   | FOR error STATEMENT
   ;
 

@@ -52,6 +52,8 @@ public class NProcedure<T> extends Node<T> {
 
     @SuppressWarnings("Duplicates")
     public void compile() {
+        Globals.ambito += 1;
+
         Node<T> maybeArgs = children.get(2);
         Node<T> maybeVars = children.get(3);
         Node<T> maybeStmntList = children.get(4);

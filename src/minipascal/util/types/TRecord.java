@@ -2,15 +2,15 @@ package minipascal.util.types;
 
 import minipascal.util.Globals;
 
-import java.util.HashMap;
+import java.util.TreeMap;
 
 public class TRecord extends Type {
 
-    public HashMap<String, Type> fields;
+    public TreeMap<String, Type> fields;
 
     public TRecord(String id) {
         super(id);
-        fields = new HashMap<>();
+        fields = new TreeMap<>();
     }
 
     public void addField(String id, String type) {
@@ -24,6 +24,17 @@ public class TRecord extends Type {
 
     public Type getField(String field) {
         return fields.get(field);
+    }
+
+    public int getFieldSize(String field) {
+        int res = 0;
+        for (String id : fields.keySet()) {
+            if (field.equals(id)) {
+                break;
+            }
+            res += fields.get(id).size;
+        }
+        return res;
     }
 
     @Override
