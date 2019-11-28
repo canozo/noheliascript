@@ -23,7 +23,7 @@ public class Test {
 //                "inputs/buenos/factorial.pas",
 //                "inputs/buenos/func.pas",
 //                "inputs/buenos/rel.pas",
-//                "inputs/buenos/psuma.pas",
+                "inputs/buenos/psuma.pas",
                 "inputs/test/test.pas",
 //                "inputs/test/vacio.pas",
 //                "inputs/test/jumps.pas",

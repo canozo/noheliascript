@@ -31,9 +31,12 @@ public class Cuadruplo {
 
         int saltosExtra = 0;
         ArrayList<Marcador> saltosAqui = new ArrayList<>();
+
         for (Marcador m : Marcador.marcadores) {
-            if (m.sigCuad == Globals.cuadruplos.size() + 1 || m.sigCuad == Globals.cuadruplos.size() + 2) {
-                saltosAqui.add(m);
+            if (m.sigCuad > Globals.cuadruplos.size()) {
+                if (!m.res) {
+                    saltosAqui.add(m);
+                }
             }
         }
 
