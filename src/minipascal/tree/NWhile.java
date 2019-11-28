@@ -2,6 +2,7 @@ package minipascal.tree;
 
 import minipascal.util.Globals;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.Type;
 
 public class NWhile<T> extends Node<T> {
@@ -34,15 +35,15 @@ public class NWhile<T> extends Node<T> {
         Node<T> nWhile = children.get(0);
         Node<T> nDo = children.get(1);
 
-        int sigCuad = Globals.cuadruplos.size() + 1;
+        Marcador sigCuad = new Marcador(true);
         nWhile.compile();
-        int sigCuad2 = Globals.cuadruplos.size() + 1;
+        Marcador sigCuad2 = new Marcador(true);
         nDo.compile();
 
         Globals.completar(nWhile.listaV, sigCuad2);
         listaSig = nWhile.listaF;
         Globals.completar(nDo.listaSig, sigCuad);
-        Globals.cuadruplos.add(new Cuadruplo("goto", Integer.toString(sigCuad)));
+        Globals.cuadruplos.add(new Cuadruplo("goto", sigCuad));
     }
 
     public String rebuild() {

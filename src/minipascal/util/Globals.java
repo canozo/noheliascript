@@ -5,6 +5,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Table;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.TFunc;
 import minipascal.util.types.TRecord;
 import minipascal.util.types.Type;
@@ -43,14 +44,14 @@ public class Globals {
         return String.format("t%d", temporal);
     }
 
-    public static ArrayList<Integer> crearLista(int num) {
-        ArrayList<Integer> temp = new ArrayList<>();
-        temp.add(num);
+    public static ArrayList<Marcador> crearLista(Marcador marcador) {
+        ArrayList<Marcador> temp = new ArrayList<>();
+        temp.add(marcador);
         return temp;
     }
 
-    public static ArrayList<Integer> fusionar(List<Integer> a, List<Integer> b) {
-        ArrayList<Integer> res = new ArrayList<>();
+    public static ArrayList<Marcador> fusionar(List<Marcador> a, List<Marcador> b) {
+        ArrayList<Marcador> res = new ArrayList<>();
         if (a != null) {
             res.addAll(a);
         }
@@ -60,10 +61,10 @@ public class Globals {
         return res;
     }
 
-    public static void completar(List<Integer> lista, int completacion) {
+    public static void completar(List<Marcador> lista, Marcador completacion) {
         if (lista != null) {
-            for (int num : lista) {
-                cuadruplos.get(num - 1).res = Integer.toString(completacion);
+            for (Marcador num : lista) {
+                cuadruplos.get(num.sigCuad - 1).setRes(completacion);
             }
         }
     }

@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Marcador;
 
 public class NStmntList<T> extends Node<T> {
 
@@ -17,7 +18,6 @@ public class NStmntList<T> extends Node<T> {
     }
 
     public void compile() {
-        int sigCuad;
         Node<T> anterior;
 
         if (children.size() > 0) {
@@ -27,7 +27,7 @@ public class NStmntList<T> extends Node<T> {
 
             for (int i = 1; i < children.size(); i += 1) {
                 Node<T> child = children.get(i);
-                sigCuad = Globals.cuadruplos.size() + 1;
+                Marcador sigCuad = new Marcador(true);
                 child.compile();
                 Globals.completar(anterior.listaSig, sigCuad);
                 anterior = child;

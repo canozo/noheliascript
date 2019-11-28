@@ -29,7 +29,7 @@ public class Test {
 //                "inputs/test/jumps.pas",
 //                "inputs/test/caseinsensitive.pas",
 //                "inputs/test/records.pas",
-//                "inputs/test/quads.pas",
+                "inputs/test/quads.pas",
 //                "inputs/test/ifElse.pas",
 //                "inputs/test/booleans.pas",
 //                "inputs/test/forloops.pas",

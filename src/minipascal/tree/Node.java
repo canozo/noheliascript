@@ -2,6 +2,8 @@ package minipascal.tree;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import minipascal.util.cuadruplo.Marcador;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -9,9 +11,9 @@ public abstract class Node<T> {
 
     public T data;
     public String place;
-    public List<Integer> listaV;
-    public List<Integer> listaF;
-    public List<Integer> listaSig;
+    public List<Marcador> listaV;
+    public List<Marcador> listaF;
+    public List<Marcador> listaSig;
     public Node<T> parent;
     public List<Node<T>> children;
 

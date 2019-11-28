@@ -2,6 +2,7 @@ package minipascal.tree;
 
 import minipascal.util.Globals;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.Type;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public class NIfElse<T> extends Node<T> {
             Node<T> then = children.get(1);
 
             nIf.compile();
-            int sigCuad = Globals.cuadruplos.size() + 1;
+            Marcador sigCuad = new Marcador(true);
             then.compile();
 
             Globals.completar(nIf.listaV, sigCuad);
@@ -58,17 +59,17 @@ public class NIfElse<T> extends Node<T> {
             Node<T> nElse = children.get(2);
 
             nIf.compile();
-            int sigCuad = Globals.cuadruplos.size() + 1;
+            Marcador sigCuad = new Marcador(true);
             then.compile();
 
-            List<Integer> listaN = Globals.crearLista(Globals.cuadruplos.size() + 1);
-            Globals.cuadruplos.add(new Cuadruplo("goto", null));
-            int sigCuad2 = Globals.cuadruplos.size() + 1;
+            List<Marcador> listaN = Globals.crearLista(new Marcador(false));
+            Globals.cuadruplos.add(new Cuadruplo("goto", "null"));
+            Marcador sigCuad2 = new Marcador(true);
 
             nElse.compile();
             Globals.completar(nIf.listaV, sigCuad);
             Globals.completar(nIf.listaF, sigCuad2);
-            List<Integer> temp = Globals.fusionar(then.listaSig, nElse.listaSig);
+            List<Marcador> temp = Globals.fusionar(then.listaSig, nElse.listaSig);
             listaSig = Globals.fusionar(temp, listaN);
         }
     }

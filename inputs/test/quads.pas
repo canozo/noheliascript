@@ -9,8 +9,8 @@ var
   yo: persona;
 
 begin
-  yo.edad := 23;
   a := 2;
+  yo.edad := 23 + a;
   b := a + 3;
   c := a + b;
   d := yo.edad + a * b / (c + 1);
