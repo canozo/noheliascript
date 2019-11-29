@@ -33,7 +33,7 @@ public class Test {
                 "inputs/test/quads.pas",
                 "inputs/test/ifElse.pas",
                 "inputs/test/forloops.pas",
-                "inputs/test/booleans.pas",
+//                "inputs/test/booleans.pas",
         };
         Node root;
         Reader reader;
