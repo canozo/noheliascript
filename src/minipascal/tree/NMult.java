@@ -51,6 +51,6 @@ public class NMult<T> extends NodeType<T> {
     public String rebuild() {
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);
-        return String.format("%s %s %s", left, data, right);
+        return String.format("%s %s %s", left.rebuild(), data, right.rebuild());
     }
 }

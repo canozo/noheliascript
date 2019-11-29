@@ -20,19 +20,20 @@ public class Test {
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
-//                "inputs/buenos/factorial.pas",
-//                "inputs/buenos/func.pas",
-//                "inputs/buenos/rel.pas",
+                "inputs/buenos/factorial.pas",
+                "inputs/buenos/func.pas",
+                "inputs/buenos/rel.pas",
                 "inputs/buenos/psuma.pas",
+                "inputs/test/qsuma.pas",
                 "inputs/test/test.pas",
-//                "inputs/test/vacio.pas",
-//                "inputs/test/jumps.pas",
-//                "inputs/test/caseinsensitive.pas",
-//                "inputs/test/records.pas",
+                "inputs/test/vacio.pas",
+                "inputs/test/jumps.pas",
+                "inputs/test/caseinsensitive.pas",
+                "inputs/test/records.pas",
                 "inputs/test/quads.pas",
-//                "inputs/test/ifElse.pas",
-//                "inputs/test/booleans.pas",
-//                "inputs/test/forloops.pas",
+                "inputs/test/ifElse.pas",
+                "inputs/test/forloops.pas",
+                "inputs/test/booleans.pas",
         };
         Node root;
         Reader reader;
@@ -74,6 +75,9 @@ public class Test {
                 if (PRINT_CUADRUPLOS) {
                     Globals.printCuadruplos();
                 }
+
+                // verificar que no hay errores al momento de crear codigo intermedio
+                assert !Globals.errCodigoIntermedio();
 
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);

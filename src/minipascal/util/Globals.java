@@ -154,6 +154,17 @@ public class Globals {
         }
     }
 
+    public static boolean errCodigoIntermedio() {
+        for (Cuadruplo c : cuadruplos) {
+            if (c.op == null || c.arg1 == null || c.arg2 == null || (c.res == null && c.resM == null)) {
+                return true;
+            } else if (c.resM == null && c.res.equals("null")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void printSimbolos() {
         System.out.println("\nTabla de simbolos:");
         for (Table.Cell<String, Integer, Type> cell : simbolos.cellSet()) {

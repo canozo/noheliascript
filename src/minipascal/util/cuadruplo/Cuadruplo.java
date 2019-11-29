@@ -40,11 +40,11 @@ public class Cuadruplo {
             }
         }
 
-        if (arg1.contains("[")) {
+        if (!op.equals("write") && arg1.contains("[")) {
             // primer caso
             String temp = Globals.temporalNuevo();
             Globals.cuadruplos.add(new Cuadruplo(":=", arg1, temp));
-            this.arg1 = temp;
+            this.arg1 = arg1 = temp;
             saltosExtra += 1;
         }
 
@@ -52,7 +52,7 @@ public class Cuadruplo {
             // segundo caso
             String temp = Globals.temporalNuevo();
             Globals.cuadruplos.add(new Cuadruplo(":=", arg2, temp));
-            this.arg2 = temp;
+            this.arg2 = arg2 = temp;
             saltosExtra += 1;
         }
 
@@ -97,10 +97,6 @@ public class Cuadruplo {
         this.arg1 = "";
         this.arg2 = "";
         this.res = "";
-    }
-
-    public void setRes(String res) {
-        this.res = res;
     }
 
     public void setRes(Marcador resM) {
