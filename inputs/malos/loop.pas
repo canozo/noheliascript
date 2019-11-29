@@ -13,7 +13,7 @@ begin
   { while loop }
   c := 10;
   while c < 20 do
-    write('[while] valor de c: ', c)
+    write('(while) valor de c: ', c)
 
   if c > 12 then
     write('hola');

@@ -1,5 +1,6 @@
 package minipascal.tree;
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.Type;
 
 public class NOr<T> extends NodeType<T> {
@@ -41,7 +42,7 @@ public class NOr<T> extends NodeType<T> {
         Node<T> right = children.get(1);
 
         left.compile();
-        int sigCuad = Globals.cuadruplos.size() + 1;
+        Marcador sigCuad = new Marcador(true);
         right.compile();
 
         Globals.completar(left.listaF, sigCuad);

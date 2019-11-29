@@ -42,7 +42,7 @@ begin
   c := 10;
   while c < 20 do
   begin
-    write('[while] valor de c: ', c);
+    write('(while) valor de c: ', c);
     c := c + 1;
   end;
 

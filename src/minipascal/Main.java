@@ -24,6 +24,7 @@ public class Main {
                 "inputs/buenos/func.pas",
                 "inputs/buenos/rel.pas",
                 "inputs/buenos/psuma.pas",
+                "inputs/errLexicos/factorial.pas",
         };
         Reader reader;
         Lexer lexer;
@@ -52,14 +53,27 @@ public class Main {
                     if (PRINT_TABLAS) {
                         Globals.printSimbolos();
                     }
+                } else {
+                    continue;
                 }
 
                 // reset ambito y compilar ci
-                Globals.ambito = 0;
-                root.compile();
+                if (!Globals.error) {
+                    Globals.ambito = 0;
+                    root.compile();
+                    if (PRINT_CUADRUPLOS) {
+                        Globals.printCuadruplos();
+                    }
+                } else {
+                    continue;
+                }
 
-                if (PRINT_CUADRUPLOS) {
-                    Globals.printCuadruplos();
+                // optimizar el codigo (?)
+                // compilar codigo final
+                if (!Globals.errCodigoIntermedio()) {
+                    System.out.println("FALTA");
+                } else {
+                    continue;
                 }
 
                 System.out.println(String.format("%80s", "").replaceAll(" ", "_"));

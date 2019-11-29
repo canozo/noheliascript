@@ -2,6 +2,7 @@ package minipascal.tree;
 
 import minipascal.util.Globals;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.Type;
 
 public class NFor<T> extends Node<T> {
@@ -44,21 +45,22 @@ public class NFor<T> extends Node<T> {
         to.compile();
 
         // marcadores y listas
-        int comparacion = Globals.cuadruplos.size() + 1;
+        Marcador comparacion = new Marcador(false);
+        Marcador comparacion2 = new Marcador(true);
         listaV = Globals.crearLista(comparacion);
-        listaF = Globals.crearLista(Globals.cuadruplos.size() + 2);
+        listaF = Globals.crearLista(new Marcador(false, Globals.cuadruplos.size() + 2));
 
         // agregar los saltos del operador relacional
         Globals.cuadruplos.add(new Cuadruplo("if<= goto", asign.place, to.place, null));
-        Globals.cuadruplos.add(new Cuadruplo("goto", null));
+        Globals.cuadruplos.add(new Cuadruplo("goto", "null"));
 
         // completar el salto verdadero con lo que sigue
-        Globals.completar(listaV, Globals.cuadruplos.size() + 1);
+        Globals.completar(listaV, new Marcador(true));
 
         if (maybeStmnt != null) {
             maybeStmnt.compile();
             // incremento i = i + 1
-            int incremento = Globals.cuadruplos.size() + 1;
+            Marcador incremento = new Marcador(true);
             Globals.cuadruplos.add(new Cuadruplo("+", asign.place, "1", asign.place));
             Globals.completar(maybeStmnt.listaSig, incremento);
         } else {
@@ -67,10 +69,10 @@ public class NFor<T> extends Node<T> {
         }
 
         // un goto hacia la comparacion
-        Globals.cuadruplos.add(new Cuadruplo("goto", Integer.toString(comparacion)));
+        Globals.cuadruplos.add(new Cuadruplo("goto", comparacion2));
 
         // completar la lista falsa con la siguiente pos
-        Globals.completar(listaF, Globals.cuadruplos.size() + 1);
+        Globals.completar(listaF, new Marcador(true));
 
         listaSig = listaF;
     }

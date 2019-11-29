@@ -1,6 +1,7 @@
 package minipascal.tree;
 
 import minipascal.util.Globals;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.Type;
 
 public class NRepeat<T> extends Node<T> {
@@ -33,9 +34,9 @@ public class NRepeat<T> extends Node<T> {
         Node<T> repeat = children.get(0);
         Node<T> until = children.get(1);
 
-        int sigCuad = Globals.cuadruplos.size() + 1;
+        Marcador sigCuad = new Marcador(true);
         repeat.compile();
-        int sigCuad2 = Globals.cuadruplos.size() + 1;
+        Marcador sigCuad2 = new Marcador(true);
         until.compile();
 
         Globals.completar(until.listaF, sigCuad);

@@ -2,6 +2,7 @@ package minipascal.tree;
 
 import minipascal.util.Globals;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.cuadruplo.Marcador;
 import minipascal.util.types.TFunc;
 
 public class NProcedure<T> extends Node<T> {
@@ -70,7 +71,7 @@ public class NProcedure<T> extends Node<T> {
             maybeStmntList.compile();
 
             // completar los que quedan al final del procedimiento a una linea vacia
-            int sigCuad = Globals.cuadruplos.size() + 1;
+            Marcador sigCuad = new Marcador(true);
             Globals.cuadruplos.add(new Cuadruplo());
             Globals.completar(maybeStmntList.listaSig, sigCuad);
         }

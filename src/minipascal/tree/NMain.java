@@ -2,6 +2,7 @@ package minipascal.tree;
 
 import minipascal.util.Globals;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.cuadruplo.Marcador;
 
 public class NMain<T> extends Node<T> {
 
@@ -26,7 +27,7 @@ public class NMain<T> extends Node<T> {
             stmntList.compile();
 
             // completar los que quedan al final del main a una linea vacia
-            int sigCuad = Globals.cuadruplos.size() + 1;
+            Marcador sigCuad = new Marcador(true);
             Globals.cuadruplos.add(new Cuadruplo());
             Globals.completar(stmntList.listaSig, sigCuad);
         }
