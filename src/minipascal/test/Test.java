@@ -79,6 +79,9 @@ public class Test {
                 // verificar que no hay errores al momento de crear codigo intermedio
                 assert !Globals.errCodigoIntermedio();
 
+                // optimizar el codigo (?)
+                // compilar codigo final
+
             } catch (FileNotFoundException ex) {
                 System.err.println(ex);
             } catch (AssertionError e) {
