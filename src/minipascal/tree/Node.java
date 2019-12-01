@@ -14,6 +14,7 @@ public abstract class Node<T> {
     public List<Marcador> listaV;
     public List<Marcador> listaF;
     public List<Marcador> listaSig;
+    public boolean hasRawInt;
     public Node<T> parent;
     public List<Node<T>> children;
 
@@ -22,6 +23,7 @@ public abstract class Node<T> {
         this.listaV = null;
         this.listaF = null;
         this.listaSig = null;
+        this.hasRawInt = false;
         this.data = data;
         this.children = new LinkedList<>();
     }

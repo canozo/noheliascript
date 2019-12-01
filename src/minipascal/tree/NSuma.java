@@ -74,7 +74,21 @@ public class NSuma<T> extends NodeType<T> {
 
             left.compile();
             right.compile();
-            Globals.cuadruplos.add(new Cuadruplo((String) data, left.place, right.place, place));
+
+            if (left.hasRawInt && right.hasRawInt) {
+                // optimizacion para sumas de constantes (2 + 3)
+                this.hasRawInt = true;
+                int leftInt = Integer.parseInt(left.place);
+                int rightInt = Integer.parseInt(right.place);
+
+                if (data.equals("+")) {
+                    this.place = Integer.toString(leftInt + rightInt);
+                } else {
+                    this.place = Integer.toString(leftInt - rightInt);
+                }
+            } else {
+                Globals.cuadruplos.add(new Cuadruplo((String) data, left.place, right.place, place));
+            }
         }
     }
 

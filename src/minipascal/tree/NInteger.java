@@ -8,6 +8,7 @@ public class NInteger<T> extends NodeType<T> {
 
     public NInteger(T data) {
         super(data, Type.INTEGER);
+        this.hasRawInt = true;
     }
 
     public void visit() {
