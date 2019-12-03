@@ -6,6 +6,7 @@ import minipascal.tree.Node;
 import minipascal.util.CodigoFinal;
 import minipascal.util.Globals;
 import minipascal.util.optimizacion.TempsPacker;
+import minipascal.util.optimizacion.VariableRenamer;
 
 import java.io.*;
 
@@ -15,7 +16,7 @@ import java.io.*;
 
 public class Test {
 
-    private static final boolean PRINT_ARBOL = true;
+    private static final boolean PRINT_ARBOL = false;
     private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = true;
     private static final boolean CODIGO_FINAL = true;
@@ -56,18 +57,12 @@ public class Test {
                 // crear el arbol
                 cupParser.parse();
                 root = cupParser.root;
-                if (PRINT_ARBOL) {
-                    System.out.println(root);
-                }
 
                 // verificar que no hay errores de parseo
                 assert !cupParser.ERROR;
 
                 // recorrer el arbol
                 root.visit();
-                if (PRINT_TABLAS) {
-                    Globals.printSimbolos();
-                }
 
                 // verificar que no hay errores lexicos
                 assert !Globals.error;
@@ -83,8 +78,19 @@ public class Test {
                 TempsPacker tp = new TempsPacker(Globals.cuadruplos);
                 tp.pack();
 
+                VariableRenamer vr = new VariableRenamer(Globals.cuadruplos);
+                vr.renameGlobals();
+
                 // verificar que no hay errores al momento de optimizar
                 assert !tp.error();
+
+                if (PRINT_ARBOL) {
+                    System.out.println(root);
+                }
+
+                if (PRINT_TABLAS) {
+                    Globals.printSimbolos();
+                }
 
                 if (PRINT_CUADRUPLOS) {
                     Globals.printCuadruplos();

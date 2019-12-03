@@ -13,6 +13,8 @@ public class CodigoFinal {
     private ArrayList<String> lineas;
     private int numLinea;
     private int ambito;
+    private boolean[] disponibles;
+    private boolean error;
 
     public CodigoFinal() {
         varGlobales = new ArrayList<>();
@@ -21,22 +23,40 @@ public class CodigoFinal {
         numLinea = 1;
         ambito = 0;
 
+        error = false;
+        disponibles = new boolean[10];
+        for (int i = 0; i < 10; i += 1) {
+            disponibles[i] = true;
+        }
+
         // agregar las variables globales (int, char y bool)
         for (String var : Globals.simbolos.column(0).keySet()) {
             Type type = Globals.simbolos.get(var, 0);
 
             if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
-                addGlobalInt(var, 0);
+                varGlobales.add(String.format("%s: .word %d\n", var, 0));
             }
 
             if (type.equals(Type.CHAR)) {
-                addGlobalChar(var, '0');
+                varGlobales.add(String.format("%s: .byte '%c'\n", var, '0'));
             }
         }
     }
 
     public void compilar(List<Cuadruplo> cuadruplos) {
         for (Cuadruplo c : cuadruplos) {
+            if (c.arg1.startsWith("$t")) {
+                kill(c.arg1);
+            }
+
+            if (c.arg2.startsWith("$t")) {
+                kill(c.arg2);
+            }
+
+            if (c.res != null && c.res.startsWith("$t")) {
+                claim(c.res);
+            }
+
             addTag("_" + numLinea);
             switch (c.op) {
                 case "read":
@@ -73,14 +93,6 @@ public class CodigoFinal {
         }
     }
 
-    private void addGlobalInt(String var, int inicial) {
-        varGlobales.add(String.format("_%s: .word %d\n", var, inicial));
-    }
-
-    private void addGlobalChar(String var, char inicial) {
-        varGlobales.add(String.format("_%s: .byte '%c'\n", var, inicial));
-    }
-
     private String addString(String str) {
         String resVar = String.format("_str%d", strGlobales.size());
         strGlobales.add(String.format("%s: .asciiz %s\n", resVar, str));
@@ -96,30 +108,85 @@ public class CodigoFinal {
     }
 
     private void opAsign(Cuadruplo c) {
-        // arg1 puede ser const
-        if (c.arg1.startsWith("$t")) {
-            addLine(String.format("sw %s, _%s", c.arg1, c.res));
+        if (c.res.contains("[")) {
+            // TODO c.res puede tener un record field
+            return;
         }
 
-        // arg1 puede ser registro
         if (c.arg1.startsWith("$t")) {
-            addLine(String.format("sw %s, _%s", c.arg1, c.res));
-        }
-
-        // arg1 puede ser variable
-        if (c.arg1.startsWith("$t")) {
-            addLine(String.format("sw %s, _%s", c.arg1, c.res));
+            // arg1 puede ser registro
+            addLine(String.format("sw %s, %s", c.arg1, c.res));
+        } else if (Globals.simbolos.contains(c.arg1, ambito)) {
+            // arg1 puede ser variable
+            System.out.println("opAsign Variable");
+        } else if (c.arg1.equals("RES")) {
+            // arg1 puede ser un valor de retorno
+            addLine(String.format("sw $v0, %s", c.res));
+        } else {
+            // arg1 puede ser const
+            String t = getTemp();
+            addLine(String.format("li %s, %s", t, c.arg1));
+            addLine(String.format("sw %s, %s", t, c.res));
+            kill(t);
         }
     }
 
     private void opSuma(Cuadruplo c) {
         // puede ser una suma unaria:
         if (c.arg2.equals("")) {
-            // no afecta el resultado:
-            // 1 = +1
-            // -1 = -(+1)
             return;
         }
+
+        // suma binaria
+        String res = c.res;
+        String left = c.arg1;
+        String right = c.arg2;
+
+        // hacer temporales para variables si se necesitan
+        if (res.startsWith("_")) {
+            // res es variable
+            res = getTemp();
+        }
+
+        if (left.startsWith("_")) {
+            // arg1 es variable
+            left = getTemp();
+            addLine(String.format("lw %s, %s", left, c.arg1));
+        }
+
+        if (right.startsWith("_")) {
+            // arg2 es variable
+            right = getTemp();
+            addLine(String.format("lw %s, %s", right, c.arg2));
+        }
+
+        // left no puede ser una constante
+        if (!(left.startsWith("$"))) {
+            String temp = left;
+            left = right;
+            right = temp;
+
+            // chanchada:
+            temp = c.arg1;
+            c.arg1 = c.arg2;
+            c.arg2 = temp;
+        }
+
+        addLine(String.format("add %s, %s, %s", res, left, right));
+
+        if (!res.equals(c.res)) {
+            addLine(String.format("sw %s, %s", res, c.res));
+            kill(res);
+        }
+
+        if (!left.equals(c.arg1)) {
+            kill(left);
+        }
+
+        if (!right.equals(c.arg2)) {
+            kill(right);
+        }
+
     }
 
     private void opResta(Cuadruplo c) {
@@ -133,9 +200,8 @@ public class CodigoFinal {
     private void opInitFunc(Cuadruplo c) {
         // aumentar el ambito en 1
         ambito += 1;
-        addTag("_" + c.res);
+        addTag(c.res);
     }
-
 
     private void opEndFunc(Cuadruplo c) {
     }
@@ -164,7 +230,7 @@ public class CodigoFinal {
         if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 5");
             addLine("syscall");
-            addLine("sw $v0, _" + c.res);
+            addLine("sw $v0, " + c.res);
         } else {
             // TODO char
         }
@@ -192,11 +258,40 @@ public class CodigoFinal {
         Type type = Globals.simbolos.get(c.arg2, ambito);
         if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 1");
-            addLine("la $a0, _" + c.arg2);
+            addLine("la $a0, " + c.arg2);
             addLine("syscall");
         } else {
-            // TODO char
+            addLine("li $v0, 11");
+            addLine("lb $a0, " + c.arg2);
+            addLine("syscall");
         }
+    }
+
+    private void kill(String temp) {
+        int killMe = Integer.parseInt(temp.substring(2));
+        disponibles[killMe] = true;
+    }
+
+    private void claim(String temp) {
+        int pos = Integer.parseInt(temp.substring(2));
+        disponibles[pos] = false;
+    }
+
+    @SuppressWarnings("Duplicates")
+    private String getTemp() {
+        for (int i = 0; i < 10; i += 1) {
+            if (disponibles[i]) {
+                disponibles[i] = false;
+                return String.format("$t%d", i);
+            }
+        }
+        // ya no hay temporales, posible error
+        error = true;
+        return String.format("$t%d", 420);
+    }
+
+    public boolean error() {
+        return error;
     }
 
     @Override

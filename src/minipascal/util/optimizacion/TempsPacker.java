@@ -67,6 +67,7 @@ public class TempsPacker {
         }
     }
 
+    @SuppressWarnings("Duplicates")
     private String getTemp() {
         for (int i = 0; i < 10; i += 1) {
             if (disponibles[i]) {
