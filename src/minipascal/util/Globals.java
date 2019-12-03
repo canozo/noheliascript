@@ -34,14 +34,14 @@ public class Globals {
         nombreAmbitos = HashBiMap.create();
         cuadruplos = new ArrayList<>();
         ambito = 0; // 0 esta reservado para variables globales
-        temporal = 0;
+        temporal = 10;
         addNombreAmbito("global");
         error = false;
     }
 
     public static String temporalNuevo() {
         temporal += 1;
-        return String.format("t%d", temporal);
+        return String.format("$t%d", temporal);
     }
 
     public static ArrayList<Marcador> crearLista(Marcador marcador) {

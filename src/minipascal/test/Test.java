@@ -3,7 +3,9 @@ package minipascal.test;
 import minipascal.lexer.Lexer;
 import minipascal.cup_parser.parser;
 import minipascal.tree.Node;
+import minipascal.util.CodigoFinal;
 import minipascal.util.Globals;
+import minipascal.util.optimizacion.TempsPacker;
 
 import java.io.*;
 
@@ -13,27 +15,29 @@ import java.io.*;
 
 public class Test {
 
-    private static final boolean PRINT_ARBOL = false;
+    private static final boolean PRINT_ARBOL = true;
     private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = true;
+    private static final boolean CODIGO_FINAL = true;
 
     @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
-                "inputs/buenos/factorial.pas",
-                "inputs/buenos/func.pas",
-                "inputs/buenos/rel.pas",
-                "inputs/buenos/psuma.pas",
-                "inputs/test/qsuma.pas",
-                "inputs/test/test.pas",
-                "inputs/test/vacio.pas",
-                "inputs/test/jumps.pas",
-                "inputs/test/caseinsensitive.pas",
-                "inputs/test/records.pas",
-                "inputs/test/quads.pas",
-                "inputs/test/ifElse.pas",
-                "inputs/test/forloops.pas",
+//                "inputs/buenos/factorial.pas",
+//                "inputs/buenos/func.pas",
+//                "inputs/buenos/rel.pas",
+//                "inputs/buenos/psuma.pas",
+//                "inputs/test/qsuma.pas",
+//                "inputs/test/vacio.pas",
+//                "inputs/test/jumps.pas",
+//                "inputs/test/caseinsensitive.pas",
+//                "inputs/test/records.pas",
+//                "inputs/test/quads.pas",
+//                "inputs/test/ifElse.pas",
+//                "inputs/test/forloops.pas",
 //                "inputs/test/booleans.pas",
+//                "inputs/test/test.pas",
+                "inputs/test/test2.pas",
         };
         Node root;
         Reader reader;
@@ -72,18 +76,30 @@ public class Test {
                 Globals.ambito = 0;
                 root.compile();
 
+                // verificar que no hay errores al momento de crear codigo intermedio
+                assert !Globals.errCodigoIntermedio();
+
+                // optimizar el codigo
+                TempsPacker tp = new TempsPacker(Globals.cuadruplos);
+                tp.pack();
+
+                // verificar que no hay errores al momento de optimizar
+                assert !tp.error();
+
                 if (PRINT_CUADRUPLOS) {
                     Globals.printCuadruplos();
                 }
 
-                // verificar que no hay errores al momento de crear codigo intermedio
-                assert !Globals.errCodigoIntermedio();
-
-                // optimizar el codigo (?)
                 // compilar codigo final
+                if (CODIGO_FINAL) {
+                    CodigoFinal cf = new CodigoFinal();
+                    cf.compilar(Globals.cuadruplos);
+                    System.out.println("\nPrograma en MIPS:\n");
+                    System.out.println(cf.toString());
+                }
 
             } catch (FileNotFoundException ex) {
-                System.err.println(ex);
+                System.err.println(ex.toString());
             } catch (AssertionError e) {
                 System.err.println("No se pasaron todas las pruebas! Saliendo.");
                 System.exit(0);

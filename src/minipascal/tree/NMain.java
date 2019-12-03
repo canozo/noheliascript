@@ -23,13 +23,18 @@ public class NMain<T> extends Node<T> {
     public void compile() {
         Node<T> stmntList = children.get(0);
         Globals.ambito = 0;
+
+        Globals.cuadruplos.add(new Cuadruplo("init_main"));
+
         if (stmntList != null) {
             stmntList.compile();
 
             // completar los que quedan al final del main a una linea vacia
             Marcador sigCuad = new Marcador(true);
-            Globals.cuadruplos.add(new Cuadruplo());
+            Globals.cuadruplos.add(new Cuadruplo("end_main"));
             Globals.completar(stmntList.listaSig, sigCuad);
+        } else {
+            Globals.cuadruplos.add(new Cuadruplo("end_main"));
         }
     }
 

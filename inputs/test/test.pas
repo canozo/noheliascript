@@ -1,20 +1,15 @@
 program test;
 
-type persona = record
-  edad: integer;
-  sexo: char;
-  casado: boolean;
-end;
-
 var
-  yo: persona;
-  contador: integer;
+  a, b, c: integer;
 
 begin
-  yo.edad := 23;
-  for contador := 0 to yo.edad do
-    write('Mi edad es de ', contador);
+  write('a: ');
+  read(a);
 
-  for yo.edad := 0 to contador do
-    write('Mi edad es de ', yo.edad);
+  write('b: ');
+  read(b);
+
+  c := a + b;
+  write('c: ', c);
 end.

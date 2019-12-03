@@ -26,9 +26,10 @@ public class NBool<T> extends NodeType<T> {
             place = "0";
         }
 
-//        if (parent instanceof NodeType) {
         if (parent instanceof NAnd || parent instanceof NOr) {
             Globals.cuadruplos.add(new Cuadruplo("goto", "null"));
+        } else {
+            // TODO puede ser NOpRel =, o el padre puede ser una asignacion en algun punto
         }
     }
 

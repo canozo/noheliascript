@@ -53,21 +53,25 @@ public class NFuncCall<T> extends NodeType<T> {
     }
 
     public void compile() {
-        // TODO preguntar al ing
         Node<T> exprList = children.get(0);
         int args = 0;
         if (exprList != null) {
             // expresiones enviadas a la funcion como argumentos
             for (Node<T> child : exprList.children) {
                 child.compile();
-                Globals.cuadruplos.add(new Cuadruplo("param", child.place));
+                Globals.cuadruplos.add(new Cuadruplo("param", child.place, ""));
                 args += 1;
             }
             Globals.cuadruplos.add(new Cuadruplo("call", Integer.toString(args), (String) data));
         } else {
-            Globals.cuadruplos.add(new Cuadruplo("call", (String) data));
+            Globals.cuadruplos.add(new Cuadruplo("call", "0", (String) data));
         }
-        place = (String) data;
+        if (!(parent instanceof NStmntList)) {
+            // XXXX
+            String temp = Globals.temporalNuevo();
+            Globals.cuadruplos.add(new Cuadruplo(":=", "RET", temp));
+            place = temp;
+        }
     }
 
     public String rebuild() {

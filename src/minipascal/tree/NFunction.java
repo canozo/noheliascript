@@ -55,9 +55,14 @@ public class NFunction<T> extends Node<T> {
     public void compile() {
         Globals.ambito += 1;
 
+        Node<T> funcId = children.get(0);
         Node<T> maybeArgs = children.get(2);
         Node<T> maybeVars = children.get(3);
         Node<T> maybeStmntList = children.get(4);
+
+        funcId.compile();
+
+        Globals.cuadruplos.add(new Cuadruplo("init_func", funcId.place));
 
         if (maybeArgs != null) {
             maybeArgs.compile();
@@ -72,8 +77,10 @@ public class NFunction<T> extends Node<T> {
 
             // completar los que quedan al final de la funcion a una linea vacia
             Marcador sigCuad = new Marcador(true);
-            Globals.cuadruplos.add(new Cuadruplo());
+            Globals.cuadruplos.add(new Cuadruplo("end_func", funcId.place));
             Globals.completar(maybeStmntList.listaSig, sigCuad);
+        } else {
+            Globals.cuadruplos.add(new Cuadruplo("end_func", funcId.place));
         }
     }
 

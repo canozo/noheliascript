@@ -48,7 +48,7 @@ public class Cuadruplo {
             saltosExtra += 1;
         }
 
-        if (arg2.contains("[")) {
+        if (!op.equals("write") && arg2.contains("[")) {
             // segundo caso
             String temp = Globals.temporalNuevo();
             Globals.cuadruplos.add(new Cuadruplo(":=", arg2, temp));
@@ -90,6 +90,13 @@ public class Cuadruplo {
         this.arg1 = "";
         this.arg2 = "";
         this.resM = resM;
+    }
+
+    public Cuadruplo(String op) {
+        this.op = op;
+        this.arg1 = "";
+        this.arg2 = "";
+        this.res = "";
     }
 
     public Cuadruplo() {

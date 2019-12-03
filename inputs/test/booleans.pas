@@ -1,5 +1,3 @@
-{ TODO correr bien }
-
 program booleans;
 
 var
