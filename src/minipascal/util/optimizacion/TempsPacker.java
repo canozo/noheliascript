@@ -50,7 +50,6 @@ public class TempsPacker {
         disponibles[killMe] = true;
     }
 
-    @SuppressWarnings("Duplicates")
     private void replace(String temp, String by) {
         for (Cuadruplo c : cuadruplos) {
             if (c.arg1.equals(temp)) {
@@ -67,7 +66,6 @@ public class TempsPacker {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     private String getTemp() {
         for (int i = 0; i < 10; i += 1) {
             if (disponibles[i]) {

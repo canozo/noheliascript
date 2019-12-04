@@ -43,7 +43,6 @@ public class NFields<T> extends Node<T> {
         // TODO crear codigo intermedio
     }
 
-    @SuppressWarnings("Duplicates")
     public String rebuild() {
         StringBuilder builder = new StringBuilder();
         boolean firstType = true;

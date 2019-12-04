@@ -41,7 +41,6 @@ public class NIfElse<T> extends Node<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         if (children.size() == 2) {
             Node<T> nIf = children.get(0);

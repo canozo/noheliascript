@@ -17,7 +17,6 @@ public class Main {
     private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = false;
 
-    @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
                 "inputs/buenos/factorial.pas",

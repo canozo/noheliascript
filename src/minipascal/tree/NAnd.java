@@ -12,7 +12,6 @@ public class NAnd<T> extends NodeType<T> {
         add(right);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador and
         children.get(0).visit();
@@ -38,7 +37,6 @@ public class NAnd<T> extends NodeType<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);

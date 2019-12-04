@@ -52,7 +52,6 @@ public class NVars<T> extends Node<T> {
         // no necesitamos hacer nada
     }
 
-    @SuppressWarnings("Duplicates")
     public String rebuild() {
         // tal vez no es necesario
         StringBuilder builder = new StringBuilder();

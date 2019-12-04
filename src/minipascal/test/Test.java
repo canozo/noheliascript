@@ -21,7 +21,6 @@ public class Test {
     private static final boolean PRINT_CUADRUPLOS = true;
     private static final boolean CODIGO_FINAL = true;
 
-    @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
 //                "inputs/buenos/factorial.pas",

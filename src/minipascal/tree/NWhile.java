@@ -13,7 +13,6 @@ public class NWhile<T> extends Node<T> {
         add(doStmnt);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // while
         children.get(0).visit();
@@ -30,7 +29,6 @@ public class NWhile<T> extends Node<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         Node<T> nWhile = children.get(0);
         Node<T> nDo = children.get(1);

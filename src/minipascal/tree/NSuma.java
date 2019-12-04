@@ -17,7 +17,6 @@ public class NSuma<T> extends NodeType<T> {
         add(term);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador suma
         if (children.size() == 1) {
@@ -58,7 +57,6 @@ public class NSuma<T> extends NodeType<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         place = Globals.temporalNuevo();
         if (children.size() == 1) {

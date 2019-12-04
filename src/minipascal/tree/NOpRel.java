@@ -13,7 +13,6 @@ public class NOpRel<T> extends NodeType<T> {
         add(right);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador relacional (data)
         children.get(0).visit();

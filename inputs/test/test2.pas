@@ -1,7 +1,7 @@
 program test2;
 
 var
-  a, b, c: integer;
+  a, b, c, d: integer;
 
 begin
   write('a: ');
@@ -10,7 +10,9 @@ begin
   write('b: ');
   read(b);
 
-  c := a + b;
-  write('c: ', c);
+  c := a + (2 - b) * 2;
+  d := c - (a + 3) / 2;
+
+  write('d: ', d);
   write('\n');
 end.

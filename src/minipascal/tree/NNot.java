@@ -10,7 +10,6 @@ public class NNot<T> extends NodeType<T> {
         add(some);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador not
         children.get(0).visit();

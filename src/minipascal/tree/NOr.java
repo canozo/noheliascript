@@ -11,7 +11,6 @@ public class NOr<T> extends NodeType<T> {
         add(right);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // operador or
         children.get(0).visit();

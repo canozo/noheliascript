@@ -12,7 +12,6 @@ public class NRepeat<T> extends Node<T> {
         add(exprUntil);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // repeat
         children.get(0).visit();
@@ -29,7 +28,6 @@ public class NRepeat<T> extends Node<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         Node<T> repeat = children.get(0);
         Node<T> until = children.get(1);

@@ -62,7 +62,6 @@ public class VariableRenamer {
         Globals.records.putAll(newRecords);
     }
 
-    @SuppressWarnings("Duplicates")
     private void replace(String before, String after) {
         for (Cuadruplo c : cuadruplos) {
             if (c.arg1.equals(before)) {

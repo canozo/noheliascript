@@ -34,7 +34,6 @@ public class NAssign<T> extends Node<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         Node<T> left = children.get(0);
         Node<T> right = children.get(1);

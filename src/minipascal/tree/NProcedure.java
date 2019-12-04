@@ -16,7 +16,6 @@ public class NProcedure<T> extends Node<T> {
         add(maybeStmntList);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         // con cada llamado, hay un nuevo ambito (de funcion o procedure)
         // antes de visitar los argumentos o las variables locales de la funcion,
@@ -51,7 +50,6 @@ public class NProcedure<T> extends Node<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         Globals.ambito += 1;
 

@@ -66,10 +66,11 @@ public class CodigoFinal {
                     opWrite(c);
                     break;
                 case "+":
-                    opSuma(c);
-                    break;
                 case "-":
-                    opResta(c);
+                case "*":
+                case "/":
+                case "div":
+                    opMath(c);
                     break;
                 case ":=":
                     opAsign(c);
@@ -131,13 +132,46 @@ public class CodigoFinal {
         }
     }
 
-    private void opSuma(Cuadruplo c) {
+    private void opMath(Cuadruplo c) {
         // puede ser una suma unaria:
         if (c.arg2.equals("")) {
+            if (c.op.equals("-")) {
+                // resta unaria
+                String res = c.res;
+                String num = c.arg1;
+
+                // hacer temporales para variables si se necesitan
+                if (res.startsWith("_")) {
+                    // res es variable
+                    res = getTemp();
+                }
+
+                if (num.startsWith("_")) {
+                    // num es variable
+                    num = getTemp();
+                    addLine(String.format("lw %s, %s", num, c.arg1));
+                }
+
+                // num no puede ser una constante
+                if (!(num.startsWith("$"))) {
+                    num = getTemp();
+                }
+
+                addLine(String.format("mul %s, %s, %s", res, num, "-1"));
+
+                if (!res.equals(c.res)) {
+                    addLine(String.format("sw %s, %s", res, c.res));
+                    kill(res);
+                }
+
+                if (!num.equals(c.arg1)) {
+                    kill(num);
+                }
+            }
             return;
         }
 
-        // suma binaria
+        // operacion binaria
         String res = c.res;
         String left = c.arg1;
         String right = c.arg2;
@@ -162,17 +196,28 @@ public class CodigoFinal {
 
         // left no puede ser una constante
         if (!(left.startsWith("$"))) {
-            String temp = left;
-            left = right;
-            right = temp;
-
-            // chanchada:
-            temp = c.arg1;
-            c.arg1 = c.arg2;
-            c.arg2 = temp;
+            left = getTemp();
         }
 
-        addLine(String.format("add %s, %s, %s", res, left, right));
+        switch (c.op) {
+            case "+":
+                addLine(String.format("add %s, %s, %s", res, left, right));
+                break;
+            case "-":
+                addLine(String.format("sub %s, %s, %s", res, left, right));
+                break;
+            case "*":
+                addLine(String.format("mul %s, %s, %s", res, left, right));
+                break;
+            case "/":
+            case "div":
+                addLine(String.format("div %s, %s, %s", res, left, right));
+                break;
+            case "mod":
+                break;
+            default:
+                break;
+        }
 
         if (!res.equals(c.res)) {
             addLine(String.format("sw %s, %s", res, c.res));
@@ -186,14 +231,49 @@ public class CodigoFinal {
         if (!right.equals(c.arg2)) {
             kill(right);
         }
-
     }
 
-    private void opResta(Cuadruplo c) {
-        // puede ser una suma unaria:
-        if (c.arg2.equals("")) {
-            // resta unaria
-            return;
+    private void opMult(Cuadruplo c) {
+        String res = c.res;
+        String left = c.arg1;
+        String right = c.arg2;
+
+        // hacer temporales para variables si se necesitan
+        if (res.startsWith("_")) {
+            // res es variable
+            res = getTemp();
+        }
+
+        if (left.startsWith("_")) {
+            // arg1 es variable
+            left = getTemp();
+            addLine(String.format("lw %s, %s", left, c.arg1));
+        }
+
+        if (right.startsWith("_")) {
+            // arg2 es variable
+            right = getTemp();
+            addLine(String.format("lw %s, %s", right, c.arg2));
+        }
+
+        // left no puede ser una constante
+        if (!(left.startsWith("$"))) {
+            left = getTemp();
+        }
+
+        addLine(String.format("mul %s, %s, %s", res, left, right));
+
+        if (!res.equals(c.res)) {
+            addLine(String.format("sw %s, %s", res, c.res));
+            kill(res);
+        }
+
+        if (!left.equals(c.arg1)) {
+            kill(left);
+        }
+
+        if (!right.equals(c.arg2)) {
+            kill(right);
         }
     }
 
@@ -280,7 +360,6 @@ public class CodigoFinal {
         disponibles[pos] = false;
     }
 
-    @SuppressWarnings("Duplicates")
     private String getTemp() {
         for (int i = 0; i < 10; i += 1) {
             if (disponibles[i]) {

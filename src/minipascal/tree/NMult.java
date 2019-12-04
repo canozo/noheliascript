@@ -12,7 +12,6 @@ public class NMult<T> extends NodeType<T> {
         add(right);
     }
 
-    @SuppressWarnings("Duplicates")
     public void visit() {
         children.get(0).visit();
         children.get(1).visit();
@@ -37,7 +36,6 @@ public class NMult<T> extends NodeType<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         place = Globals.temporalNuevo();
 

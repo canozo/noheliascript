@@ -16,7 +16,6 @@ public class TestErrores {
     private static final boolean PRINT_ARBOL = true;
     private static final boolean PRINT_TABLAS = false;
 
-    @SuppressWarnings("Duplicates")
     public static void main(String[] args) {
         String[] programas = {
                 "inputs/errLexicos/factorial.pas",

@@ -35,7 +35,6 @@ public class NFor<T> extends Node<T> {
         }
     }
 
-    @SuppressWarnings("Duplicates")
     public void compile() {
         Node<T> asign = children.get(0);
         Node<T> to = children.get(1);
