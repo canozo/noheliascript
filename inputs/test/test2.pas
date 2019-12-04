@@ -4,8 +4,13 @@ var
   a, b, c: integer;
 
 begin
-  a := 2;
-  b := 3;
+  write('a: ');
+  read(a);
+
+  write('b: ');
+  read(b);
+
   c := a + b;
   write('c: ', c);
+  write('\n');
 end.

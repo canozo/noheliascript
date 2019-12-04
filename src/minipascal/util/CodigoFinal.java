@@ -232,7 +232,10 @@ public class CodigoFinal {
             addLine("syscall");
             addLine("sw $v0, " + c.res);
         } else {
-            // TODO char
+            addLine("li $v0, 8");
+            addLine("la $a0, " + c.res);
+            addLine("li $a1, 4");
+            addLine("syscall");
         }
     }
 
@@ -242,7 +245,7 @@ public class CodigoFinal {
 
         // imprimir string
         addLine("li $v0, 4");
-        addLine("la $la0, " + place);
+        addLine("la $a0, " + place);
         addLine("syscall");
 
         // imprimir variable (si tiene argumento, integer o char)
@@ -258,7 +261,7 @@ public class CodigoFinal {
         Type type = Globals.simbolos.get(c.arg2, ambito);
         if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 1");
-            addLine("la $a0, " + c.arg2);
+            addLine("lw $a0, " + c.arg2);
             addLine("syscall");
         } else {
             addLine("li $v0, 11");
