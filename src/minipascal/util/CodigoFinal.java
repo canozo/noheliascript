@@ -75,6 +75,17 @@ public class CodigoFinal {
                 case ":=":
                     opAsign(c);
                     break;
+                case "if= goto":
+                case "if> goto":
+                case "if< goto":
+                case "if>= goto":
+                case "if<= goto":
+                case "if<> goto":
+                    opIfGoto(c);
+                    break;
+                case "goto":
+                    opGoto(c);
+                    break;
                 case "init_func":
                     opInitFunc(c);
                     break;
@@ -196,7 +207,9 @@ public class CodigoFinal {
 
         // left no puede ser una constante
         if (!(left.startsWith("$"))) {
+            String constante = left;
             left = getTemp();
+            addLine(String.format("li %s, %s", left, constante));
         }
 
         switch (c.op) {
@@ -233,17 +246,13 @@ public class CodigoFinal {
         }
     }
 
-    private void opMult(Cuadruplo c) {
-        String res = c.res;
+    private void opIfGoto(Cuadruplo c) {
+        // goto condicional
         String left = c.arg1;
         String right = c.arg2;
+        String etiq = c.resM.toString();
 
         // hacer temporales para variables si se necesitan
-        if (res.startsWith("_")) {
-            // res es variable
-            res = getTemp();
-        }
-
         if (left.startsWith("_")) {
             // arg1 es variable
             left = getTemp();
@@ -258,14 +267,32 @@ public class CodigoFinal {
 
         // left no puede ser una constante
         if (!(left.startsWith("$"))) {
+            String constante = left;
             left = getTemp();
+            addLine(String.format("li %s, %s", left, constante));
         }
 
-        addLine(String.format("mul %s, %s, %s", res, left, right));
-
-        if (!res.equals(c.res)) {
-            addLine(String.format("sw %s, %s", res, c.res));
-            kill(res);
+        switch (c.op) {
+            case "if= goto":
+                addLine(String.format("beq %s, %s, %s", left, right, etiq));
+                break;
+            case "if> goto":
+                addLine(String.format("bgt %s, %s, %s", left, right, etiq));
+                break;
+            case "if< goto":
+                addLine(String.format("blt %s, %s, %s", left, right, etiq));
+                break;
+            case "if>= goto":
+                addLine(String.format("bge %s, %s, %s", left, right, etiq));
+                break;
+            case "if<= goto":
+                addLine(String.format("ble %s, %s, %s", left, right, etiq));
+                break;
+            case "if<> goto":
+                addLine(String.format("bne %s, %s, %s", left, right, etiq));
+                break;
+            default:
+                break;
         }
 
         if (!left.equals(c.arg1)) {
@@ -275,6 +302,11 @@ public class CodigoFinal {
         if (!right.equals(c.arg2)) {
             kill(right);
         }
+    }
+
+    private void opGoto(Cuadruplo c) {
+        // goto obligatorio
+        addLine(String.format("b %s", c.resM));
     }
 
     private void opInitFunc(Cuadruplo c) {

@@ -25,6 +25,6 @@ public class Marcador {
 
     @Override
     public String toString() {
-        return Integer.toString(sigCuad);
+        return String.format("_%d", sigCuad);
     }
 }

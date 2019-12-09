@@ -1,4 +1,4 @@
-program test2;
+program matriz;
 
 var
   x, y, i, j, contador: integer;
