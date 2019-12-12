@@ -63,7 +63,6 @@ public class VariableRenamer {
     }
 
     private void replace(String before, String after) {
-        // TODO no reemplaza bien los records, ej: persona[4]
         for (Cuadruplo c : cuadruplos) {
             if (c.arg1.equals(before)) {
                 c.arg1 = after;
@@ -75,6 +74,22 @@ public class VariableRenamer {
 
             if (c.res != null && c.res.equals(before)) {
                 c.res = after;
+            }
+
+            // reemplazar para records
+            if (!c.op.equals("write") && c.arg1.startsWith(before + "[")) {
+                String[] split = c.arg1.split("\\[");
+                c.arg1 = String.format("%s[%s", after, split[1]);
+            }
+
+            if (c.arg2.startsWith(before + "[")) {
+                String[] split = c.arg2.split("\\[");
+                c.arg2 = String.format("%s[%s", after, split[1]);
+            }
+
+            if (c.res != null && c.res.startsWith(before + "[")) {
+                String[] split = c.res.split("\\[");
+                c.res = String.format("%s[%s", after, split[1]);
             }
         }
     }
