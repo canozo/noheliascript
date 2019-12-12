@@ -3,7 +3,6 @@ package minipascal.tree;
 import minipascal.util.Globals;
 import minipascal.util.cuadruplo.Cuadruplo;
 import minipascal.util.types.TFunc;
-import minipascal.util.types.Type;
 
 public class NFuncCall<T> extends NodeType<T> {
 
@@ -70,7 +69,7 @@ public class NFuncCall<T> extends NodeType<T> {
 
         if (!(parent instanceof NStmntList)) {
             String temp = Globals.temporalNuevo();
-            Globals.cuadruplos.add(new Cuadruplo(":=", "RET", temp));
+            Globals.cuadruplos.add(new Cuadruplo(":=", "$ret", temp));
             place = temp;
         }
     }

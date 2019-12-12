@@ -1,6 +1,8 @@
 package minipascal.util;
 
+import minipascal.util.cuadruplo.ArrayVar;
 import minipascal.util.cuadruplo.Cuadruplo;
+import minipascal.util.types.TRecord;
 import minipascal.util.types.Type;
 
 import java.util.ArrayList;
@@ -29,16 +31,18 @@ public class CodigoFinal {
             disponibles[i] = true;
         }
 
-        // agregar las variables globales (int, char y bool)
+        // agregar las variables globales (int, char, bool y records)
         for (String var : Globals.simbolos.column(0).keySet()) {
             Type type = Globals.simbolos.get(var, 0);
 
             if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
                 varGlobales.add(String.format("%s: .word %d\n", var, 0));
-            }
-
-            if (type.equals(Type.CHAR)) {
+            } else if (type.equals(Type.CHAR)) {
                 varGlobales.add(String.format("%s: .byte '%c'\n", var, '0'));
+            } else {
+                // es un record
+                TRecord tRecord = (TRecord) type;
+                varGlobales.add(String.format("%s: .space %d\n", var, tRecord.getCompleteSize()));
             }
         }
     }
@@ -73,7 +77,7 @@ public class CodigoFinal {
                     opMath(c);
                     break;
                 case ":=":
-                    opAsign(c);
+                    opAssign(c);
                     break;
                 case "if= goto":
                 case "if> goto":
@@ -119,27 +123,58 @@ public class CodigoFinal {
         lineas.add(String.format("%s:\n", tag));
     }
 
-    private void opAsign(Cuadruplo c) {
-        if (c.res.contains("[")) {
-            // TODO c.res puede tener un record field
-            return;
+    private void opAssign(Cuadruplo c) {
+        String res = c.res;
+        String arg = c.arg1;
+
+        if (res.contains("[")) {
+            ArrayVar var = new ArrayVar(c.res);
+            res = getTemp();
+            addLine(String.format("la %s, %s", res, var.var));
+            res = String.format("-%d(%s)", var.offset, res);
+        } else if (arg.contains("[")) {
+            ArrayVar var = new ArrayVar(arg);
+            arg = getTemp();
+            addLine(String.format("la %s, %s", arg, var.var));
+            arg = String.format("-%d(%s)", var.offset, arg);
         }
 
-        if (c.arg1.startsWith("$t")) {
-            // arg1 puede ser registro
-            addLine(String.format("sw %s, %s", c.arg1, c.res));
-        } else if (Globals.simbolos.contains(c.arg1, ambito)) {
-            // arg1 puede ser variable
-            System.out.println("opAsign Variable");
-        } else if (c.arg1.equals("RES")) {
-            // arg1 puede ser un valor de retorno
-            addLine(String.format("sw $v0, %s", c.res));
+        if (arg.startsWith("$t")) {
+            // arg puede ser registro
+            addLine(String.format("sw %s, %s", arg, res));
+        } else if (Globals.simbolos.contains(arg, ambito)) {
+            // dependeria del tipo de la variable
+            Type type = Globals.simbolos.get(arg, ambito);
+            if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                // si es integer o boolean
+                String temp = getTemp();
+                addLine(String.format("lw %s, %s", temp, arg));
+                addLine(String.format("sw %s, %s", temp, res));
+                kill(temp);
+            } else if (type.equals(Type.CHAR)) {
+                // si es char
+                String temp = getTemp();
+                addLine(String.format("lb %s, %s", temp, arg));
+                addLine(String.format("sb %s, %s", temp, res));
+                kill(temp);
+            } else {
+                // TODO es un record
+            }
+        } else if (arg.equals("$ret")) {
+            // arg puede ser un valor de retorno
+            addLine(String.format("sw $v0, %s", res));
         } else {
-            // arg1 puede ser const
+            // arg puede ser const
             String t = getTemp();
-            addLine(String.format("li %s, %s", t, c.arg1));
-            addLine(String.format("sw %s, %s", t, c.res));
+            addLine(String.format("li %s, %s", t, arg));
+            addLine(String.format("sw %s, %s", t, res));
             kill(t);
+        }
+
+        if (!res.equals(c.res)) {
+            killDir(res);
+        } else if (!arg.equals(c.arg1)) {
+            killDir(arg);
         }
     }
 
@@ -164,7 +199,7 @@ public class CodigoFinal {
                 }
 
                 // num no puede ser una constante
-                if (!(num.startsWith("$"))) {
+                if (!(num.contains("$"))) {
                     num = getTemp();
                 }
 
@@ -206,7 +241,7 @@ public class CodigoFinal {
         }
 
         // left no puede ser una constante
-        if (!(left.startsWith("$"))) {
+        if (!(left.contains("$"))) {
             String constante = left;
             left = getTemp();
             addLine(String.format("li %s, %s", left, constante));
@@ -266,7 +301,7 @@ public class CodigoFinal {
         }
 
         // left no puede ser una constante
-        if (!(left.startsWith("$"))) {
+        if (!(left.contains("$"))) {
             String constante = left;
             left = getTemp();
             addLine(String.format("li %s, %s", left, constante));
@@ -333,21 +368,31 @@ public class CodigoFinal {
     }
 
     private void opRead(Cuadruplo c) {
-        if (c.res.contains("[")) {
-            // TODO es un record
-            return;
+        String res = c.res;
+
+        if (res.contains("[")) {
+            ArrayVar var = new ArrayVar(res);
+            res = getTemp();
+            addLine(String.format("la %s, %s", res, var.var));
+            res = String.format("-%d(%s)", var.offset, res);
         }
 
         Type type = Globals.simbolos.get(c.res, ambito);
-        if (type.equals(Type.INTEGER)) {
+        if (type == null) {
+          // TODO puede ser un record
+        } else if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 5");
             addLine("syscall");
-            addLine("sw $v0, " + c.res);
+            addLine("sw $v0, " + res);
         } else {
             addLine("li $v0, 8");
-            addLine("la $a0, " + c.res);
+            addLine("la $a0, " + res);
             addLine("li $a1, 4");
             addLine("syscall");
+        }
+
+        if (!res.equals(c.res)) {
+            killDir(res);
         }
     }
 
@@ -365,21 +410,37 @@ public class CodigoFinal {
             return;
         }
 
-        if (c.arg2.contains("[")) {
-            // TODO es un record
-            return;
+        String arg2 = c.arg2;
+
+        if (arg2.contains("[")) {
+            ArrayVar var = new ArrayVar(arg2);
+            arg2 = getTemp();
+            addLine(String.format("la %s, %s", arg2, var.var));
+            arg2 = String.format("-%d(%s)", var.offset, arg2);
         }
 
         Type type = Globals.simbolos.get(c.arg2, ambito);
-        if (type.equals(Type.INTEGER)) {
+        if (type == null) {
+            // TODO puede ser un record
+        } else if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 1");
-            addLine("lw $a0, " + c.arg2);
+            addLine("lw $a0, " + arg2);
             addLine("syscall");
         } else {
             addLine("li $v0, 11");
-            addLine("lb $a0, " + c.arg2);
+            addLine("lb $a0, " + arg2);
             addLine("syscall");
         }
+
+        if (!arg2.equals(c.arg2)) {
+            killDir(arg2);
+        }
+    }
+
+    private void killDir(String temp) {
+        String t = temp.replaceAll("\\)", "").split("\\(")[1];
+        int killMe = Integer.parseInt(t.substring(2));
+        disponibles[killMe] = true;
     }
 
     private void kill(String temp) {

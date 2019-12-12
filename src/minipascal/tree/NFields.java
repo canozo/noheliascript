@@ -40,7 +40,6 @@ public class NFields<T> extends Node<T> {
     }
 
     public void compile() {
-        // TODO crear codigo intermedio
     }
 
     public String rebuild() {

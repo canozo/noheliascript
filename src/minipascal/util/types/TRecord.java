@@ -37,6 +37,14 @@ public class TRecord extends Type {
         return res;
     }
 
+    public int getCompleteSize() {
+        int res = 0;
+        for (String id : fields.keySet()) {
+            res += fields.get(id).size;
+        }
+        return res;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof TRecord)) {

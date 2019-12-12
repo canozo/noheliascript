@@ -63,6 +63,7 @@ public class VariableRenamer {
     }
 
     private void replace(String before, String after) {
+        // TODO no reemplaza bien los records, ej: persona[4]
         for (Cuadruplo c : cuadruplos) {
             if (c.arg1.equals(before)) {
                 c.arg1 = after;

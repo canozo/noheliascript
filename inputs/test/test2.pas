@@ -1,31 +1,26 @@
 program test2;
 
+type wow = record
+  edad: integer;
+end;
+
 var
-  x, y, i, j, contador: integer;
+  a: integer;
+  xd, xd2: wow;
 
 begin
-  write('Columnas: ');
-  read(x);
+  a := 69;
 
-  write('Filas: ');
-  read(y);
+  read(xd.edad);
 
-  write('\nMatriz de ', x);
-  write(' columnas y ', y);
-  write(' filas.\n');
+  xd.edad := a;
+  xd2.edad := xd.edad;
 
-  contador := 1;
+  write('xd.edad = ', xd.edad);
+  write('xd2.edad = ', xd2.edad);
 
-  for i := 1 to y do
-  begin
-    for j := 1 to x do
-    begin
-      if j = 1 then
-        write('  ', contador)
-      else
-        write(', ', contador);
-      contador := contador + 1;
-    end;
-    write('\n');
-  end;
+  {
+  xd := xd2;
+  xd.edad := xd2.edad;
+  }
 end.
