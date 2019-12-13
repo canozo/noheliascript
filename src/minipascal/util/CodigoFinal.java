@@ -49,14 +49,6 @@ public class CodigoFinal {
 
     public void compilar(List<Cuadruplo> cuadruplos) {
         for (Cuadruplo c : cuadruplos) {
-            if (c.arg1.startsWith("$t")) {
-                kill(c.arg1);
-            }
-
-            if (c.arg2.startsWith("$t")) {
-                kill(c.arg2);
-            }
-
             if (c.res != null && c.res.startsWith("$t")) {
                 claim(c.res);
             }
@@ -105,6 +97,15 @@ public class CodigoFinal {
                 default:
                     break;
             }
+
+            if (c.arg1.startsWith("$t")) {
+                kill(c.arg1);
+            }
+
+            if (c.arg2.startsWith("$t")) {
+                kill(c.arg2);
+            }
+
             numLinea += 1;
         }
     }
@@ -127,54 +128,128 @@ public class CodigoFinal {
         String res = c.res;
         String arg = c.arg1;
 
+        // type de arg, si es direccion
+        Type fieldType = null;
+
         if (res.contains("[")) {
-            ArrayVar var = new ArrayVar(c.res);
+            ArrayVar var = new ArrayVar(c.res, ambito);
             res = getTemp();
             addLine(String.format("la %s, %s", res, var.var));
             res = String.format("-%d(%s)", var.offset, res);
-        } else if (arg.contains("[")) {
-            ArrayVar var = new ArrayVar(arg);
+        }
+
+        if (arg.contains("[")) {
+            ArrayVar var = new ArrayVar(arg, ambito);
+            fieldType = var.type;
             arg = getTemp();
             addLine(String.format("la %s, %s", arg, var.var));
             arg = String.format("-%d(%s)", var.offset, arg);
         }
 
-        if (arg.startsWith("$t")) {
-            // arg puede ser registro
-            addLine(String.format("sw %s, %s", arg, res));
-        } else if (Globals.simbolos.contains(arg, ambito)) {
-            // dependeria del tipo de la variable
-            Type type = Globals.simbolos.get(arg, ambito);
-            if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
-                // si es integer o boolean
-                String temp = getTemp();
-                addLine(String.format("lw %s, %s", temp, arg));
-                addLine(String.format("sw %s, %s", temp, res));
-                kill(temp);
-            } else if (type.equals(Type.CHAR)) {
-                // si es char
-                String temp = getTemp();
-                addLine(String.format("lb %s, %s", temp, arg));
-                addLine(String.format("sb %s, %s", temp, res));
-                kill(temp);
+        if (res.startsWith("$t")) {
+            if (arg.startsWith("-")) {
+                // arg es una direccion
+                if (fieldType == null) {
+                    System.err.println("Error: Type es null.");
+                    error = true;
+                } else if (fieldType.equals(Type.INTEGER) || fieldType.equals(Type.BOOLEAN)) {
+                    addLine(String.format("lw %s, %s", res, arg));
+                } else if (fieldType.equals(Type.CHAR)) {
+                    addLine(String.format("lb %s, %s", res, arg));
+                }
+                killDir(arg);
+            } else if (arg.equals("$ret")) {
+                // arg es un valor de retorno
+                addLine(String.format("move %s, $v0", res));
             } else {
-                // TODO es un record
+                // arg trae integer o constchar
+                addLine(String.format("li %s, %s", res, arg));
             }
-        } else if (arg.equals("$ret")) {
-            // arg puede ser un valor de retorno
-            addLine(String.format("sw $v0, %s", res));
         } else {
-            // arg puede ser const
-            String t = getTemp();
-            addLine(String.format("li %s, %s", t, arg));
-            addLine(String.format("sw %s, %s", t, res));
-            kill(t);
-        }
+            // ver si arg es una variable primero
+            if (Globals.simbolos.contains(arg, ambito)) {
+                // dependeria del tipo de la variable
+                Type type = Globals.simbolos.get(arg, ambito);
+                if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                    String temp = getTemp();
+                    addLine(String.format("lw %s, %s", temp, arg));
+                    addLine(String.format("sw %s, %s", temp, res));
+                    kill(temp);
+                } else if (type.equals(Type.CHAR)) {
+                    String temp = getTemp();
+                    addLine(String.format("lb %s, %s", temp, arg));
+                    addLine(String.format("sb %s, %s", temp, res));
+                    kill(temp);
+                } else {
+                    // TODO es un record, hay un copy, ej: _a := _b
+                    String from = getTemp();
+                    String to = getTemp();
+                    String t = getTemp();
 
-        if (!res.equals(c.res)) {
-            killDir(res);
-        } else if (!arg.equals(c.arg1)) {
-            killDir(arg);
+                    addLine(String.format("la %s, %s", from, arg));
+                    addLine(String.format("la %s, %s", to, res));
+
+                    TRecord tRecord = (TRecord) type;
+                    int offset = 0;
+                    for (String key : tRecord.fields.keySet()) {
+                        Type field = tRecord.getField(key);
+                        if (field.equals(Type.INTEGER) || field.equals(Type.BOOLEAN)) {
+                            addLine(String.format("lw %s, -%d(%s)", t, offset, from));
+                            addLine(String.format("sw %s, -%d(%s)", t, offset, to));
+                        } else if (field.equals(Type.CHAR)) {
+                            addLine(String.format("lb %s, -%d(%s)", t, offset, from));
+                            addLine(String.format("sb %s, -%d(%s)", t, offset, to));
+                        }
+                        offset += field.size;
+                    }
+
+                    kill(from);
+                    kill(to);
+                    kill(t);
+                }
+                return;
+            }
+
+            if (arg.startsWith("-")) {
+                // arg es una direccion
+                if (fieldType == null) {
+                    System.err.println("Error: Type es null.");
+                    error = true;
+                } else if (fieldType.equals(Type.INTEGER) || fieldType.equals(Type.BOOLEAN)) {
+                    String temp = getTemp();
+                    addLine(String.format("lw %s, %s", temp, arg));
+                    addLine(String.format("sw %s, %s", temp, res));
+                    kill(temp);
+                } else if (fieldType.equals(Type.CHAR)) {
+                    String temp = getTemp();
+                    addLine(String.format("lb %s, %s", temp, arg));
+                    addLine(String.format("sb %s, %s", temp, res));
+                    kill(temp);
+                }
+            } else if (arg.startsWith("$t")) {
+                // arg puede ser registro
+                addLine(String.format("sw %s, %s", arg, res));
+            } else if (arg.startsWith("'")) {
+                // arg trae integer o constchar
+                String t = getTemp();
+                addLine(String.format("li %s, %s", t, arg));
+                addLine(String.format("sb %s, %s", t, res));
+                kill(t);
+            } else {
+                // arg trae integer
+                String t = getTemp();
+                addLine(String.format("li %s, %s", t, arg));
+                addLine(String.format("sw %s, %s", t, res));
+                kill(t);
+            }
+
+            if (!arg.equals(c.arg1)) {
+                killDir(arg);
+            }
+
+            if (!res.equals(c.res)) {
+                killDir(res);
+            }
         }
     }
 
@@ -370,23 +445,25 @@ public class CodigoFinal {
     private void opRead(Cuadruplo c) {
         String res = c.res;
 
+        Type type = Globals.simbolos.get(c.res, ambito);
         if (res.contains("[")) {
-            ArrayVar var = new ArrayVar(res);
+            ArrayVar var = new ArrayVar(res, ambito);
+            type = var.type;
             res = getTemp();
             addLine(String.format("la %s, %s", res, var.var));
             res = String.format("-%d(%s)", var.offset, res);
         }
 
-        Type type = Globals.simbolos.get(c.res, ambito);
         if (type == null) {
-          // TODO puede ser un record
+            System.err.println("Error: Type es null.");
+            error = true;
         } else if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 5");
             addLine("syscall");
-            addLine("sw $v0, " + res);
-        } else {
+            addLine(String.format("sw $v0, %s", res));
+        } else if (type.equals(Type.CHAR)) {
             addLine("li $v0, 8");
-            addLine("la $a0, " + res);
+            addLine(String.format("la $a0, %s", res));
             addLine("li $a1, 4");
             addLine("syscall");
         }
@@ -412,23 +489,25 @@ public class CodigoFinal {
 
         String arg2 = c.arg2;
 
+        Type type = Globals.simbolos.get(c.arg2, ambito);
         if (arg2.contains("[")) {
-            ArrayVar var = new ArrayVar(arg2);
+            ArrayVar var = new ArrayVar(arg2, ambito);
+            type = var.type;
             arg2 = getTemp();
             addLine(String.format("la %s, %s", arg2, var.var));
             arg2 = String.format("-%d(%s)", var.offset, arg2);
         }
 
-        Type type = Globals.simbolos.get(c.arg2, ambito);
         if (type == null) {
-            // TODO puede ser un record
+            System.err.println("Error: Type es null.");
+            error = true;
         } else if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 1");
-            addLine("lw $a0, " + arg2);
+            addLine(String.format("lw $a0, %s", arg2));
             addLine("syscall");
-        } else {
+        } else if (type.equals(Type.CHAR)) {
             addLine("li $v0, 11");
-            addLine("lb $a0, " + arg2);
+            addLine(String.format("lb $a0, %s", arg2));
             addLine("syscall");
         }
 
@@ -438,14 +517,18 @@ public class CodigoFinal {
     }
 
     private void killDir(String temp) {
-        String t = temp.replaceAll("\\)", "").split("\\(")[1];
-        int killMe = Integer.parseInt(t.substring(2));
-        disponibles[killMe] = true;
+        if (temp.startsWith("-")) {
+            String t = temp.replaceAll("\\)", "").split("\\(")[1];
+            int killMe = Integer.parseInt(t.substring(2));
+            disponibles[killMe] = true;
+        }
     }
 
     private void kill(String temp) {
-        int killMe = Integer.parseInt(temp.substring(2));
-        disponibles[killMe] = true;
+        if (temp.startsWith("$t")) {
+            int killMe = Integer.parseInt(temp.substring(2));
+            disponibles[killMe] = true;
+        }
     }
 
     private void claim(String temp) {

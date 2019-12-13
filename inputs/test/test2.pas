@@ -1,26 +1,26 @@
 program test2;
 
-type wow = record
-  edad: integer;
-end;
+type persona = record
+    edad, puntos: integer;
+    sexo: char;
+  end;
 
 var
-  a: integer;
-  xd, xd2: wow;
+  yo, otro: persona;
 
 begin
-  a := 69;
+  yo.edad := 89;
+  yo.puntos := 1000;
+  yo.sexo := 'M';
 
-  read(xd.edad);
+  otro := yo;
 
-  xd.edad := a;
-  xd2.edad := xd.edad;
+  write('\nyo.edad = ', yo.edad);
+  write('\notro.edad = ', otro.edad);
 
-  write('xd.edad = ', xd.edad);
-  write('xd2.edad = ', xd2.edad);
+  write('\nyo.puntos = ', yo.puntos);
+  write('\notro.puntos = ', otro.puntos);
 
-  {
-  xd := xd2;
-  xd.edad := xd2.edad;
-  }
+  write('\nyo.sexo = ', yo.sexo);
+  write('\notro.sexo = ', otro.sexo);
 end.

@@ -72,10 +72,45 @@ public class Cuadruplo {
     }
 
     public Cuadruplo(String op, String arg1, String res) {
+        // si recibimos los tres argumentos, es posible que obtengamos mas de 3 direcciones
+        // caso especial:
+        //      op |     arg1 |     arg2 |     res
+        // ---------------------------------------
+        //      := |     a[1] |          |     b[1]
+
+        // simplemente hacemos un temporal con a[1]:
+        //      op |     arg1 |     arg2 |     res
+        // ---------------------------------------
+        //      := |     a[1] |          |      $t0
+        //      := |      $t0 |          |     b[1]
+
         this.op = op;
         this.arg1 = arg1;
         this.arg2 = "";
         this.res = res;
+
+        int saltosExtra = 0;
+        ArrayList<Marcador> saltosAqui = new ArrayList<>();
+
+        for (Marcador m : Marcador.marcadores) {
+            if (m.sigCuad > Globals.cuadruplos.size()) {
+                if (!m.res) {
+                    saltosAqui.add(m);
+                }
+            }
+        }
+
+        if (!op.equals("write") && arg1.contains("[") && res.contains("[")) {
+            // caso especial
+            String temp = Globals.temporalNuevo();
+            Globals.cuadruplos.add(new Cuadruplo(":=", arg1, temp));
+            this.arg1 = temp;
+            saltosExtra += 1;
+        }
+
+        for (Marcador m : saltosAqui) {
+            m.sigCuad = m.sigCuad + saltosExtra;
+        }
     }
 
     public Cuadruplo(String op, String res) {

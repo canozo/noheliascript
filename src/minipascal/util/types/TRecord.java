@@ -42,7 +42,22 @@ public class TRecord extends Type {
         for (String id : fields.keySet()) {
             res += fields.get(id).size;
         }
-        return res;
+        // redondear a multiplo de 4
+        return 4 * (int) Math.ceil(res / 4.0);
+    }
+
+    public Type getFieldType(int offset) {
+        int tempOffset = 0;
+        for (String id : fields.keySet()) {
+            if (tempOffset == offset) {
+                return fields.get(id);
+            }
+            tempOffset += fields.get(id).size;
+        }
+
+        // posible error
+        System.err.println("Error: No se encontro el field type con el offset.");
+        return null;
     }
 
     @Override
