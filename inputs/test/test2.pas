@@ -1,26 +1,43 @@
 program test2;
 
-type persona = record
-    edad, puntos: integer;
-    sexo: char;
-  end;
+type coordenada = record
+  x, y: integer;
+end;
+
+type variables = record
+  i, j, contador: integer;
+end;
 
 var
-  yo, otro: persona;
+  c: coordenada;
+  v: variables;
 
 begin
-  yo.edad := 89;
-  yo.puntos := 1000;
-  yo.sexo := 'M';
+  write('Columnas: ');
+  read(c.x);
 
-  otro := yo;
+  write('Filas: ');
+  read(c.y);
 
-  write('\nyo.edad = ', yo.edad);
-  write('\notro.edad = ', otro.edad);
+  write('\nMatriz de ', c.x);
+  write(' columnas y ', c.y);
+  write(' filas.\n');
 
-  write('\nyo.puntos = ', yo.puntos);
-  write('\notro.puntos = ', otro.puntos);
+  v.contador := 1;
 
-  write('\nyo.sexo = ', yo.sexo);
-  write('\notro.sexo = ', otro.sexo);
+  for v.i := 1 to c.y do
+  begin
+    for v.j := 1 to c.x do
+    begin
+{
+      if v.j = 1 then
+        write('  ', v.contador)
+      else
+        write(', ', v.contador);
+      v.contador := v.contador + 1;
+}
+    end;
+    write('\n');
+  end;
+  write('\ntermino');
 end.

@@ -29,10 +29,10 @@ public class TRecord extends Type {
     public int getFieldSize(String field) {
         int res = 0;
         for (String id : fields.keySet()) {
+            res += fields.get(id).size;
             if (field.equals(id)) {
                 break;
             }
-            res += fields.get(id).size;
         }
         return res;
     }
@@ -49,10 +49,10 @@ public class TRecord extends Type {
     public Type getFieldType(int offset) {
         int tempOffset = 0;
         for (String id : fields.keySet()) {
+            tempOffset += fields.get(id).size;
             if (tempOffset == offset) {
                 return fields.get(id);
             }
-            tempOffset += fields.get(id).size;
         }
 
         // posible error

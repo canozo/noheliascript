@@ -24,6 +24,7 @@ public class Test {
     public static void main(String[] args) {
         String[] programas = {
 //                "inputs/buenos/matriz.pas",
+//                "inputs/buenos/copy.pas",
 //                "inputs/buenos/factorial.pas",
 //                "inputs/buenos/func.pas",
 //                "inputs/buenos/rel.pas",

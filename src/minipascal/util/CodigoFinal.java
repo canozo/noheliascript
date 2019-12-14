@@ -42,7 +42,10 @@ public class CodigoFinal {
             } else {
                 // es un record
                 TRecord tRecord = (TRecord) type;
-                varGlobales.add(String.format("%s: .space %d\n", var, tRecord.getCompleteSize()));
+                // TODO what
+                varGlobales.add(
+                    String.format("%s: .space %d\n\t.align 2\n", var, tRecord.getCompleteSize())
+                );
             }
         }
     }
@@ -98,11 +101,11 @@ public class CodigoFinal {
                     break;
             }
 
-            if (c.arg1.startsWith("$t")) {
+            if (!c.arg1.equals(c.res) && c.arg1.startsWith("$t")) {
                 kill(c.arg1);
             }
 
-            if (c.arg2.startsWith("$t")) {
+            if (!c.arg2.equals(c.res) && c.arg2.startsWith("$t")) {
                 kill(c.arg2);
             }
 
@@ -181,7 +184,6 @@ public class CodigoFinal {
                     addLine(String.format("sb %s, %s", temp, res));
                     kill(temp);
                 } else {
-                    // TODO es un record, hay un copy, ej: _a := _b
                     String from = getTemp();
                     String to = getTemp();
                     String t = getTemp();
