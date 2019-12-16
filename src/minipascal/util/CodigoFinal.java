@@ -289,7 +289,7 @@ public class CodigoFinal {
             }
         }
 
-        if (!res.equals(c.res) && !res.equals("$v0")) {
+        if (!res.equals(c.res) && res.startsWith("$t")) {
             if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
                 addLine(String.format("sw %s, %s", res, c.res));
             } else if (type.equals(Type.CHAR)) {

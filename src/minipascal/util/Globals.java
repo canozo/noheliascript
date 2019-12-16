@@ -105,7 +105,7 @@ public class Globals {
         }
 
         funciones.get(func).varsLocales.put("_" + id, resType);
-        funciones.get(func).varsLocales.put("_" + func, resType);
+//        funciones.get(func).varsLocales.put("_" + func, resType);
     }
 
     public static void addSimbolo(String id, String type) {
