@@ -228,7 +228,7 @@ public class CodigoFinal {
                 } else if (type.equals(Type.CHAR)) {
                     addLine(String.format("lb %s, %s", res, arg));
                 } else {
-                    // copiar de un record a otro
+                    // XXX copiar de un record a otro
                     String from = getTemp();
                     String to = getTemp();
                     String t = getTemp();
@@ -280,6 +280,15 @@ public class CodigoFinal {
                     addLine(String.format("lb %s, %s", t, arg));
                 }
                 kill(t);
+            } else {
+                String t = getTemp();
+                addLine(String.format("li %s, %s", t, arg));
+                if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                    addLine(String.format("sw %s, %s", t, res));
+                } else if (type.equals(Type.CHAR)) {
+                    addLine(String.format("sb %s, %s", t, res));
+                }
+                kill(t);
             }
         }
 
@@ -289,11 +298,13 @@ public class CodigoFinal {
             }
         }
 
-        if (!res.equals(c.res) && res.startsWith("$t")) {
-            if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
-                addLine(String.format("sw %s, %s", res, c.res));
-            } else if (type.equals(Type.CHAR)) {
-                addLine(String.format("sb %s, %s", res, c.res));
+        if (!res.equals(c.res)) {
+            if (res.startsWith("$t")) {
+                if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                    addLine(String.format("sw %s, %s", res, c.res));
+                } else if (type.equals(Type.CHAR)) {
+                    addLine(String.format("sb %s, %s", res, c.res));
+                }
             }
 
             if (res.startsWith("-")) {

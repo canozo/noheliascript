@@ -17,7 +17,7 @@ import java.io.*;
 public class Test {
 
     private static final boolean PRINT_ARBOL = false;
-    private static final boolean PRINT_TABLAS = true;
+    private static final boolean PRINT_TABLAS = false;
     private static final boolean PRINT_CUADRUPLOS = true;
     private static final boolean CODIGO_FINAL = true;
 
@@ -26,6 +26,7 @@ public class Test {
 //                "inputs/buenos/matriz.pas",
 //                "inputs/buenos/copy.pas",
 //                "inputs/buenos/factorial.pas",
+//                "inputs/buenos/pow.pas",
 //                "inputs/buenos/func.pas",
 //                "inputs/buenos/rel.pas",
 //                "inputs/buenos/psuma.pas",

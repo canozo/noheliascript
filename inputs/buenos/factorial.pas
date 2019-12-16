@@ -15,5 +15,5 @@ begin
   read(prueba);
   result := fact(prueba);
   write('Factorial de ', prueba);
-  write('Resultado: ', result);
+  write(' = ', result);
 end.

@@ -1,26 +1,19 @@
 program test2;
 
 var
-  global: integer;
-
-function suma(a, b: integer): integer;
-var
-  temp: integer;
-begin
-  global := 69;
-  temp := a + b;
-  suma := temp;
-end;
-
-var
-  left, right: integer;
-  res: integer;
+  a, b: integer;
+  bool: boolean;
 
 begin
-  global := 12;
-  left := 2;
-  right := 3;
-  res := suma(suma(left, right), 2);
-  write('2 + 3 + 2 = ', res);
-  write('\nglobal = ', global);
+  write('num a: ');
+  read(a);
+
+  write('num b: ');
+  read(b);
+
+  bool := a > b;
+  if bool then
+    write('a > b')
+  else
+    write('a <= b');
 end.
