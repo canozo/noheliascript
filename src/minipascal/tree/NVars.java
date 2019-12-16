@@ -32,7 +32,8 @@ public class NVars<T> extends Node<T> {
                         if (globalBlock) {
                             Globals.addSimboloGlobal(id, type);
                         } else {
-                            Globals.addSimbolo(id, type);
+                            String funcName = (String) parent.children.get(0).data;
+                            Globals.addSimboloFunc(funcName, id, type);
                         }
                     }
                 } else {
@@ -41,7 +42,8 @@ public class NVars<T> extends Node<T> {
                     if (globalBlock) {
                         Globals.addSimboloGlobal(id, type);
                     } else {
-                        Globals.addSimbolo(id, type);
+                        String funcName = (String) parent.children.get(0).data;
+                        Globals.addSimboloFunc(funcName, id, type);
                     }
                 }
             }

@@ -98,6 +98,21 @@ public class Globals {
         }
     }
 
+    public static void addSimboloFunc(String func, String id, String type) {
+        Type resType = findType(type);
+        if (resType == null) {
+            return;
+        }
+
+        if (!simbolos.contains(id, ambito)) {
+            simbolos.put(id, ambito, resType);
+            funciones.get(func).varNames.add("_" + func);
+        } else {
+            System.err.println("ERROR: Combinacion de <" + id + ", " + ambito + "> ya existe.");
+            error = true;
+        }
+    }
+
     public static void addSimbolo(String id, String type) {
         Type resType = findType(type);
         if (resType == null) {

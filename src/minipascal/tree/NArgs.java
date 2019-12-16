@@ -35,13 +35,13 @@ public class NArgs<T> extends Node<T> {
                     for (Node<T> innerArg : arg.children) {
                         String id = (String) innerArg.data;
                         Globals.addSimbolo(id, type);
-                        funcType.addArg(type);
+                        funcType.addArg(id ,type);
                     }
                 } else {
                     // solo tiene un arg de este tipo
                     String id = (String) arg.data;
                     Globals.addSimbolo(id, type);
-                    funcType.addArg(type);
+                    funcType.addArg(id, type);
                 }
             }
         }

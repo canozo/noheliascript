@@ -28,11 +28,11 @@ public class VariableRenamer {
 
     public void renameGlobals() {
         // cada variable (global) que se encuentre se renombra a guion bajo y el nombre original
-        for (String var : Globals.simbolos.column(0).keySet()) {
-            replace(var, "_" + var);
+        for (Table.Cell<String, Integer, Type> cell : Globals.simbolos.cellSet()) {
+            replace(cell.getRowKey(), "_" + cell.getRowKey());
             // cambiar de la tabla de simbolos
-            Type type = Globals.simbolos.get(var, 0);
-            newSimbolos.put("_" + var, 0, type);
+            Type type = Globals.simbolos.get(cell.getRowKey(), cell.getColumnKey());
+            newSimbolos.put("_" + cell.getRowKey(), cell.getColumnKey(), type);
         }
 
         // hacemos lo mismo para funciones

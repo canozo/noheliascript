@@ -9,11 +9,16 @@ public class TFunc extends Type {
 
     public Type returnType;
     public List<Type> args;
+    public List<String> argNames;
+    public List<String> varNames;
+
 
     public TFunc(String id, String returnType) {
         super(id);
         this.returnType = Globals.findType(returnType);
         args = new ArrayList<>();
+        argNames = new ArrayList<>();
+        varNames = new ArrayList<>();
     }
 
     public TFunc(String id, Type returnType) {
@@ -22,13 +27,14 @@ public class TFunc extends Type {
         args = new ArrayList<>();
     }
 
-    public void addArg(String type) {
+    public void addArg(String id, String type) {
         Type resType = Globals.findType(type);
         if (resType == null) {
             return;
         }
 
         args.add(resType);
+        argNames.add("_" + id);
     }
 
     public void addArg(Type type) {
@@ -36,6 +42,25 @@ public class TFunc extends Type {
             return;
         }
         args.add(type);
+    }
+
+    public String getArgVar(String argVar) {
+        // si nos referimos a un argumento en una funcion
+        // ocupamos obtener la variable $s0 que la guarda
+        int sp = 12;
+        int s = 0;
+        for (String argName : argNames) {
+            if (argVar.equals(argName)) {
+                return String.format("$s%d", s);
+            }
+            s += 1;
+            sp += 4;
+//            sp += arg.size;
+        }
+
+        // si nos referimos a una variable en una funcion
+        // ocupamos obtener la direccion en la pila que la guarda
+        return "";
     }
 
     @Override
