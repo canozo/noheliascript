@@ -4,21 +4,38 @@ import minipascal.util.Globals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TFunc extends Type {
+
+    // chanchada incoming:
+    public class B {
+        public String nombre;
+        public Type type;
+        public boolean arg;
+        public String place;
+
+        public B(String nombre, Type type, boolean arg) {
+            this.nombre = nombre;
+            this.type = type;
+            this.arg = arg;
+        }
+    }
 
     public Type returnType;
     public List<Type> args;
     public List<String> argNames;
-    public List<String> varNames;
-
+    public Map<String, Type> varsLocales;
+    public List<B> names;
 
     public TFunc(String id, String returnType) {
         super(id);
         this.returnType = Globals.findType(returnType);
         args = new ArrayList<>();
         argNames = new ArrayList<>();
-        varNames = new ArrayList<>();
+        varsLocales = new TreeMap<>();
+        names = new ArrayList<>();
     }
 
     public TFunc(String id, Type returnType) {
@@ -44,23 +61,19 @@ public class TFunc extends Type {
         args.add(type);
     }
 
-    public String getArgVar(String argVar) {
-        // si nos referimos a un argumento en una funcion
-        // ocupamos obtener la variable $s0 que la guarda
-        int sp = 12;
-        int s = 0;
-        for (String argName : argNames) {
-            if (argVar.equals(argName)) {
-                return String.format("$s%d", s);
+    public void addName(String name, Type type, boolean arg) {
+        names.add(new B(name, type, arg));
+    }
+
+    public B getArgVar(String argVar) {
+        for (B name : names) {
+            if (name.nombre.equals(argVar)) {
+                return name;
             }
-            s += 1;
-            sp += 4;
-//            sp += arg.size;
         }
 
-        // si nos referimos a una variable en una funcion
-        // ocupamos obtener la direccion en la pila que la guarda
-        return "";
+        System.err.println("Error: No se encontro el nombre " + argVar + ".");
+        return null;
     }
 
     @Override

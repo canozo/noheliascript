@@ -19,6 +19,10 @@ public class NID<T> extends NodeType<T> {
         }
         // si es una variable
         type = Globals.simbolos.get(data, Globals.ambito);
+
+        if (type == null) {
+            type = Globals.simbolos.get(data, 0);
+        }
     }
 
     public String rebuild() {

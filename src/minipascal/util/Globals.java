@@ -104,13 +104,8 @@ public class Globals {
             return;
         }
 
-        if (!simbolos.contains(id, ambito)) {
-            simbolos.put(id, ambito, resType);
-            funciones.get(func).varNames.add("_" + func);
-        } else {
-            System.err.println("ERROR: Combinacion de <" + id + ", " + ambito + "> ya existe.");
-            error = true;
-        }
+        funciones.get(func).varsLocales.put("_" + id, resType);
+        funciones.get(func).varsLocales.put("_" + func, resType);
     }
 
     public static void addSimbolo(String id, String type) {

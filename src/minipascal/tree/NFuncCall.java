@@ -63,6 +63,9 @@ public class NFuncCall<T> extends NodeType<T> {
                 args += 1;
             }
             Globals.cuadruplos.add(new Cuadruplo("call", Integer.toString(args), (String) data));
+            if (args > 4) {
+                System.err.println("Error: No se soportan mas de 4 argumentos!");
+            }
         } else {
             Globals.cuadruplos.add(new Cuadruplo("call", "0", (String) data));
         }

@@ -23,6 +23,10 @@ public class Marcador {
         Marcador.marcadores.add(this);
     }
 
+    public Marcador copy() {
+        return new Marcador(res, sigCuad);
+    }
+
     @Override
     public String toString() {
         return String.format("_%d", sigCuad);

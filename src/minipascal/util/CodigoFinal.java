@@ -19,7 +19,7 @@ public class CodigoFinal {
     private int ambito;
     private boolean[] tempDisponibles;
     private boolean[] argsDisponibles;
-    private String function;
+    private TFunc function;
     private int sp;
     private int usedS;
     private boolean error;
@@ -65,7 +65,8 @@ public class CodigoFinal {
     }
 
     public void compilar(List<Cuadruplo> cuadruplos) {
-        for (Cuadruplo c : cuadruplos) {
+        for (Cuadruplo cc : cuadruplos) {
+            Cuadruplo c = cc.copy();
             if (c.res != null && c.res.startsWith("$t")) {
                 claim(c.res);
             }
@@ -148,87 +149,84 @@ public class CodigoFinal {
     }
 
     private void opAssign(Cuadruplo c) {
-        boolean skip = false;
-
         String res = c.res;
         String arg = c.arg1;
 
         // type de arg, si es direccion
-        Type fieldType = null;
+        Type type = null;
 
-        if (res.contains("[")) {
-            ArrayVar var = new ArrayVar(c.res, ambito);
-            res = getTemp();
-            addLine(String.format("la %s, %s", res, var.var));
-            res = String.format("-%d(%s)", var.offset, res);
+        if (arg.equals("$ret")) {
+            addLine(String.format("move %s, $v0", res));
+            return;
         }
 
         if (arg.contains("[")) {
-            ArrayVar var = new ArrayVar(arg, ambito);
-            fieldType = var.type;
+            ArrayVar var = new ArrayVar(arg, 0);
+            type = var.type;
             arg = getTemp();
             addLine(String.format("la %s, %s", arg, var.var));
             arg = String.format("-%d(%s)", var.offset, arg);
+        } else if (arg.startsWith("_")) {
+            // res es variable
+            if (Globals.simbolos.contains(arg, 0)) {
+                type = Globals.simbolos.get(arg, 0);
+            } else {
+                TFunc.B place = function.getArgVar(arg);
+                type = place.type;
+                if (place.arg) {
+                    arg = place.place;
+                }
+            }
         }
 
-        if (res.equals(function)) {
-            // es un statement de retorno
+        if (res.contains("[")) {
+            ArrayVar var = new ArrayVar(c.res, 0);
+            type = var.type;
+            res = getTemp();
+            addLine(String.format("la %s, %s", res, var.var));
+            res = String.format("-%d(%s)", var.offset, res);
+        } else if (function != null && function.type.equals(res)) {
+            // retorno de funcion
             res = "$v0";
-            if (arg.startsWith("-")) {
-                // arg es una direccion
-                if (fieldType == null) {
-                    System.err.println("Error: Type es null.");
-                    error = true;
-                } else if (fieldType.equals(Type.INTEGER) || fieldType.equals(Type.BOOLEAN)) {
-                    addLine(String.format("lw %s, %s", res, arg));
-                } else if (fieldType.equals(Type.CHAR)) {
-                    addLine(String.format("lb %s, %s", res, arg));
-                }
-            } else if (arg.startsWith("$t")) {
-                // arg puede ser registro
-                addLine(String.format("move %s, %s", res, arg));
+            type = function.returnType;
+        } else if (res.startsWith("_")) {
+            // res es variable
+            if (Globals.simbolos.contains(res, 0)) {
+                type = Globals.simbolos.get(res, 0);
+                res = getTemp();
             } else {
-                // arg trae const val
-                addLine(String.format("li %s, %s", res, arg));
+                TFunc.B place = function.getArgVar(res);
+                type = place.type;
+                if (place.arg) {
+                    res = place.place;
+                } else {
+                    res = getTemp();
+                    c.res = place.place;
+                }
             }
-            skip = true;
         }
 
-        if (!skip && res.startsWith("$t")) {
-            if (arg.startsWith("-")) {
-                // arg es una direccion
-                if (fieldType == null) {
-                    System.err.println("Error: Type es null.");
-                    error = true;
-                } else if (fieldType.equals(Type.INTEGER) || fieldType.equals(Type.BOOLEAN)) {
-                    addLine(String.format("lw %s, %s", res, arg));
-                } else if (fieldType.equals(Type.CHAR)) {
-                    addLine(String.format("lb %s, %s", res, arg));
-                }
-                killDir(arg);
-            } else if (arg.equals("$ret")) {
-                // arg es un valor de retorno
-                addLine(String.format("move %s, $v0", res));
-            } else {
-                // arg trae integer o constchar
-                addLine(String.format("li %s, %s", res, arg));
-            }
-        } else if (!skip) {
-            // ver si arg es una variable primero
-            // .startsWith("_")
-            if (Globals.simbolos.contains(arg, ambito)) {
-                // dependeria del tipo de la variable
-                Type type = Globals.simbolos.get(arg, ambito);
+        if (type == null) {
+            System.err.println("Error: type en assign es null.");
+            error = true;
+            return;
+        }
+
+        if (function != null && c.res.equals(function.type)) {
+            // es un statement de retorno
+            kill(res);
+            res = "$v0";
+        }
+
+        if (res.startsWith("$")) {
+            // _a := _b, move back (if its not record)
+            // _a := _b[2], move back
+            // $t := _b
+            if (arg.startsWith("_") || arg.startsWith("-")) {
                 if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
-                    String temp = getTemp();
-                    addLine(String.format("lw %s, %s", temp, arg));
-                    addLine(String.format("sw %s, %s", temp, res));
-                    kill(temp);
+                    addLine(String.format("lw %s, %s", res, arg));
                 } else if (type.equals(Type.CHAR)) {
-                    String temp = getTemp();
-                    addLine(String.format("lb %s, %s", temp, arg));
-                    addLine(String.format("sb %s, %s", temp, res));
-                    kill(temp);
+                    addLine(String.format("lb %s, %s", res, arg));
                 } else {
                     // copiar de un record a otro
                     String from = getTemp();
@@ -256,51 +254,53 @@ public class CodigoFinal {
                     kill(to);
                     kill(t);
                 }
-                skip = true;
             }
 
-            if (!skip) {
-                if (arg.startsWith("-")) {
-                    // arg es una direccion
-                    if (fieldType == null) {
-                        System.err.println("Error: Type es null.");
-                        error = true;
-                    } else if (fieldType.equals(Type.INTEGER) || fieldType.equals(Type.BOOLEAN)) {
-                        String temp = getTemp();
-                        addLine(String.format("lw %s, %s", temp, arg));
-                        addLine(String.format("sw %s, %s", temp, res));
-                        kill(temp);
-                    } else if (fieldType.equals(Type.CHAR)) {
-                        String temp = getTemp();
-                        addLine(String.format("lb %s, %s", temp, arg));
-                        addLine(String.format("sb %s, %s", temp, res));
-                        kill(temp);
-                    }
-                } else if (arg.startsWith("$t")) {
-                    // arg puede ser registro
-                    addLine(String.format("sw %s, %s", arg, res));
-                } else if (arg.startsWith("'")) {
-                    // arg trae integer o constchar
-                    String t = getTemp();
-                    addLine(String.format("li %s, %s", t, arg));
-                    addLine(String.format("sb %s, %s", t, res));
-                    kill(t);
-                } else {
-                    // arg trae integer
-                    String t = getTemp();
-                    addLine(String.format("li %s, %s", t, arg));
-                    addLine(String.format("sw %s, %s", t, res));
-                    kill(t);
+            // _a := $t, move back
+            // $ret = $t
+            else if (arg.startsWith("$")) {
+                addLine(String.format("move %s, %s", res, arg));
+            }
+
+            // _a := 1
+            // $t := 1
+            else {
+                addLine(String.format("li %s, %s", res, arg));
+            }
+        }
+
+        else if (res.startsWith("-")) {
+            // _a[2] := _b, move back
+            // _a[2] := _b[2], move back
+            if (arg.startsWith("_") || arg.startsWith("-")) {
+                String t = getTemp();
+                if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                    addLine(String.format("lw %s, %s", t, arg));
+                } else if (type.equals(Type.CHAR)) {
+                    addLine(String.format("lb %s, %s", t, arg));
                 }
+                kill(t);
             }
         }
 
         if (!arg.equals(c.arg1)) {
-            killDir(arg);
+            if (arg.startsWith("-")) {
+                killDir(arg);
+            }
         }
 
-        if (!res.equals(c.res)) {
-            killDir(res);
+        if (!res.equals(c.res) && !res.equals("$v0")) {
+            if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                addLine(String.format("sw %s, %s", res, c.res));
+            } else if (type.equals(Type.CHAR)) {
+                addLine(String.format("sb %s, %s", res, c.res));
+            }
+
+            if (res.startsWith("-")) {
+                killDir(res);
+            } else {
+                kill(res);
+            }
         }
     }
 
@@ -315,13 +315,33 @@ public class CodigoFinal {
                 // hacer temporales para variables si se necesitan
                 if (res.startsWith("_")) {
                     // res es variable
-                    res = getTemp();
+                    if (Globals.simbolos.contains(res, 0)) {
+                        res = getTemp();
+                    } else {
+                        TFunc.B place = function.getArgVar(res);
+                        if (place.arg) {
+                            res = place.place;
+                        } else {
+                            res = getTemp();
+                            c.res = place.place;
+                        }
+                    }
                 }
 
                 if (num.startsWith("_")) {
                     // num es variable
-                    num = getTemp();
-                    addLine(String.format("lw %s, %s", num, c.arg1));
+                    if (Globals.simbolos.contains(num, 0)) {
+                        num = getTemp();
+                        addLine(String.format("lw %s, %s", num, c.arg1));
+                    } else {
+                        TFunc.B place = function.getArgVar(num);
+                        if (place.arg) {
+                            num = place.place;
+                        } else {
+                            num = getTemp();
+                            addLine(String.format("lw %s, %s", num, place.place));
+                        }
+                    }
                 }
 
                 // num no puede ser una constante
@@ -331,7 +351,7 @@ public class CodigoFinal {
 
                 addLine(String.format("mul %s, %s, %s", res, num, "-1"));
 
-                if (!res.equals(c.res)) {
+                if (!res.equals(c.res) && res.startsWith("$t")) {
                     addLine(String.format("sw %s, %s", res, c.res));
                     kill(res);
                 }
@@ -351,28 +371,48 @@ public class CodigoFinal {
         // hacer temporales para variables si se necesitan
         if (res.startsWith("_")) {
             // res es variable
-            res = getTemp();
+            if (Globals.simbolos.contains(res, 0)) {
+                res = getTemp();
+            } else {
+                TFunc.B place = function.getArgVar(res);
+                if (place.arg) {
+                    res = place.place;
+                } else {
+                    res = getTemp();
+                    c.res = place.place;
+                }
+            }
         }
 
         if (left.startsWith("_")) {
             // arg1 es variable
-            if (ambito == 0) {
+            if (Globals.simbolos.contains(left, 0)) {
                 left = getTemp();
                 addLine(String.format("lw %s, %s", left, c.arg1));
             } else {
-                TFunc tFunc = Globals.funciones.get(function);
-                left = tFunc.getArgVar(left);
+                TFunc.B place = function.getArgVar(left);
+                if (place.arg) {
+                    left = place.place;
+                } else {
+                    left = getTemp();
+                    addLine(String.format("lw %s, %s", left, place.place));
+                }
             }
         }
 
         if (right.startsWith("_")) {
             // arg2 es variable
-            if (ambito == 0) {
+            if (Globals.simbolos.contains(right, 0)) {
                 right = getTemp();
                 addLine(String.format("lw %s, %s", right, c.arg2));
             } else {
-                TFunc tFunc = Globals.funciones.get(function);
-                right = tFunc.getArgVar(right);
+                TFunc.B place = function.getArgVar(right);
+                if (place.arg) {
+                    right = place.place;
+                } else {
+                    right = getTemp();
+                    addLine(String.format("lw %s, %s", right, place.place));
+                }
             }
         }
 
@@ -403,7 +443,7 @@ public class CodigoFinal {
                 break;
         }
 
-        if (!res.equals(c.res)) {
+        if (!res.equals(c.res) && res.startsWith("$t")) {
             addLine(String.format("sw %s, %s", res, c.res));
             kill(res);
         }
@@ -426,14 +466,40 @@ public class CodigoFinal {
         // hacer temporales para variables si se necesitan
         if (left.startsWith("_")) {
             // arg1 es variable
-            left = getTemp();
-            addLine(String.format("lw %s, %s", left, c.arg1));
+            if (Globals.simbolos.contains(left, 0)) {
+                left = getTemp();
+                addLine(String.format("lw %s, %s", left, c.arg1));
+            } else {
+                TFunc.B place = function.getArgVar(left);
+                if (place.arg) {
+                    left = place.place;
+                } else if (place.type.equals(Type.INTEGER) || place.type.equals(Type.BOOLEAN)) {
+                    left = getTemp();
+                    addLine(String.format("lw %s, %s", left, place.place));
+                } else if (place.type.equals(Type.CHAR)) {
+                    left = getTemp();
+                    addLine(String.format("lb %s, %s", left, place.place));
+                }
+            }
         }
 
         if (right.startsWith("_")) {
             // arg2 es variable
-            right = getTemp();
-            addLine(String.format("lw %s, %s", right, c.arg2));
+            if (Globals.simbolos.contains(right, 0)) {
+                right = getTemp();
+                addLine(String.format("lw %s, %s", right, c.arg2));
+            } else {
+                TFunc.B place = function.getArgVar(left);
+                if (place.arg) {
+                    right = place.place;
+                } else if (place.type.equals(Type.INTEGER) || place.type.equals(Type.BOOLEAN)) {
+                    right = getTemp();
+                    addLine(String.format("lw %s, %s", right, place.place));
+                } else if (place.type.equals(Type.CHAR)) {
+                    right = getTemp();
+                    addLine(String.format("lb %s, %s", right, place.place));
+                }
+            }
         }
 
         // left no puede ser una constante
@@ -488,12 +554,22 @@ public class CodigoFinal {
         // cargar en args si se necesita
         if (arg.startsWith("_")) {
             // arg es una variable
-            // .startsWith("_")
-            Type type = Globals.simbolos.get(arg, ambito);
-            if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
-                addLine(String.format("lw %s, %s", param, arg));
-            } else if (type.equals(Type.CHAR)) {
-                addLine(String.format("lb %s, %s", param, arg));
+            if (Globals.simbolos.contains(arg, 0)) {
+                Type type = Globals.simbolos.get(arg, ambito);
+                if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                    addLine(String.format("lw %s, %s", param, arg));
+                } else if (type.equals(Type.CHAR)) {
+                    addLine(String.format("lb %s, %s", param, arg));
+                }
+            } else {
+                TFunc.B place = function.getArgVar(arg);
+                if (place.arg) {
+                    addLine(String.format("move %s, %s", param, place.place));
+                } else if (place.type.equals(Type.INTEGER) || place.type.equals(Type.BOOLEAN)) {
+                    addLine(String.format("lw %s, %s", param, place.place));
+                } else if (place.type.equals(Type.CHAR)) {
+                    addLine(String.format("lb %s, %s", param, place.place));
+                }
             }
         } else if (arg.startsWith("$t")) {
             // es un temporal
@@ -509,22 +585,37 @@ public class CodigoFinal {
             System.err.println("Error: Se enviaron mas de 4 argumentos.");
         }
 
-        // TODO guardar temporales vivos
+        // guardar temporales ocupados
+        int offset = 0;
         for (int i = 0; i < 10; i += 1) {
             if (!tempDisponibles[i]) {
-
+                offset += 4;
+                addLine(String.format("sw $t%d, -%d($sp)", i, offset));
             }
         }
+        if (offset != 0) {
+            addLine(String.format("sub $sp, $sp, %d", offset));
+        }
         addLine(String.format("jal %s", c.res));
-        // TODO restaurar temporales
+
+        // restaurar temporales
+        offset = 0;
+        for (int i = 9; i >= 0; i -= 1) {
+            if (!tempDisponibles[i]) {
+                addLine(String.format("sw $t%d, %d($sp)", i, offset));
+                offset += 4;
+            }
+        }
+        if (offset != 0) {
+            addLine(String.format("add $sp, $sp, %d", offset));
+        }
+
         cleanArgs();
     }
 
     private void opInitFunc(Cuadruplo c) {
-        TFunc tFunc = Globals.funciones.get(c.res);
-        if (!tFunc.returnType.equals(Type.VOID)) {
-            function = c.res;
-        }
+        function = Globals.funciones.get(c.res);
+        function.type = "_" + function.type;
 
         // aumentar el ambito en 1
         ambito += 1;
@@ -534,18 +625,38 @@ public class CodigoFinal {
         addLine("sw $ra, -8($sp)");
 
         // guardar saved temps
+        int i = 0;
         int s = 0;
         int stackSize = 12;
-        for (Type type : tFunc.args) {
+        for (Type type : function.args) {
+            function.addName(function.argNames.get(i), type, true);
             if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
                 addLine(String.format("sw $s%d, -%d($sp)", s, stackSize));
             } else if (type.equals(Type.CHAR)) {
                 addLine(String.format("sb $s%d, -%d($sp)", s, stackSize));
             }
+            i += 1;
             s += 1;
             stackSize += 4;
-//            stackSize += type.size;
         }
+
+        // agregar variables locales en el stack (o en la pila si entran)
+        for (String key : function.varsLocales.keySet()) {
+            if (s < 8) {
+                function.addName(key, function.varsLocales.get(key), true);
+                Type type = function.varsLocales.get(key);
+                if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+                    addLine(String.format("sw $s%d, -%d($sp)", s, stackSize));
+                } else if (type.equals(Type.CHAR)) {
+                    addLine(String.format("sb $s%d, -%d($sp)", s, stackSize));
+                }
+            } else {
+                function.addName(key, function.varsLocales.get(key), false);
+            }
+            s += 1;
+            stackSize += 4;
+        }
+
         usedS = s;
         sp = stackSize;
 
@@ -553,27 +664,37 @@ public class CodigoFinal {
         addLine(String.format("sub $sp, $sp, %d", stackSize));
 
         // mover args a saved temps
-        for (int i = 0; i < Math.min(4, tFunc.args.size()); i += 1) {
+        for (i = 0; i < Math.min(4, function.args.size()); i += 1) {
             addLine(String.format("move $s%d, $a%d", i, i));
+        }
+
+        // setear place en la function para mayor facilidad
+        int nsp = 0;
+        for (i = 0; i < function.names.size(); i += 1) {
+            TFunc.B b = function.names.get(i);
+            if (i < 8) {
+                b.place = "$s" + i;
+            } else {
+                // se guarda en el stack
+                b.place = nsp + "($sp)";
+                nsp += 4;
+            }
         }
     }
 
     private void opEndFunc(Cuadruplo c) {
         addLine("move $sp, $fp");
-        TFunc tFunc = Globals.funciones.get(c.res);
-        Collections.reverse(tFunc.args);
-        for (Type type : tFunc.args) {
+        for (int i = Math.min(8, function.names.size()) - 1; i >= 0; i -= 1) {
             usedS -= 1;
             sp -= 4;
-//            sp -= type.size;
+            TFunc.B name = function.names.get(i);
 
-            if (type.equals(Type.INTEGER) || type.equals(Type.BOOLEAN)) {
+            if (name.type.equals(Type.INTEGER) || name.type.equals(Type.BOOLEAN)) {
                 addLine(String.format("lw $s%d, -%d($sp)", usedS, sp));
-            } else if (type.equals(Type.CHAR)) {
+            } else if (name.type.equals(Type.CHAR)) {
                 addLine(String.format("lb $s%d, -%d($sp)", usedS, sp));
             }
         }
-        Collections.reverse(tFunc.args);
 
         addLine("lw $ra, -8($sp)");
         addLine("lw $fp, -4($sp)");
@@ -600,10 +721,20 @@ public class CodigoFinal {
     private void opRead(Cuadruplo c) {
         String res = c.res;
 
-        // .startsWith("_")
-        Type type = Globals.simbolos.get(c.res, ambito);
+        Type type = Globals.simbolos.get(res, ambito);
+        if (type == null) {
+            type = Globals.simbolos.get(res, 0);
+        }
+
+        TFunc.B b = null;
+        if (function != null) {
+            b = function.getArgVar(res);
+            res = b.place;
+            type = b.type;
+        }
+
         if (res.contains("[")) {
-            ArrayVar var = new ArrayVar(res, ambito);
+            ArrayVar var = new ArrayVar(res, 0);
             type = var.type;
             res = getTemp();
             addLine(String.format("la %s, %s", res, var.var));
@@ -616,10 +747,18 @@ public class CodigoFinal {
         } else if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 5");
             addLine("syscall");
-            addLine(String.format("sw $v0, %s", res));
+            if (b != null && b.arg) {
+                addLine(String.format("move %s, $v0", res));
+            } else {
+                addLine(String.format("sw $v0, %s", res));
+            }
         } else if (type.equals(Type.CHAR)) {
             addLine("li $v0, 8");
-            addLine(String.format("la $a0, %s", res));
+            if (b != null && b.arg) {
+                addLine(String.format("la $a0, (%s)", res));
+            } else {
+                addLine(String.format("la $a0, %s", res));
+            }
             addLine("li $a1, 4");
             addLine("syscall");
         }
@@ -645,10 +784,20 @@ public class CodigoFinal {
 
         String arg2 = c.arg2;
 
-        // .startsWith("_")
         Type type = Globals.simbolos.get(c.arg2, ambito);
+        if (type == null) {
+            type = Globals.simbolos.get(c.arg2, 0);
+        }
+
+        TFunc.B b = null;
+        if (function != null) {
+            b = function.getArgVar(arg2);
+            arg2 = b.place;
+            type = b.type;
+        }
+
         if (arg2.contains("[")) {
-            ArrayVar var = new ArrayVar(arg2, ambito);
+            ArrayVar var = new ArrayVar(arg2, 0);
             type = var.type;
             arg2 = getTemp();
             addLine(String.format("la %s, %s", arg2, var.var));
@@ -658,6 +807,14 @@ public class CodigoFinal {
         if (type == null) {
             System.err.println("Error: Type es null.");
             error = true;
+        } else if (b != null && b.arg) {
+            if (type.equals(Type.INTEGER)) {
+                addLine("li $v0, 1");
+            } else {
+                addLine("li $v0, 11");
+            }
+            addLine(String.format("move $a0, %s", arg2));
+            addLine("syscall");
         } else if (type.equals(Type.INTEGER)) {
             addLine("li $v0, 1");
             addLine(String.format("lw $a0, %s", arg2));

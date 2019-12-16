@@ -12,6 +12,14 @@ public class Cuadruplo {
     public String res;
     public Marcador resM;
 
+    public Cuadruplo(String op, String arg1, String arg2, String res, Marcador resM) {
+        this.op = op;
+        this.arg1 = arg1;
+        this.arg2 = arg2;
+        this.res = res;
+        this.resM = resM;
+    }
+
     public Cuadruplo(String op, String arg1, String arg2, String res) {
         // si recibimos los cuatro argumentos, es posible que obtengamos mas de 3 direcciones
         // casos especiales:
@@ -140,6 +148,14 @@ public class Cuadruplo {
         this.arg2 = "";
         this.res = "";
     }
+
+    public Cuadruplo copy() {
+        if (resM == null) {
+            return new Cuadruplo(op, arg1, arg2, res, null);
+        }
+        return new Cuadruplo(op, arg1, arg2, res, resM.copy());
+    }
+
 
     public void setRes(Marcador resM) {
         this.resM = resM;
